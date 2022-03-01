@@ -1,0 +1,12 @@
+.login-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.login-form {
+  direction: rtl;
+  button {
+    width: 100%;
+  }
+}
