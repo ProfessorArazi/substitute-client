@@ -4,6 +4,7 @@ import { Nav } from "react-bootstrap";
 import Modal from "../../Components/UI/Modal";
 import { LoginAndSignup } from "../Users/LoginAndSignup";
 import WorksContext from "../../store/works-context";
+import ReactStars from "react-rating-stars-component";
 
 export const Sidebar = () => {
   const ctx = useContext(WorksContext);
@@ -13,7 +14,27 @@ export const Sidebar = () => {
   return (
     <>
       <nav id="sidebar" className="sidebar">
-        {type === "sub" && <Link to="/">עבודות זמינות</Link>}
+        {type !== "guest" && (
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
+            alt="user"
+            className="user-img"
+          />
+        )}
+
+        {type === "sub" && (
+          <>
+            <ReactStars
+              classNames="stars"
+              count={5}
+              size={24}
+              value={JSON.parse(sessionStorage.getItem("user")).sub.grade.grade}
+              edit={false}
+              isHalf={true}
+            />
+            <Link to="/">עבודות זמינות</Link>
+          </>
+        )}
         {type !== "guest" ? (
           <>
             <Link to="/account">החשבון שלי</Link>

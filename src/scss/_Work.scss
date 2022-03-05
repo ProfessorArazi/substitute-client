@@ -8,6 +8,17 @@
   width: 40%;
   border-radius: 10px;
   margin: 10px;
+  animation: animatedOpacity 700ms linear;
+}
+
+@keyframes animatedOpacity {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 @media (max-width: 768px) {

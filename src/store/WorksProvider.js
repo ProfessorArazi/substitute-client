@@ -1,7 +1,16 @@
-import { useReducer } from "react";
+import { useCallback, useReducer } from "react";
 import WorksContext from "./works-context";
+import PacmanLoader from "react-spinners/PacmanLoader";
+import { css } from "@emotion/react";
+
+const override = css`
+  display: block;
+  margin: 10px auto;
+`;
+
 const defaultWorksState = {
   type: "guest",
+  loading: false,
   works: [],
   closeWorks: [],
   waitingWorks: [],
@@ -18,6 +27,7 @@ const worksReducer = (state, action) => {
       rejectedWorks: state.rejectedWorks,
       oldWorks: state.oldWorks,
       type: state.type,
+      loading: state.loading,
     };
   }
 
@@ -35,17 +45,17 @@ const worksReducer = (state, action) => {
       );
     } else {
       action.works.works.forEach((work) => {
-        const date = new Date(work.work.date).getTime();
+        const date = new Date(work.date).getTime();
         if (date < now) {
-          if (work.work.taken === action.works.subId) {
-            oldWorks.push(work.work);
+          if (work.taken._id === action.works.subId) {
+            oldWorks.push(work);
           }
-        } else if (work.work.taken === "") {
-          waitingWorks.push(work.work);
-        } else if (work.work.taken === action.works.subId) {
-          closeWorks.push(work.work);
+        } else if (work.taken._id === "") {
+          waitingWorks.push(work);
+        } else if (work.taken._id === action.works.subId) {
+          closeWorks.push(work);
         } else {
-          rejectedWorks.push(work.work);
+          rejectedWorks.push(work);
         }
       });
     }
@@ -57,12 +67,31 @@ const worksReducer = (state, action) => {
       rejectedWorks: rejectedWorks,
       oldWorks: oldWorks,
       type: state.type,
+      loading: state.loading,
     };
   }
 
   if (action.type === "TYPE") {
     return {
       type: action.user,
+      works: state.works,
+      closeWorks: state.closeWorks,
+      waitingWorks: state.waitingWorks,
+      rejectedWorks: state.rejectedWorks,
+      oldWorks: state.oldWorks,
+      loading: state.loading,
+    };
+  }
+
+  if (action.type === "LOADING") {
+    return {
+      loading:
+        action.loading === true ? (
+          <PacmanLoader color="goldenrod" loading={true} css={override} />
+        ) : (
+          false
+        ),
+      type: state.type,
       works: state.works,
       closeWorks: state.closeWorks,
       waitingWorks: state.waitingWorks,
@@ -80,29 +109,37 @@ const CartProvider = (props) => {
     defaultWorksState
   );
 
-  const updateAllWorksHandler = (works) => {
+  const updateAllWorksHandler = useCallback((works) => {
     dispatchWorksAction({
       type: "ALL",
       works: works,
     });
-  };
+  }, []);
 
-  const updateUserWorksHandler = (user) => {
+  const updateUserWorksHandler = useCallback((user) => {
     dispatchWorksAction({
       type: "UPDATE",
       works: user.works,
     });
-  };
+  }, []);
 
-  const updateTypeHandler = (user) => {
+  const updateTypeHandler = useCallback((user) => {
     dispatchWorksAction({
       type: "TYPE",
       user: user,
     });
-  };
+  }, []);
+
+  const showLoadingHandler = useCallback((loading) => {
+    dispatchWorksAction({
+      type: "LOADING",
+      loading: loading,
+    });
+  }, []);
 
   const worksContext = {
     type: worksState.type,
+    loading: worksState.loading,
     works: worksState.works,
     closeWorks: worksState.closeWorks,
     waitingWorks: worksState.waitingWorks,
@@ -111,6 +148,7 @@ const CartProvider = (props) => {
     updateType: updateTypeHandler,
     updateAllWorks: updateAllWorksHandler,
     updateUserWorks: updateUserWorksHandler,
+    showLoading: showLoadingHandler,
   };
 
   return (

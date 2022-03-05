@@ -4,6 +4,16 @@
   flex-wrap: wrap;
   padding-left: 10px;
   width: 85%;
+
+  &-work-exit-active {
+    opacity: 0;
+    transition: opacity 700ms ease-out;
+  }
+
+  &-work-enter-active {
+    opacity: 1;
+    transition: opacity 700ms ease-in;
+  }
 }
 
 @media (max-width: 768px) {

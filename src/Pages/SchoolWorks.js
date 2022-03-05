@@ -1,14 +1,21 @@
 import { useContext, useEffect, useState } from "react";
 import WorksContext from "../store/works-context";
 import { WorksFormat } from "../Components/WorksFormat";
-import axios from "axios";
+import { httpRequest } from "../httpRequest";
 import { Button } from "react-bootstrap";
 import Modal from "../Components/UI/Modal";
 import { WorksForm } from "../Components/Forms/WorksForm";
 
 export const SchoolWorks = () => {
   const ctx = useContext(WorksContext);
-  const { closeWorks, oldWorks, updateUserWorks } = ctx;
+  const {
+    closeWorks,
+    oldWorks,
+    updateUserWorks,
+    updateType,
+    showLoading,
+    loading,
+  } = ctx;
 
   const [showModal, setShowModal] = useState(false);
 
@@ -24,17 +31,29 @@ export const SchoolWorks = () => {
     },
   ];
 
-  const onDeleteHandler = (userId, id) => {
-    axios
-      .delete(`${process.env.REACT_APP_SERVER}/school/works/${userId}/${id}`)
-      .then((res) => {
-        sessionStorage.setItem("user", JSON.stringify(res.data));
-        updateUserWorks({ works: res.data.school.works });
-      })
-      .catch((err) => console.log(err));
+  const onDeleteHandler = async (userId, id) => {
+    showLoading(true);
+    const res = await httpRequest(
+      "post",
+      `/school/works/${userId}/${id}`,
+      {
+        email: JSON.parse(sessionStorage.getItem("user")).school.email,
+        userId: JSON.parse(sessionStorage.getItem("user")).school.id,
+        type: "school",
+      },
+      { token: JSON.parse(sessionStorage.getItem("user")).token }
+    );
+    if (res.data) {
+      sessionStorage.setItem("user", JSON.stringify(res.data));
+      updateUserWorks({ works: res.data.school.works });
+    } else {
+      console.log(res.err);
+    }
+    showLoading(false);
   };
 
   useEffect(() => {
+    updateType("school");
     if (
       !closeWorks.length &&
       !oldWorks.length &&
@@ -43,7 +62,7 @@ export const SchoolWorks = () => {
       const works = JSON.parse(sessionStorage.getItem("user")).school.works;
       updateUserWorks({ works });
     }
-  }, [closeWorks, oldWorks]);
+  }, [closeWorks, oldWorks, updateType, updateUserWorks]);
 
   return (
     <>
@@ -55,20 +74,22 @@ export const SchoolWorks = () => {
       >
         +
       </Button>
-      {structures.map((structure, i) => (
-        <WorksFormat
-          key={i}
-          title={structure.title}
-          type="school"
-          works={structure.works}
-          onDelete={(userId, id) => onDeleteHandler(userId, id)}
-          onEdit={(work) =>
-            setShowModal(
-              <WorksForm work={work} onClose={() => setShowModal(false)} />
-            )
-          }
-        />
-      ))}
+      {loading
+        ? loading
+        : structures.map((structure, i) => (
+            <WorksFormat
+              key={i}
+              title={structure.title}
+              type="school"
+              works={structure.works}
+              onDelete={(userId, id) => onDeleteHandler(userId, id)}
+              onEdit={(work) =>
+                setShowModal(
+                  <WorksForm work={work} onClose={() => setShowModal(false)} />
+                )
+              }
+            />
+          ))}
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>{showModal}</Modal>
       )}

@@ -1,7 +1,39 @@
+import { useContext } from "react";
+import WorksContext from "../store/works-context";
 import moment from "moment";
 import { Button } from "react-bootstrap";
+import { ApplyIcon } from "../Components/Apply";
+import ReactStars from "react-rating-stars-component";
+import { httpRequest } from "../httpRequest";
 
 export const Work = (props) => {
+  const ctx = useContext(WorksContext);
+  const { updateUserWorks, showLoading } = ctx;
+
+  const ratingTeacherHandler = async (rating) => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    showLoading(true);
+    const res = await httpRequest(
+      "post",
+      "/school/rate",
+      {
+        email: user.school.email,
+        userId: user.school.id,
+        type: "school",
+        workId: props.id,
+        subId: props.picked._id,
+        grade: rating,
+      },
+      { token: user.token }
+    );
+
+    if (res.data) {
+      sessionStorage.setItem("user", JSON.stringify(res.data));
+      updateUserWorks({ works: res.data.school.works });
+    } else console.log(res.err);
+    showLoading(false);
+  };
+
   return (
     <>
       <div className="work">
@@ -33,14 +65,23 @@ export const Work = (props) => {
         )}
         {props.type === "school" && props.page === "works" && (
           <div>
-            {props.applied ? (
+            {props.picked ? (
               <>
-                {/* <p>נרשמים: </p> <div>{props.applied}</div>{" "} */}
-                ''
+                <p>המורה שנבחר: {props.picked.name}</p>
+                {props.old && !props.grade && (
+                  <ReactStars
+                    onChange={ratingTeacherHandler}
+                    classNames="stars"
+                    count={5}
+                    size={24}
+                  />
+                )}
               </>
-            ) : props.picked ? (
+            ) : props.applied ? (
               <>
-                <p>המורה שנבחר: </p> <div>{props.picked}</div>
+                {props.applied.map((apply) => (
+                  <ApplyIcon apply={apply.apply} workId={props.id} />
+                ))}
               </>
             ) : (
               <>

@@ -1,14 +1,14 @@
 import { useState, useRef, useContext } from "react";
 import { Form, Button } from "react-bootstrap";
 import validator from "validator";
-import axios from "axios";
 import WorksContext from "../../store/works-context";
-
+import { httpRequest } from "../../httpRequest";
 export const LoginAndSignup = (props) => {
   const ctx = useContext(WorksContext);
-  const { updateType, updateAllWorks } = ctx;
+  const { updateType, updateAllWorks, showLoading, loading } = ctx;
 
   const [type, setType] = useState();
+
   const emailRef = useRef();
   const passwordRef = useRef();
   const nameRef = useRef();
@@ -16,12 +16,15 @@ export const LoginAndSignup = (props) => {
   const phoneRef = useRef();
 
   const setUserInStorage = (data) => {
+    sessionStorage.setItem(
+      "user",
+      JSON.stringify({ [type]: data[type], token: data.token, type: data.type })
+    );
     updateType(type);
-    sessionStorage.setItem("user", JSON.stringify(data));
     props.onClose();
   };
 
-  const loginOrSignupHandler = (e) => {
+  const loginOrSignupHandler = async (e) => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
@@ -47,31 +50,37 @@ export const LoginAndSignup = (props) => {
           validForm = false;
         }
         if (validForm) {
-          axios
-            .post(`${process.env.REACT_APP_SERVER}/${type}`, {
-              email,
-              password,
-              name,
-              city,
-              phone,
-            })
-            .then((res) => {
-              setUserInStorage(res.data);
-            })
-            .catch((err) => console.log(err));
-        }
-      } else {
-        axios
-          .post(`${process.env.REACT_APP_SERVER}/${type}/login`, {
+          showLoading(true);
+          const res = await httpRequest("post", `/${type}`, {
             email,
             password,
-          })
-          .then((res) => {
-            if (type === "sub") updateAllWorks(res.data.sub.works);
+            name,
+            city,
+            phone,
+          });
 
-            setUserInStorage(res.data[type]);
-          })
-          .catch((err) => console.log(err));
+          if (res.data) {
+            setUserInStorage(res.data);
+          } else {
+            console.log(res.err);
+          }
+          showLoading(false);
+        }
+      } else {
+        showLoading(true);
+        const res = await httpRequest("post", `/${type}/login`, {
+          email,
+          password,
+        });
+
+        if (res.data) {
+          if (type === "sub") updateAllWorks(res.data.sub.works);
+
+          setUserInStorage(res.data[type]);
+        } else {
+          console.log(res.err);
+        }
+        showLoading(false);
       }
     }
   };
@@ -84,37 +93,43 @@ export const LoginAndSignup = (props) => {
           <Button onClick={() => setType("school")}>בית ספר</Button>
         </div>
       ) : (
-        <Form className="login-form" onSubmit={loginOrSignupHandler}>
-          {props.signup && (
-            <>
-              <Form.Group className="mb-3" controlId="name">
-                <Form.Label>שם</Form.Label>
-                <Form.Control ref={nameRef} type="text" />
-              </Form.Group>
+        <>
+          {loading ? (
+            loading
+          ) : (
+            <Form className="login-form" onSubmit={loginOrSignupHandler}>
+              {props.signup && (
+                <>
+                  <Form.Group className="mb-3" controlId="name">
+                    <Form.Label>שם</Form.Label>
+                    <Form.Control ref={nameRef} type="text" />
+                  </Form.Group>
 
-              <Form.Group className="mb-3" controlId="city">
-                <Form.Label>עיר</Form.Label>
-                <Form.Control ref={cityRef} type="text" />
-              </Form.Group>
+                  <Form.Group className="mb-3" controlId="city">
+                    <Form.Label>עיר</Form.Label>
+                    <Form.Control ref={cityRef} type="text" />
+                  </Form.Group>
 
-              <Form.Group className="mb-3" controlId="טלפון">
-                <Form.Label>טלפון</Form.Label>
-                <Form.Control dir="ltr" ref={phoneRef} type="text" />
-              </Form.Group>
-            </>
+                  <Form.Group className="mb-3" controlId="טלפון">
+                    <Form.Label>טלפון</Form.Label>
+                    <Form.Control dir="ltr" ref={phoneRef} type="text" />
+                  </Form.Group>
+                </>
+              )}
+              <>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>אימייל</Form.Label>
+                  <Form.Control dir="ltr" ref={emailRef} type="email" />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                  <Form.Label>סיסמה</Form.Label>
+                  <Form.Control dir="ltr" ref={passwordRef} type="password" />
+                </Form.Group>
+                <Button type="submit">Submit</Button>
+              </>
+            </Form>
           )}
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>אימייל</Form.Label>
-            <Form.Control dir="ltr" ref={emailRef} type="email" />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>סיסמה</Form.Label>
-            <Form.Control dir="ltr" ref={passwordRef} type="password" />
-          </Form.Group>
-
-          <Button type="submit">Submit</Button>
-        </Form>
+        </>
       )}
     </>
   );

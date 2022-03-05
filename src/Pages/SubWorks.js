@@ -42,7 +42,13 @@ export const SubWorks = () => {
         },
       });
     }
-  }, []);
+  }, [
+    closeWorks.length,
+    oldWorks.length,
+    rejectedWorks.length,
+    waitingWorks.length,
+    updateUserWorks,
+  ]);
 
   return (
     <>

@@ -23,8 +23,11 @@
 
 .content {
   color: #fff;
+  min-height: 5rem;
+  min-width: 10rem;
   max-height: 30rem;
   overflow: auto;
+  overflow-x: hidden;
   padding-right: 1rem;
   img {
     width: 900px;

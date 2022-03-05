@@ -1,12 +1,12 @@
 import { useRef, useContext, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import WorksContext from "../../store/works-context";
-import axios from "axios";
+import { httpRequest } from "../../httpRequest";
 
 export const WorksForm = (props) => {
   const { work } = props;
   const ctx = useContext(WorksContext);
-  const { updateUserWorks } = ctx;
+  const { updateUserWorks, loading, showLoading } = ctx;
 
   const subjectRef = useRef();
   const dateRef = useRef();
@@ -18,7 +18,7 @@ export const WorksForm = (props) => {
   const [hoursValue, setHoursValue] = useState(work ? work.hours : "");
   const [ageValue, setAgeValue] = useState(work ? work.ageGroup : "");
 
-  const addWorkHandler = (e) => {
+  const addWorkHandler = async (e) => {
     e.preventDefault();
 
     const user = JSON.parse(sessionStorage.getItem("user")).school;
@@ -28,12 +28,15 @@ export const WorksForm = (props) => {
     const hours = hoursRef.current.value;
     const ageGroup = +ageRef.current.value;
 
-    axios({
-      method: work ? "put" : "post",
-      url: `${process.env.REACT_APP_SERVER}/school/work`,
-      data: {
+    showLoading(true);
+
+    const res = await httpRequest(
+      work ? "put" : "post",
+      "/school/work",
+      {
         userId: user.id,
         id: work ? work._id : "",
+        email: user.email,
         subject,
         date,
         hours,
@@ -41,6 +44,7 @@ export const WorksForm = (props) => {
         city: user.city,
         school: user.name,
         phone: user.phone,
+        type: "school",
         changes: {
           subject,
           date,
@@ -48,62 +52,70 @@ export const WorksForm = (props) => {
           ageGroup,
         },
       },
-    })
-      .then((res) => {
-        sessionStorage.setItem("user", JSON.stringify(res.data));
-        updateUserWorks({ works: res.data.school.works });
-        props.onClose();
-      })
-      .catch((err) => console.log(err));
+      { token: JSON.parse(sessionStorage.getItem("user")).token }
+    );
+
+    if (res.data) {
+      sessionStorage.setItem("user", JSON.stringify(res.data));
+      updateUserWorks({ works: res.data.school.works });
+      props.onClose();
+    } else console.log(res.err);
+    showLoading(false);
   };
 
   return (
-    <Form className="login-form" onSubmit={addWorkHandler}>
-      <>
-        <Form.Group className="mb-3" controlId="name">
-          <Form.Label>מקצוע</Form.Label>
-          <Form.Control
-            value={subjectValue}
-            onInput={() => setSubjectValue(subjectRef.current.value)}
-            ref={subjectRef}
-            type="text"
-          />
-        </Form.Group>
+    <>
+      {loading ? (
+        loading
+      ) : (
+        <Form className="login-form" onSubmit={addWorkHandler}>
+          <>
+            <Form.Group className="mb-3" controlId="name">
+              <Form.Label>מקצוע</Form.Label>
+              <Form.Control
+                value={subjectValue}
+                onInput={() => setSubjectValue(subjectRef.current.value)}
+                ref={subjectRef}
+                type="text"
+              />
+            </Form.Group>
 
-        <Form.Group className="mb-3" controlId="city">
-          <Form.Label>תאריך</Form.Label>
-          <Form.Control
-            value={dateValue}
-            onInput={() => setDateValue(dateRef.current.value)}
-            ref={dateRef}
-            type="date"
-          />
-        </Form.Group>
+            <Form.Group className="mb-3" controlId="city">
+              <Form.Label>תאריך</Form.Label>
+              <Form.Control
+                value={dateValue}
+                onInput={() => setDateValue(dateRef.current.value)}
+                ref={dateRef}
+                type="date"
+              />
+            </Form.Group>
 
-        <Form.Group className="mb-3" controlId="טלפון">
-          <Form.Label>שעות</Form.Label>
-          <Form.Control
-            value={hoursValue}
-            onInput={() => setHoursValue(hoursRef.current.value)}
-            ref={hoursRef}
-            dir="ltr"
-            type="text"
-          />
-        </Form.Group>
-      </>
+            <Form.Group className="mb-3" controlId="טלפון">
+              <Form.Label>שעות</Form.Label>
+              <Form.Control
+                value={hoursValue}
+                onInput={() => setHoursValue(hoursRef.current.value)}
+                ref={hoursRef}
+                dir="ltr"
+                type="text"
+              />
+            </Form.Group>
+          </>
 
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>גילאים</Form.Label>
-        <Form.Control
-          value={ageValue}
-          onInput={() => setAgeValue(ageRef.current.value)}
-          ref={ageRef}
-          dir="ltr"
-          type="text"
-        />
-      </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>גילאים</Form.Label>
+            <Form.Control
+              value={ageValue}
+              onInput={() => setAgeValue(ageRef.current.value)}
+              ref={ageRef}
+              dir="ltr"
+              type="text"
+            />
+          </Form.Group>
 
-      <Button type="submit">Submit</Button>
-    </Form>
+          <Button type="submit">Submit</Button>
+        </Form>
+      )}
+    </>
   );
 };

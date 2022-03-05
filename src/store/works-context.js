@@ -2,6 +2,7 @@ import React from "react";
 
 const WorksContext = React.createContext({
   type: "guest",
+  loading: false,
   works: [],
   closeWorks: [],
   waitingWorks: [],
@@ -11,6 +12,7 @@ const WorksContext = React.createContext({
   updateType: (type) => {},
   updateAllWorks: (works) => {},
   updateUserWorks: (user) => {},
+  showLoading: (loading) => {},
 });
 
 export default WorksContext;
