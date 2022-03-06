@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import { httpRequest } from "../httpRequest";
 import Modal from "./UI/Modal";
 import WorksContext from "../store/works-context";
+import ReactStars from "react-rating-stars-component";
 
 export const ApplyIcon = (props) => {
   const { apply, workId } = props;
@@ -37,7 +38,6 @@ const ApplyDetails = (props) => {
 
   const pickSubHandler = async () => {
     const { apply, workId } = props;
-    return console.log(apply);
 
     showLoading(true);
     const res = await httpRequest(
@@ -72,6 +72,18 @@ const ApplyDetails = (props) => {
           <ul style={{ listStyle: "none" }}>
             <li>שם: {props.apply.name}</li>
             <li>טלפון: {props.apply.phone}</li>
+            <li>
+              {
+                <ReactStars
+                  count={5}
+                  size={24}
+                  edit={false}
+                  isHalf={true}
+                  value={props.apply.grades.grade}
+                />
+              }
+            </li>
+            <li>דירוגים: {props.apply.grades.votes}</li>
           </ul>
           <Button onClick={pickSubHandler}>בחר</Button>
         </div>

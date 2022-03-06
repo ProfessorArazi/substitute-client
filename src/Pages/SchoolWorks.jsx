@@ -8,14 +8,7 @@ import { WorksForm } from "../Components/Forms/WorksForm";
 
 export const SchoolWorks = () => {
   const ctx = useContext(WorksContext);
-  const {
-    closeWorks,
-    oldWorks,
-    updateUserWorks,
-    updateType,
-    showLoading,
-    loading,
-  } = ctx;
+  const { closeWorks, oldWorks, updateUserWorks, showLoading, loading } = ctx;
 
   const [showModal, setShowModal] = useState(false);
 
@@ -53,7 +46,7 @@ export const SchoolWorks = () => {
   };
 
   useEffect(() => {
-    updateType("school");
+    console.log("hey");
     if (
       !closeWorks.length &&
       !oldWorks.length &&
@@ -62,7 +55,7 @@ export const SchoolWorks = () => {
       const works = JSON.parse(sessionStorage.getItem("user")).school.works;
       updateUserWorks({ works });
     }
-  }, [closeWorks, oldWorks, updateType, updateUserWorks]);
+  }, [closeWorks, oldWorks, updateUserWorks]);
 
   return (
     <>

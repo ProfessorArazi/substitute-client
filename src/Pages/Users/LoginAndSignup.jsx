@@ -5,7 +5,8 @@ import WorksContext from "../../store/works-context";
 import { httpRequest } from "../../httpRequest";
 export const LoginAndSignup = (props) => {
   const ctx = useContext(WorksContext);
-  const { updateType, updateAllWorks, showLoading, loading } = ctx;
+  const { updateType, updateAllWorks, updateUserWorks, showLoading, loading } =
+    ctx;
 
   const [type, setType] = useState();
 
@@ -21,6 +22,9 @@ export const LoginAndSignup = (props) => {
       JSON.stringify({ [type]: data[type], token: data.token, type: data.type })
     );
     updateType(type);
+    if (type === "school") {
+      updateUserWorks({ works: data.school.works });
+    }
     props.onClose();
   };
 
@@ -60,6 +64,7 @@ export const LoginAndSignup = (props) => {
           });
 
           if (res.data) {
+            if (type === "sub") updateAllWorks(res.data.works);
             setUserInStorage(res.data);
           } else {
             console.log(res.err);
@@ -74,9 +79,9 @@ export const LoginAndSignup = (props) => {
         });
 
         if (res.data) {
-          if (type === "sub") updateAllWorks(res.data.sub.works);
+          if (type === "sub") updateAllWorks(res.data.works);
 
-          setUserInStorage(res.data[type]);
+          setUserInStorage(res.data);
         } else {
           console.log(res.err);
         }

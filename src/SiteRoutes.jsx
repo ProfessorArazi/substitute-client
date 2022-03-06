@@ -16,14 +16,14 @@ export const SiteRoutes = () => {
       updateType(user.type);
       if (user.type === "sub") {
         const updateWorks = async () => {
-          // showLoading(true);
-          const res = await httpRequest("get", `/works/${user.sub._id}`);
+          const res = await httpRequest("post", "/works", {
+            id: user.sub._id,
+          });
           if (res.data) {
             updateAllWorks(res.data.works);
           } else {
             console.log(res.error);
           }
-          // showLoading(false);
         };
 
         updateWorks();
