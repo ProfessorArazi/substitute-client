@@ -34,7 +34,7 @@ export const ApplyIcon = (props) => {
 
 const ApplyDetails = (props) => {
   const ctx = useContext(WorksContext);
-  const { updateUserWorks, showLoading, loading } = ctx;
+  const { updateUserWorks, updateNotifications, showLoading, loading } = ctx;
 
   const pickSubHandler = async () => {
     const { apply, workId } = props;
@@ -47,7 +47,7 @@ const ApplyDetails = (props) => {
         workId,
         pickedTeacherId: apply._id,
         email: JSON.parse(sessionStorage.getItem("user")).school.email,
-        userId: JSON.parse(sessionStorage.getItem("user")).school.id,
+        userId: JSON.parse(sessionStorage.getItem("user")).school._id,
         type: "school",
       },
       { token: JSON.parse(sessionStorage.getItem("user")).token }
@@ -56,6 +56,7 @@ const ApplyDetails = (props) => {
     if (res.data) {
       sessionStorage.setItem("user", JSON.stringify(res.data));
       const works = res.data.school.works;
+      updateNotifications(res.data.school.notifications);
       updateUserWorks({ works });
 
       props.onClose();

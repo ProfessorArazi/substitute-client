@@ -46,7 +46,6 @@ export const SchoolWorks = () => {
   };
 
   useEffect(() => {
-    console.log("hey");
     if (
       !closeWorks.length &&
       !oldWorks.length &&
@@ -67,6 +66,7 @@ export const SchoolWorks = () => {
       >
         +
       </Button>
+
       {loading
         ? loading
         : structures.map((structure, i) => (

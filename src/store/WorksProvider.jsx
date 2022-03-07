@@ -16,6 +16,8 @@ const defaultWorksState = {
   waitingWorks: [],
   rejectedWorks: [],
   oldWorks: [],
+  notifications: [],
+  notificationsNumber: 0,
 };
 
 const worksReducer = (state, action) => {
@@ -28,6 +30,8 @@ const worksReducer = (state, action) => {
       oldWorks: state.oldWorks,
       type: state.type,
       loading: state.loading,
+      notifications: state.notifications,
+      notificationsNumber: state.notificationsNumber,
     };
   }
 
@@ -68,12 +72,43 @@ const worksReducer = (state, action) => {
       oldWorks: oldWorks,
       type: state.type,
       loading: state.loading,
+      notifications: state.notifications,
+      notificationsNumber: state.notificationsNumber,
     };
   }
 
   if (action.type === "TYPE") {
     return {
       type: action.user,
+      works: state.works,
+      closeWorks: state.closeWorks,
+      waitingWorks: state.waitingWorks,
+      rejectedWorks: state.rejectedWorks,
+      oldWorks: state.oldWorks,
+      loading: state.loading,
+      notifications: state.notifications,
+      notificationsNumber: state.notificationsNumber,
+    };
+  }
+  if (action.type === "NOTIFICATION") {
+    return {
+      notifications: action.notifications,
+      notificationsNumber: action.notifications.length,
+      type: state.type,
+      works: state.works,
+      closeWorks: state.closeWorks,
+      waitingWorks: state.waitingWorks,
+      rejectedWorks: state.rejectedWorks,
+      oldWorks: state.oldWorks,
+      loading: state.loading,
+    };
+  }
+
+  if (action.type === "NUMBER") {
+    return {
+      notifications: state.notifications,
+      notificationsNumber: action.number,
+      type: state.type,
       works: state.works,
       closeWorks: state.closeWorks,
       waitingWorks: state.waitingWorks,
@@ -97,6 +132,8 @@ const worksReducer = (state, action) => {
       waitingWorks: state.waitingWorks,
       rejectedWorks: state.rejectedWorks,
       oldWorks: state.oldWorks,
+      notifications: state.notifications,
+      notificationsNumber: state.notificationsNumber,
     };
   }
 
@@ -137,6 +174,20 @@ const CartProvider = (props) => {
     });
   }, []);
 
+  const updateNotificationsHandler = useCallback((notifications) => {
+    dispatchWorksAction({
+      type: "NOTIFICATION",
+      notifications: notifications,
+    });
+  }, []);
+
+  const updateNotificationsNumberHandler = useCallback((number) => {
+    dispatchWorksAction({
+      type: "NUMBER",
+      number: number,
+    });
+  }, []);
+
   const worksContext = {
     type: worksState.type,
     loading: worksState.loading,
@@ -145,10 +196,14 @@ const CartProvider = (props) => {
     waitingWorks: worksState.waitingWorks,
     rejectedWorks: worksState.rejectedWorks,
     oldWorks: worksState.oldWorks,
+    notifications: worksState.notifications,
+    notificationsNumber: worksState.notificationsNumber,
     updateType: updateTypeHandler,
     updateAllWorks: updateAllWorksHandler,
     updateUserWorks: updateUserWorksHandler,
     showLoading: showLoadingHandler,
+    updateNotifications: updateNotificationsHandler,
+    updateNotificationsNumber: updateNotificationsNumberHandler,
   };
 
   return (

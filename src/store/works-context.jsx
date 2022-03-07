@@ -8,11 +8,15 @@ const WorksContext = React.createContext({
   waitingWorks: [],
   rejectedWorks: [],
   oldWorks: [],
+  notifications: [],
+  notificationsNumber: 0,
 
   updateType: (type) => {},
   updateAllWorks: (works) => {},
   updateUserWorks: (user) => {},
   showLoading: (loading) => {},
+  updateNotifications: (notifications) => {},
+  updateNotificationsNumber: (number) => {},
 });
 
 export default WorksContext;
