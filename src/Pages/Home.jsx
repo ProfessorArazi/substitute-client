@@ -9,7 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 registerLocale("he", he);
 
-export const Home = (props) => {
+export const Home = () => {
   const cityRef = useRef();
   const minHoursRef = useRef();
   const maxHoursRef = useRef();
@@ -19,10 +19,14 @@ export const Home = (props) => {
 
   const ctx = useContext(WorksContext);
   const {
+    closeWorks,
+    oldWorks,
+    waitingWorks,
+    rejectedWorks,
+    updateUserWorks,
     works,
     updateAllWorks,
     updateType,
-    updateNotifications,
     type,
     loading,
     showLoading,
@@ -107,41 +111,28 @@ export const Home = (props) => {
   }, [updateType]);
 
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
-    if (user && user.type === "sub") {
-      const updateWorks = async () => {
-        showLoading(true);
-        const res = await httpRequest(
-          "post",
-          "/works",
-          {
-            substituteId: user.sub._id,
-            email: user.sub.email,
-            type: user.type,
-          },
-          { token: user.token }
-        );
-        if (res.data) {
-          updateAllWorks(res.data.works);
-          updateNotifications(res.data.sub.notifications);
-          sessionStorage.setItem(
-            "user",
-            JSON.stringify({
-              sub: res.data.sub,
-              token: res.data.token,
-              type: res.data.type,
-            })
-          );
-        } else {
-          console.log(res.error);
-        }
-
-        showLoading(false);
-      };
-
-      updateWorks();
+    if (
+      closeWorks.length +
+        oldWorks.length +
+        waitingWorks.length +
+        rejectedWorks.length !==
+      JSON.parse(sessionStorage.getItem("user")).sub.works.length
+    ) {
+      const works = JSON.parse(sessionStorage.getItem("user")).sub.works;
+      updateUserWorks({
+        works: {
+          works: [...works],
+          subId: JSON.parse(sessionStorage.getItem("user")).sub._id,
+        },
+      });
     }
-  }, [updateAllWorks, updateType, showLoading, updateNotifications]);
+  }, [
+    closeWorks.length,
+    oldWorks.length,
+    rejectedWorks.length,
+    waitingWorks.length,
+    updateUserWorks,
+  ]);
 
   return (
     <>

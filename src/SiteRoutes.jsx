@@ -5,6 +5,7 @@ import { SchoolWorks } from "./Pages/SchoolWorks";
 import { SubWorks } from "./Pages/SubWorks";
 import WorksContext from "./store/works-context";
 import { Notifications } from "./Components/UI/Notifications";
+import { httpRequest } from "./httpRequest";
 
 export const SiteRoutes = () => {
   const ctx = useContext(WorksContext);
@@ -15,7 +16,25 @@ export const SiteRoutes = () => {
     if (user) {
       updateType(user.type);
       if (user.type === "school") {
-        updateNotifications(user.school.notifications);
+        const updateStorage = async () => {
+          const res = await httpRequest(
+            "post",
+            "/school/works",
+            {
+              userId: user.school._id,
+              email: user.school.email,
+              type: "school",
+            },
+            { token: user.token }
+          );
+
+          if (res.data) {
+            sessionStorage.setItem("user", JSON.stringify(res.data));
+            updateNotifications(res.data.school.notifications);
+          } else console.log(res.err);
+        };
+
+        updateStorage();
       }
     }
   }, [updateType, updateNotifications]);

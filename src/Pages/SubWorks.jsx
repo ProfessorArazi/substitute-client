@@ -1,11 +1,18 @@
 import { useContext, useEffect } from "react";
 import { WorksFormat } from "../Components/WorksFormat";
 import WorksContext from "../store/works-context";
+import { httpRequest } from "../httpRequest";
 
 export const SubWorks = () => {
   const ctx = useContext(WorksContext);
-  const { closeWorks, waitingWorks, rejectedWorks, oldWorks, updateUserWorks } =
-    ctx;
+  const {
+    closeWorks,
+    waitingWorks,
+    rejectedWorks,
+    oldWorks,
+    updateAllWorks,
+    updateNotifications,
+  } = ctx;
 
   const structures = [
     {
@@ -27,28 +34,38 @@ export const SubWorks = () => {
   ];
 
   useEffect(() => {
-    if (
-      closeWorks.length +
-        oldWorks.length +
-        waitingWorks.length +
-        rejectedWorks.length !==
-      JSON.parse(sessionStorage.getItem("user")).sub.works.length
-    ) {
-      const works = JSON.parse(sessionStorage.getItem("user")).sub.works;
-      updateUserWorks({
-        works: {
-          works: [...works],
-          subId: JSON.parse(sessionStorage.getItem("user")).sub._id,
-        },
-      });
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    if (user && user.type === "sub") {
+      const updateWorks = async () => {
+        const res = await httpRequest(
+          "post",
+          "/works",
+          {
+            substituteId: user.sub._id,
+            email: user.sub.email,
+            type: user.type,
+          },
+          { token: user.token }
+        );
+        if (res.data) {
+          updateAllWorks(res.data.works);
+          updateNotifications(res.data.sub.notifications);
+          sessionStorage.setItem(
+            "user",
+            JSON.stringify({
+              sub: res.data.sub,
+              token: res.data.token,
+              type: res.data.type,
+            })
+          );
+        } else {
+          console.log(res.error);
+        }
+      };
+
+      updateWorks();
     }
-  }, [
-    closeWorks.length,
-    oldWorks.length,
-    rejectedWorks.length,
-    waitingWorks.length,
-    updateUserWorks,
-  ]);
+  }, [updateAllWorks, updateNotifications]);
 
   return (
     <>
