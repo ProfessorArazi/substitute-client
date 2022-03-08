@@ -1,14 +1,23 @@
 .work {
+  position: relative;
   padding: 10px 0;
   direction: rtl;
   display: flex;
   justify-content: center;
   gap: 3rem;
   border: 2px solid black;
-  width: 40%;
+  width: 47%;
   border-radius: 10px;
   margin: 10px;
   animation: animatedOpacity 700ms linear;
+
+  button {
+    position: absolute;
+    bottom: 22px;
+    left: 10px;
+    height: 40px;
+    padding: 0 12px;
+  }
 }
 
 @keyframes animatedOpacity {
