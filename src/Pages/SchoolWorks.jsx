@@ -68,7 +68,7 @@ export const SchoolWorks = () => {
       );
 
       if (res.data) {
-        sessionStorage.setItem("amit", JSON.stringify(res.data));
+        sessionStorage.setItem("user", JSON.stringify(res.data));
         updateUserWorks({ works: res.data.school.works });
         updateNotifications(res.data.school.notifications);
       } else console.log(res.err);
