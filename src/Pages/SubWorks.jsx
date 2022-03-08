@@ -1,7 +1,7 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useCallback } from "react";
 import { WorksFormat } from "../Components/WorksFormat";
 import WorksContext from "../store/works-context";
-import { httpRequest } from "../httpRequest";
+import { updateWorks } from "../Components/Works/updateWorks";
 
 export const SubWorks = () => {
   const ctx = useContext(WorksContext);
@@ -12,6 +12,7 @@ export const SubWorks = () => {
     oldWorks,
     updateAllWorks,
     updateNotifications,
+    updateUserWorks,
   } = ctx;
 
   const structures = [
@@ -33,39 +34,58 @@ export const SubWorks = () => {
     },
   ];
 
-  useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
-    if (user && user.type === "sub") {
-      const updateWorks = async () => {
-        const res = await httpRequest(
-          "post",
-          "/works",
-          {
-            substituteId: user.sub._id,
-            email: user.sub.email,
-            type: user.type,
-          },
-          { token: user.token }
-        );
-        if (res.data) {
-          updateAllWorks(res.data.works);
-          updateNotifications(res.data.sub.notifications);
-          sessionStorage.setItem(
-            "user",
-            JSON.stringify({
-              sub: res.data.sub,
-              token: res.data.token,
-              type: res.data.type,
-            })
-          );
-        } else {
-          console.log(res.error);
-        }
-      };
+  const updateAllWorksHandler = useCallback(
+    (data) => {
+      updateAllWorks(data.works);
+      updateNotifications(data.sub.notifications);
+      sessionStorage.setItem(
+        "user",
+        JSON.stringify({
+          sub: data.sub,
+          token: data.token,
+          type: data.type,
+        })
+      );
+    },
+    [updateAllWorks, updateNotifications]
+  );
 
-      updateWorks();
+  useEffect(() => {
+    const updateHomePage = async () => {
+      const res = await updateWorks("/works");
+      if (res.data) {
+        updateAllWorksHandler(res.data);
+      } else console.log(res.err);
+    };
+
+    updateHomePage();
+  }, [updateAllWorksHandler]);
+
+  useEffect(() => {
+    console.log("loli");
+    if (
+      !closeWorks.length &&
+      !waitingWorks.length &&
+      !rejectedWorks.length &&
+      !oldWorks.length
+    ) {
+      const works = JSON.parse(sessionStorage.getItem("user")).sub.works;
+      updateUserWorks({
+        works: {
+          works: [...works],
+          subId: JSON.parse(sessionStorage.getItem("user")).sub._id,
+        },
+      });
     }
-  }, [updateAllWorks, updateNotifications]);
+  }, [
+    updateAllWorks,
+    updateNotifications,
+    updateUserWorks,
+    closeWorks.length,
+    oldWorks.length,
+    rejectedWorks.length,
+    waitingWorks.length,
+  ]);
 
   return (
     <>

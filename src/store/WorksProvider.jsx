@@ -47,7 +47,7 @@ const worksReducer = (state, action) => {
           ? oldWorks.push(work.work)
           : closeWorks.push(work.work)
       );
-    } else {
+    } else if (state.type === "sub") {
       action.works.works.forEach((work) => {
         const date = new Date(work.date).getTime();
         if (date < now) {

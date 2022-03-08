@@ -43,8 +43,8 @@ export const Sidebar = () => {
 
             <Nav.Link
               onClick={() => {
-                sessionStorage.clear();
                 updateType("guest");
+                sessionStorage.clear();
                 updateAllWorks([]);
               }}
             >

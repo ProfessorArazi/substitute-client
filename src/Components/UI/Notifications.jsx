@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import WorksContext from "../../store/works-context";
 import { Badge, Button, Menu, MenuItem } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
@@ -58,7 +59,9 @@ export const Notifications = () => {
       >
         {notifications.length > 0 ? (
           notifications.map((notification) => (
-            <MenuItem onClick={handleClose}>{notification}</MenuItem>
+            <Link className="noti-link" to="/works">
+              <MenuItem onClick={handleClose}>{notification}</MenuItem>
+            </Link>
           ))
         ) : (
           <MenuItem onClick={handleClose}>אין התראות חדשות</MenuItem>

@@ -34,7 +34,7 @@ export const WorksForm = (props) => {
       work ? "put" : "post",
       "/school/work",
       {
-        userId: user.id,
+        userId: user._id,
         id: work ? work._id : "",
         email: user.email,
         subject,

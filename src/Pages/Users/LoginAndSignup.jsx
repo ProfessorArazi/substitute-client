@@ -17,11 +17,13 @@ export const LoginAndSignup = (props) => {
   const phoneRef = useRef();
 
   const setUserInStorage = (data) => {
+    console.log(data[type]);
     sessionStorage.setItem(
       "user",
       JSON.stringify({ [type]: data[type], token: data.token, type: data.type })
     );
     updateType(type);
+
     if (type === "school") {
       updateUserWorks({ works: data.school.works });
     }
@@ -82,10 +84,11 @@ export const LoginAndSignup = (props) => {
           if (type === "sub") updateAllWorks(res.data.works);
 
           setUserInStorage(res.data);
+          showLoading(false);
         } else {
           console.log(res.err);
+          showLoading(false);
         }
-        showLoading(false);
       }
     }
   };

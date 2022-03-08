@@ -1,4 +1,4 @@
-import { useContext, useState, useRef, useEffect } from "react";
+import { useContext, useState, useRef, useEffect, useCallback } from "react";
 import WorksContext from "../store/works-context";
 import { Work } from "./Work";
 import { httpRequest } from "../httpRequest";
@@ -6,6 +6,7 @@ import { Navbar, Button } from "react-bootstrap";
 import DatePicker, { registerLocale } from "react-datepicker";
 import he from "date-fns/locale/he";
 import "react-datepicker/dist/react-datepicker.css";
+import { updateWorks } from "../Components/Works/updateWorks";
 
 registerLocale("he", he);
 
@@ -26,11 +27,25 @@ export const Home = () => {
     updateUserWorks,
     works,
     updateAllWorks,
-    updateType,
     type,
-    loading,
+
     showLoading,
+    updateNotifications,
   } = ctx;
+
+  const updateUserWorksHandler = useCallback(
+    (data, user) => {
+      updateUserWorks({
+        works: {
+          works: [...data.sub.works],
+          subId: user.sub._id,
+        },
+      });
+      updateNotifications(data.sub.notifications);
+      sessionStorage.setItem("user", JSON.stringify(data));
+    },
+    [updateUserWorks, updateNotifications]
+  );
 
   const onFilterHandler = async () => {
     let start;
@@ -69,6 +84,10 @@ export const Home = () => {
     );
 
     if (res.data) {
+      sessionStorage.setItem(
+        "user",
+        JSON.stringify({ ...res.data, filtered: true })
+      );
       updateAllWorks(res.data.works);
     } else console.log(res.err);
     showLoading(false);
@@ -76,6 +95,7 @@ export const Home = () => {
 
   const onApplyHandler = async (substituteId, workId, userId) => {
     showLoading(true);
+    const before = new Date().getTime();
     const res = await httpRequest(
       "post",
       "/sub/works/apply",
@@ -102,44 +122,39 @@ export const Home = () => {
     } else {
       console.log(res.err);
     }
+    console.log(new Date().getTime() - before);
     showLoading(false);
   };
 
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
-    if (user && user.type === "sub") updateType("sub");
-  }, [updateType]);
-
-  useEffect(() => {
     if (
-      closeWorks.length +
-        oldWorks.length +
-        waitingWorks.length +
-        rejectedWorks.length !==
-      JSON.parse(sessionStorage.getItem("user")).sub.works.length
+      JSON.parse(sessionStorage.getItem("user")) &&
+      JSON.parse(sessionStorage.getItem("user")).type === "sub"
     ) {
-      const works = JSON.parse(sessionStorage.getItem("user")).sub.works;
-      updateUserWorks({
-        works: {
-          works: [...works],
-          subId: JSON.parse(sessionStorage.getItem("user")).sub._id,
-        },
-      });
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      const updateSubWorksPage = async () => {
+        const res = await updateWorks("/sub/works");
+        if (res.data) {
+          updateUserWorksHandler(res.data, user);
+        } else {
+          console.log(res.error);
+        }
+      };
+
+      updateSubWorksPage();
     }
   }, [
     closeWorks.length,
     oldWorks.length,
     rejectedWorks.length,
     waitingWorks.length,
-    updateUserWorks,
+    updateUserWorksHandler,
   ]);
 
   return (
     <>
       <>
-        {loading ? (
-          loading
-        ) : (
+        {type === "sub" ? (
           <>
             <Navbar
               style={{
@@ -200,6 +215,8 @@ export const Home = () => {
               ))}
             </div>
           </>
+        ) : (
+          <h2>דף הבית</h2>
         )}
       </>
     </>

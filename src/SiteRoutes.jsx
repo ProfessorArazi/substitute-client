@@ -1,43 +1,57 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useCallback } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { Home } from "./Pages/Home";
 import { SchoolWorks } from "./Pages/SchoolWorks";
 import { SubWorks } from "./Pages/SubWorks";
 import WorksContext from "./store/works-context";
 import { Notifications } from "./Components/UI/Notifications";
-import { httpRequest } from "./httpRequest";
+import { updateWorks } from "./Components/Works/updateWorks";
 
 export const SiteRoutes = () => {
   const ctx = useContext(WorksContext);
-  const { updateType, updateNotifications, type, loading } = ctx;
+  const { updateType, updateNotifications, updateAllWorks, type, loading } =
+    ctx;
+
+  const updateAllWorksHandler = useCallback(
+    (data) => {
+      updateAllWorks(data.works);
+      updateNotifications(data.sub.notifications);
+      sessionStorage.setItem(
+        "user",
+        JSON.stringify({
+          sub: data.sub,
+          token: data.token,
+          type: data.type,
+        })
+      );
+    },
+    [updateAllWorks, updateNotifications]
+  );
 
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem("user"));
     if (user) {
       updateType(user.type);
-      if (user.type === "school") {
-        const updateStorage = async () => {
-          const res = await httpRequest(
-            "post",
-            "/school/works",
-            {
-              userId: user.school._id,
-              email: user.school.email,
-              type: "school",
-            },
-            { token: user.token }
-          );
-
-          if (res.data) {
-            sessionStorage.setItem("user", JSON.stringify(res.data));
-            updateNotifications(res.data.school.notifications);
-          } else console.log(res.err);
-        };
-
-        updateStorage();
-      }
     }
   }, [updateType, updateNotifications]);
+
+  useEffect(() => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+
+    if (user && user.type === "sub") {
+      const updateHome = async () => {
+        const res = await updateWorks("/works");
+
+        if (res.data) {
+          updateAllWorksHandler(res.data);
+        } else {
+          console.log(res.error);
+        }
+      };
+
+      updateHome();
+    }
+  }, [updateAllWorksHandler]);
 
   return (
     <Routes>
@@ -49,7 +63,15 @@ export const SiteRoutes = () => {
             {type !== "guest" && !loading && (
               <Notifications notifications={4} />
             )}
-            {type !== "school" ? <Home type={type} /> : <SchoolWorks />}
+            {type !== "school" ? (
+              !loading ? (
+                <Home type={type} />
+              ) : (
+                loading
+              )
+            ) : (
+              <SchoolWorks />
+            )}
           </>
         }
       ></Route>

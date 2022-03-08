@@ -8,7 +8,14 @@ import { WorksForm } from "../Components/Forms/WorksForm";
 
 export const SchoolWorks = () => {
   const ctx = useContext(WorksContext);
-  const { closeWorks, oldWorks, updateUserWorks, showLoading, loading } = ctx;
+  const {
+    closeWorks,
+    oldWorks,
+    updateUserWorks,
+    updateNotifications,
+    showLoading,
+    loading,
+  } = ctx;
 
   const [showModal, setShowModal] = useState(false);
 
@@ -44,6 +51,31 @@ export const SchoolWorks = () => {
     }
     showLoading(false);
   };
+
+  useEffect(() => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+
+    const updateStorage = async () => {
+      const res = await httpRequest(
+        "post",
+        "/school/works",
+        {
+          userId: user.school._id,
+          email: user.school.email,
+          type: "school",
+        },
+        { token: user.token }
+      );
+
+      if (res.data) {
+        sessionStorage.setItem("amit", JSON.stringify(res.data));
+        updateUserWorks({ works: res.data.school.works });
+        updateNotifications(res.data.school.notifications);
+      } else console.log(res.err);
+    };
+
+    updateStorage();
+  }, [updateNotifications, updateUserWorks]);
 
   useEffect(() => {
     if (
