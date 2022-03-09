@@ -17,7 +17,9 @@ export const Sidebar = () => {
       <nav id="sidebar" className="sidebar">
         {type !== "guest" && (
           <img
-            onClick={() => setShowModal(<ImageForm />)}
+            onClick={() =>
+              setShowModal(<ImageForm onClose={() => setShowModal(false)} />)
+            }
             src={
               JSON.parse(sessionStorage.getItem("user"))[type].img
                 ? JSON.parse(sessionStorage.getItem("user"))[type].img
