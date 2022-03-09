@@ -34,8 +34,9 @@
 
 .user-img {
   cursor: pointer;
-  width: 156px;
-  height: 114px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
   margin: 10px auto;
   border: 2px solid #fff;
 }
