@@ -3,6 +3,7 @@ import { useState, useContext } from "react";
 import WorksContext from "../../store/works-context";
 import { Form, Button } from "react-bootstrap";
 import { httpRequest } from "../../httpRequest";
+import { getBase64 } from "../Images/getBase64";
 
 export const ImageForm = (props) => {
   const ctx = useContext(WorksContext);
@@ -18,20 +19,6 @@ export const ImageForm = (props) => {
 
   const onImageChange = (e) => {
     setFiles(e.target.files);
-  };
-
-  const getBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
   };
 
   const uploadImageHandler = async (e) => {

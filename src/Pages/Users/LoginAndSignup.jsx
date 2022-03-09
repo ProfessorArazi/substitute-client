@@ -3,6 +3,8 @@ import { Form, Button } from "react-bootstrap";
 import validator from "validator";
 import WorksContext from "../../store/works-context";
 import { httpRequest } from "../../httpRequest";
+import { getBase64 } from "../../Components/Images/getBase64";
+
 export const LoginAndSignup = (props) => {
   const ctx = useContext(WorksContext);
   const { updateType, updateAllWorks, updateUserWorks, showLoading, loading } =
@@ -19,20 +21,6 @@ export const LoginAndSignup = (props) => {
 
   const onImageChange = (e) => {
     setFiles(e.target.files);
-  };
-
-  const getBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
   };
 
   const setUserInStorage = (data) => {
