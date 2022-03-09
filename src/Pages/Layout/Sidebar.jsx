@@ -5,6 +5,7 @@ import Modal from "../../Components/UI/Modal";
 import { LoginAndSignup } from "../Users/LoginAndSignup";
 import WorksContext from "../../store/works-context";
 import ReactStars from "react-rating-stars-component";
+import { ImageForm } from "../../Components/Forms/ImageForm";
 
 export const Sidebar = () => {
   const ctx = useContext(WorksContext);
@@ -16,7 +17,12 @@ export const Sidebar = () => {
       <nav id="sidebar" className="sidebar">
         {type !== "guest" && (
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
+            onClick={() => setShowModal(<ImageForm />)}
+            src={
+              JSON.parse(sessionStorage.getItem("user"))[type].img
+                ? JSON.parse(sessionStorage.getItem("user"))[type].img
+                : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
+            }
             alt="user"
             className="user-img"
           />

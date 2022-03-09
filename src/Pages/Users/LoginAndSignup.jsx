@@ -8,6 +8,7 @@ export const LoginAndSignup = (props) => {
   const { updateType, updateAllWorks, updateUserWorks, showLoading, loading } =
     ctx;
 
+  const [files, setFiles] = useState([]);
   const [type, setType] = useState();
 
   const emailRef = useRef();
@@ -15,6 +16,24 @@ export const LoginAndSignup = (props) => {
   const nameRef = useRef();
   const cityRef = useRef();
   const phoneRef = useRef();
+
+  const onImageChange = (e) => {
+    setFiles(e.target.files);
+  };
+
+  const getBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
 
   const setUserInStorage = (data) => {
     sessionStorage.setItem(
@@ -55,8 +74,10 @@ export const LoginAndSignup = (props) => {
           validForm = false;
         }
         if (validForm) {
+          const img = await getBase64(files[0]);
           showLoading(true);
           const res = await httpRequest("post", `/${type}`, {
+            img,
             email,
             password,
             name,
@@ -107,6 +128,11 @@ export const LoginAndSignup = (props) => {
             <Form className="login-form" onSubmit={loginOrSignupHandler}>
               {props.signup && (
                 <>
+                  <Form.Group className="mb-3" controlId="name">
+                    <Form.Label>תמונת פרופיל</Form.Label>
+                    <Form.Control onChange={onImageChange} type="file" />
+                  </Form.Group>
+
                   <Form.Group className="mb-3" controlId="name">
                     <Form.Label>שם</Form.Label>
                     <Form.Control ref={nameRef} type="text" />

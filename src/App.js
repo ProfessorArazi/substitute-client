@@ -6,7 +6,7 @@ import "./scss/App.scss";
 /* 
 todo:
 1.notifications - finished
-2.profile image
+2.profile image - finished
 3.update profile
 4.see profile
 5.work view
