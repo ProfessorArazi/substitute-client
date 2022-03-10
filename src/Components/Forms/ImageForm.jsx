@@ -3,7 +3,7 @@ import { useState, useContext } from "react";
 import WorksContext from "../../store/works-context";
 import { Form, Button } from "react-bootstrap";
 import { httpRequest } from "../../httpRequest";
-import { getBlob } from "../Images/getBlob";
+import { resizeFile } from "../Images/resizeFile";
 import { storageObject } from "../Storage/storageObject";
 
 export const ImageForm = (props) => {
@@ -26,7 +26,7 @@ export const ImageForm = (props) => {
     e.preventDefault();
     const user = JSON.parse(sessionStorage.getItem("user"));
 
-    const img = await getBlob(files[0]);
+    const img = await resizeFile(files[0]);
 
     const data = {
       img,

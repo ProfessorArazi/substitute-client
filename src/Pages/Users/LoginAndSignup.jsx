@@ -4,7 +4,7 @@ import validator from "validator";
 import WorksContext from "../../store/works-context";
 import { httpRequest } from "../../httpRequest";
 import { storageObject } from "../../Components/Storage/storageObject";
-import { getBlob } from "../../Components/Images/getBlob";
+import { resizeFile } from "../../Components/Images/resizeFile";
 
 export const LoginAndSignup = (props) => {
   const ctx = useContext(WorksContext);
@@ -61,7 +61,7 @@ export const LoginAndSignup = (props) => {
           validForm = false;
         }
         if (validForm) {
-          const img = await getBlob(files[0]);
+          const img = await resizeFile(files[0]);
           showLoading(true);
           const res = await httpRequest("post", `/${type}`, {
             img,
