@@ -3,8 +3,8 @@ import { Form, Button } from "react-bootstrap";
 import validator from "validator";
 import WorksContext from "../../store/works-context";
 import { httpRequest } from "../../httpRequest";
-import { getBase64 } from "../../Components/Images/getBase64";
 import { storageObject } from "../../Components/Storage/storageObject";
+import { getBlob } from "../../Components/Images/getBlob";
 
 export const LoginAndSignup = (props) => {
   const ctx = useContext(WorksContext);
@@ -61,7 +61,7 @@ export const LoginAndSignup = (props) => {
           validForm = false;
         }
         if (validForm) {
-          const img = await getBase64(files[0]);
+          const img = await getBlob(files[0]);
           showLoading(true);
           const res = await httpRequest("post", `/${type}`, {
             img,

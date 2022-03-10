@@ -58,31 +58,31 @@ export const SubWorks = () => {
     updateHomePage();
   }, [updateAllWorksHandler]);
 
-  useEffect(() => {
-    console.log("loli");
-    if (
-      !closeWorks.length &&
-      !waitingWorks.length &&
-      !rejectedWorks.length &&
-      !oldWorks.length
-    ) {
-      const works = JSON.parse(sessionStorage.getItem("user")).sub.works;
-      updateUserWorks({
-        works: {
-          works: [...works],
-          subId: JSON.parse(sessionStorage.getItem("user")).sub._id,
-        },
-      });
-    }
-  }, [
-    updateAllWorks,
-    updateNotifications,
-    updateUserWorks,
-    closeWorks.length,
-    oldWorks.length,
-    rejectedWorks.length,
-    waitingWorks.length,
-  ]);
+  // useEffect(() => {
+  //   console.log("loli");
+  //   if (
+  //     !closeWorks.length &&
+  //     !waitingWorks.length &&
+  //     !rejectedWorks.length &&
+  //     !oldWorks.length
+  //   ) {
+  //     const works = JSON.parse(sessionStorage.getItem("user")).sub.works;
+  //     updateUserWorks({
+  //       works: {
+  //         works: [...works],
+  //         subId: JSON.parse(sessionStorage.getItem("user")).sub._id,
+  //       },
+  //     });
+  //   }
+  // }, [
+  //   updateAllWorks,
+  //   updateNotifications,
+  //   updateUserWorks,
+  //   closeWorks.length,
+  //   oldWorks.length,
+  //   rejectedWorks.length,
+  //   waitingWorks.length,
+  // ]);
 
   return (
     <>

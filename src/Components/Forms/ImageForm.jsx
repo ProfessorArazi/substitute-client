@@ -3,7 +3,7 @@ import { useState, useContext } from "react";
 import WorksContext from "../../store/works-context";
 import { Form, Button } from "react-bootstrap";
 import { httpRequest } from "../../httpRequest";
-import { getBase64 } from "../Images/getBase64";
+import { getBlob } from "../Images/getBlob";
 import { storageObject } from "../Storage/storageObject";
 
 export const ImageForm = (props) => {
@@ -25,7 +25,8 @@ export const ImageForm = (props) => {
   const uploadImageHandler = async (e) => {
     e.preventDefault();
     const user = JSON.parse(sessionStorage.getItem("user"));
-    const img = await getBase64(files[0]);
+
+    const img = await getBlob(files[0]);
 
     const data = {
       img,
@@ -56,8 +57,9 @@ export const ImageForm = (props) => {
           },
         });
       } else {
+        console.log(res.data);
         updateUserWorks({
-          works: { works: data.school.works, type: "school" },
+          works: { works: res.data.school.works, type: "school" },
         });
       }
       updateNotifications(res.data[user.type].notifications);
