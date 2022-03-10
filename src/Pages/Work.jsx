@@ -33,7 +33,9 @@ export const Work = (props) => {
         "user",
         JSON.stringify(storageObject("school", res.data))
       );
-      updateUserWorks({ works: res.data.school.works });
+      updateUserWorks({
+        works: { works: res.data.school.works, type: "school" },
+      });
     } else console.log(res.err);
     showLoading(false);
   };

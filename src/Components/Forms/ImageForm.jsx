@@ -56,7 +56,9 @@ export const ImageForm = (props) => {
           },
         });
       } else {
-        updateUserWorks({ works: res.data.school.works });
+        updateUserWorks({
+          works: { works: data.school.works, type: "school" },
+        });
       }
       updateNotifications(res.data[user.type].notifications);
       props.onClose();

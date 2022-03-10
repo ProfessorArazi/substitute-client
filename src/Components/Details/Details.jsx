@@ -3,15 +3,16 @@ import ReactStars from "react-rating-stars-component";
 import { Button } from "react-bootstrap";
 
 export const Details = (props) => {
-  console.log(props);
   return (
     <div>
       <ul style={{ listStyle: "none" }}>
-        <img
-          style={{ width: "100px", height: "100px", objectFit: "cover" }}
-          src={props.img}
-          alt="profile"
-        />
+        {props.img && (
+          <img
+            style={{ width: "100px", height: "100px", objectFit: "cover" }}
+            src={props.img}
+            alt="profile"
+          />
+        )}
         <li>שם: {props.name}</li>
         <li>טלפון: {props.phone}</li>
         {props.grade && (

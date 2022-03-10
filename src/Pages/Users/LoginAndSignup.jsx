@@ -26,9 +26,8 @@ export const LoginAndSignup = (props) => {
 
   const setUserInStorage = (data) => {
     if (type === "school") {
-      updateUserWorks({ works: data.school.works });
+      updateUserWorks({ works: { works: data.school.works, type: "school" } });
     }
-    delete data[type].works;
 
     sessionStorage.setItem("user", JSON.stringify(storageObject(type, data)));
     updateType(type);

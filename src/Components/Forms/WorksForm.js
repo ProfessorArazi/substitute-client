@@ -61,7 +61,9 @@ export const WorksForm = (props) => {
         "user",
         JSON.stringify(storageObject("school", res.data))
       );
-      updateUserWorks({ works: res.data.school.works });
+      updateUserWorks({
+        works: { works: res.data.school.works, type: "school" },
+      });
       props.onClose();
     } else console.log(res.err);
     showLoading(false);

@@ -49,7 +49,9 @@ export const SchoolWorks = () => {
         "user",
         JSON.stringify(storageObject("school", res.data))
       );
-      updateUserWorks({ works: res.data.school.works });
+      updateUserWorks({
+        works: { works: res.data.school.works, type: "school" },
+      });
     } else {
       console.log(res.err);
     }
@@ -57,35 +59,45 @@ export const SchoolWorks = () => {
   };
 
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
+    if (!closeWorks.length && !oldWorks.length) {
+      const user = JSON.parse(sessionStorage.getItem("user"));
 
-    const updateStorage = async () => {
-      showLoading(true);
-      const res = await httpRequest(
-        "post",
-        "/school/works",
-        {
-          userId: user.school._id,
-          email: user.school.email,
-          type: "school",
-        },
-        { token: user.token }
-      );
-
-      if (res.data) {
-        updateUserWorks({ works: res.data.school.works });
-        sessionStorage.setItem(
-          "user",
-          JSON.stringify(storageObject("school", res.data))
+      const updateStorage = async () => {
+        showLoading(true);
+        const res = await httpRequest(
+          "post",
+          "/school/works",
+          {
+            userId: user.school._id,
+            email: user.school.email,
+            type: "school",
+          },
+          { token: user.token }
         );
-        updateNotifications(res.data.school.notifications);
-      } else console.log(res.err);
 
-      showLoading(false);
-    };
+        if (res.data) {
+          updateUserWorks({
+            works: { works: res.data.school.works, type: "school" },
+          });
+          sessionStorage.setItem(
+            "user",
+            JSON.stringify(storageObject("school", res.data))
+          );
+          updateNotifications(res.data.school.notifications);
+        } else console.log(res.err);
 
-    updateStorage();
-  }, [updateNotifications, updateUserWorks, showLoading]);
+        showLoading(false);
+      };
+
+      updateStorage();
+    }
+  }, [
+    updateNotifications,
+    updateUserWorks,
+    showLoading,
+    closeWorks.length,
+    oldWorks.length,
+  ]);
 
   return (
     <>

@@ -61,7 +61,7 @@ const ApplyDetails = (props) => {
       );
       const works = res.data.school.works;
       updateNotifications(res.data.school.notifications);
-      updateUserWorks({ works });
+      updateUserWorks({ works: { works, type: "school" } });
 
       props.onClose();
     } else console.log(res.err);

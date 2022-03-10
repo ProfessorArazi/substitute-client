@@ -43,13 +43,13 @@ const worksReducer = (state, action) => {
     let waitingWorks = [];
     let rejectedWorks = [];
     const now = new Date().getTime();
-    if (state.type === "school") {
-      action.works.forEach((work) =>
+    if (action.works.type === "school") {
+      action.works.works.forEach((work) =>
         new Date(work.work.date).getTime() < now
           ? oldWorks.push(work.work)
           : closeWorks.push(work.work)
       );
-    } else if (state.type === "sub") {
+    } else {
       action.works.works.forEach((work) => {
         const date = new Date(work.date).getTime();
         if (date < now) {
