@@ -4,6 +4,7 @@ import validator from "validator";
 import WorksContext from "../../store/works-context";
 import { httpRequest } from "../../httpRequest";
 import { getBase64 } from "../../Components/Images/getBase64";
+import { storageObject } from "../../Components/Storage/storageObject";
 
 export const LoginAndSignup = (props) => {
   const ctx = useContext(WorksContext);
@@ -24,15 +25,14 @@ export const LoginAndSignup = (props) => {
   };
 
   const setUserInStorage = (data) => {
-    sessionStorage.setItem(
-      "user",
-      JSON.stringify({ [type]: data[type], token: data.token, type: data.type })
-    );
-    updateType(type);
-
     if (type === "school") {
       updateUserWorks({ works: data.school.works });
     }
+    delete data[type].works;
+
+    sessionStorage.setItem("user", JSON.stringify(storageObject(type, data)));
+    updateType(type);
+
     props.onClose();
   };
 

@@ -5,6 +5,7 @@ import { httpRequest } from "../httpRequest";
 import { Button } from "react-bootstrap";
 import Modal from "../Components/UI/Modal";
 import { WorksForm } from "../Components/Forms/WorksForm";
+import { storageObject } from "../Components/Storage/storageObject";
 
 export const SchoolWorks = () => {
   const ctx = useContext(WorksContext);
@@ -38,13 +39,16 @@ export const SchoolWorks = () => {
       `/school/works/${userId}/${id}`,
       {
         email: JSON.parse(sessionStorage.getItem("user")).school.email,
-        userId: JSON.parse(sessionStorage.getItem("user")).school.id,
+        userId: JSON.parse(sessionStorage.getItem("user")).school._id,
         type: "school",
       },
       { token: JSON.parse(sessionStorage.getItem("user")).token }
     );
     if (res.data) {
-      sessionStorage.setItem("user", JSON.stringify(res.data));
+      sessionStorage.setItem(
+        "user",
+        JSON.stringify(storageObject("school", res.data))
+      );
       updateUserWorks({ works: res.data.school.works });
     } else {
       console.log(res.err);
@@ -56,6 +60,7 @@ export const SchoolWorks = () => {
     const user = JSON.parse(sessionStorage.getItem("user"));
 
     const updateStorage = async () => {
+      showLoading(true);
       const res = await httpRequest(
         "post",
         "/school/works",
@@ -68,36 +73,32 @@ export const SchoolWorks = () => {
       );
 
       if (res.data) {
-        sessionStorage.setItem("user", JSON.stringify(res.data));
         updateUserWorks({ works: res.data.school.works });
+        sessionStorage.setItem(
+          "user",
+          JSON.stringify(storageObject("school", res.data))
+        );
         updateNotifications(res.data.school.notifications);
       } else console.log(res.err);
+
+      showLoading(false);
     };
 
     updateStorage();
-  }, [updateNotifications, updateUserWorks]);
-
-  useEffect(() => {
-    if (
-      !closeWorks.length &&
-      !oldWorks.length &&
-      JSON.parse(sessionStorage.getItem("user")).school.works.length
-    ) {
-      const works = JSON.parse(sessionStorage.getItem("user")).school.works;
-      updateUserWorks({ works });
-    }
-  }, [closeWorks, oldWorks, updateUserWorks]);
+  }, [updateNotifications, updateUserWorks, showLoading]);
 
   return (
     <>
-      <Button
-        onClick={() =>
-          setShowModal(<WorksForm onClose={() => setShowModal(false)} />)
-        }
-        className="add-work__btn"
-      >
-        +
-      </Button>
+      {!loading && (
+        <Button
+          onClick={() =>
+            setShowModal(<WorksForm onClose={() => setShowModal(false)} />)
+          }
+          className="add-work__btn"
+        >
+          +
+        </Button>
+      )}
 
       {loading
         ? loading

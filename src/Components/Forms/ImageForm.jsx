@@ -4,6 +4,7 @@ import WorksContext from "../../store/works-context";
 import { Form, Button } from "react-bootstrap";
 import { httpRequest } from "../../httpRequest";
 import { getBase64 } from "../Images/getBase64";
+import { storageObject } from "../Storage/storageObject";
 
 export const ImageForm = (props) => {
   const ctx = useContext(WorksContext);
@@ -44,11 +45,7 @@ export const ImageForm = (props) => {
     if (res.data) {
       sessionStorage.setItem(
         "user",
-        JSON.stringify({
-          [user.type]: res.data[user.type],
-          token: res.data.token,
-          type: res.data.type,
-        })
+        JSON.stringify(storageObject(user.type, res.data))
       );
       if (user.type === "sub") {
         updateAllWorks(res.data.works);

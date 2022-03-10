@@ -2,6 +2,7 @@ import { useContext, useEffect, useCallback } from "react";
 import { WorksFormat } from "../Components/WorksFormat";
 import WorksContext from "../store/works-context";
 import { updateWorks } from "../Components/Works/updateWorks";
+import { storageObject } from "../Components/Storage/storageObject";
 
 export const SubWorks = () => {
   const ctx = useContext(WorksContext);
@@ -40,11 +41,7 @@ export const SubWorks = () => {
       updateNotifications(data.sub.notifications);
       sessionStorage.setItem(
         "user",
-        JSON.stringify({
-          sub: data.sub,
-          token: data.token,
-          type: data.type,
-        })
+        JSON.stringify(storageObject("sub", data))
       );
     },
     [updateAllWorks, updateNotifications]

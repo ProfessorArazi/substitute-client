@@ -5,12 +5,13 @@ import { Button } from "react-bootstrap";
 import { ApplyIcon } from "../Components/Apply";
 import ReactStars from "react-rating-stars-component";
 import { httpRequest } from "../httpRequest";
+import { storageObject } from "../Components/Storage/storageObject";
 
 export const Work = (props) => {
   const ctx = useContext(WorksContext);
   const { updateUserWorks, showLoading } = ctx;
 
-  const ratingTeacherHandler = async (rating) => {
+  const rateTeacherHandler = async (rating) => {
     const user = JSON.parse(sessionStorage.getItem("user"));
     showLoading(true);
     const res = await httpRequest(
@@ -28,7 +29,10 @@ export const Work = (props) => {
     );
 
     if (res.data) {
-      sessionStorage.setItem("user", JSON.stringify(res.data));
+      sessionStorage.setItem(
+        "user",
+        JSON.stringify(storageObject("school", res.data))
+      );
       updateUserWorks({ works: res.data.school.works });
     } else console.log(res.err);
     showLoading(false);
@@ -70,7 +74,7 @@ export const Work = (props) => {
                 <p>המורה שנבחר: {props.picked.name}</p>
                 {props.old && !props.grade && (
                   <ReactStars
-                    onChange={ratingTeacherHandler}
+                    onChange={rateTeacherHandler}
                     classNames="stars"
                     count={5}
                     size={24}

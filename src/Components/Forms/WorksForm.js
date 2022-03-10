@@ -2,6 +2,7 @@ import { useRef, useContext, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import WorksContext from "../../store/works-context";
 import { httpRequest } from "../../httpRequest";
+import { storageObject } from "../Storage/storageObject";
 
 export const WorksForm = (props) => {
   const { work } = props;
@@ -56,7 +57,10 @@ export const WorksForm = (props) => {
     );
 
     if (res.data) {
-      sessionStorage.setItem("user", JSON.stringify(res.data));
+      sessionStorage.setItem(
+        "user",
+        JSON.stringify(storageObject("school", res.data))
+      );
       updateUserWorks({ works: res.data.school.works });
       props.onClose();
     } else console.log(res.err);

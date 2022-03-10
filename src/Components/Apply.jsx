@@ -1,12 +1,13 @@
 import { useState, useContext } from "react";
-import { Button } from "react-bootstrap";
 import { httpRequest } from "../httpRequest";
 import Modal from "./UI/Modal";
 import WorksContext from "../store/works-context";
-import ReactStars from "react-rating-stars-component";
+import { Details } from "./Details/Details";
+import { storageObject } from "./Storage/storageObject";
 
 export const ApplyIcon = (props) => {
   const { apply, workId } = props;
+  console.log(apply);
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -54,7 +55,10 @@ const ApplyDetails = (props) => {
     );
 
     if (res.data) {
-      sessionStorage.setItem("user", JSON.stringify(res.data));
+      sessionStorage.setItem(
+        "user",
+        JSON.stringify(storageObject("school", res.data))
+      );
       const works = res.data.school.works;
       updateNotifications(res.data.school.notifications);
       updateUserWorks({ works });
@@ -64,30 +68,21 @@ const ApplyDetails = (props) => {
     showLoading(false);
   };
 
+  console.log(props.apply);
+
   return (
     <>
       {loading ? (
         loading
       ) : (
-        <div>
-          <ul style={{ listStyle: "none" }}>
-            <li>שם: {props.apply.name}</li>
-            <li>טלפון: {props.apply.phone}</li>
-            <li>
-              {
-                <ReactStars
-                  count={5}
-                  size={24}
-                  edit={false}
-                  isHalf={true}
-                  value={props.apply.grades.grade}
-                />
-              }
-            </li>
-            <li>דירוגים: {props.apply.grades.votes}</li>
-          </ul>
-          <Button onClick={pickSubHandler}>בחר</Button>
-        </div>
+        <Details
+          img={props.apply.img}
+          name={props.apply.name}
+          phone={props.apply.phone}
+          grade={props.apply.grades.grade}
+          votes={props.apply.grades.votes}
+          onClick={pickSubHandler}
+        />
       )}
     </>
   );

@@ -1,7 +1,9 @@
 import React from "react";
 
 const WorksContext = React.createContext({
-  type: "guest",
+  type: sessionStorage.getItem("user")
+    ? JSON.parse(sessionStorage.getItem("user")).type
+    : "guest",
   loading: false,
   works: [],
   closeWorks: [],

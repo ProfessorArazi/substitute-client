@@ -6,11 +6,18 @@ import { SubWorks } from "./Pages/SubWorks";
 import WorksContext from "./store/works-context";
 import { Notifications } from "./Components/UI/Notifications";
 import { updateWorks } from "./Components/Works/updateWorks";
+import { storageObject } from "./Components/Storage/storageObject";
 
 export const SiteRoutes = () => {
   const ctx = useContext(WorksContext);
-  const { updateType, updateNotifications, updateAllWorks, type, loading } =
-    ctx;
+  const {
+    updateType,
+    updateNotifications,
+    updateAllWorks,
+    showLoading,
+    type,
+    loading,
+  } = ctx;
 
   const updateAllWorksHandler = useCallback(
     (data) => {
@@ -18,11 +25,7 @@ export const SiteRoutes = () => {
       updateNotifications(data.sub.notifications);
       sessionStorage.setItem(
         "user",
-        JSON.stringify({
-          sub: data.sub,
-          token: data.token,
-          type: data.type,
-        })
+        JSON.stringify(storageObject("sub", data))
       );
     },
     [updateAllWorks, updateNotifications]
@@ -40,10 +43,12 @@ export const SiteRoutes = () => {
 
     if (user && user.type === "sub") {
       const updateHome = async () => {
+        showLoading(true);
         const res = await updateWorks("/works");
 
         if (res.data) {
           updateAllWorksHandler(res.data);
+          showLoading(false);
         } else {
           console.log(res.error);
         }
@@ -51,7 +56,7 @@ export const SiteRoutes = () => {
 
       updateHome();
     }
-  }, [updateAllWorksHandler]);
+  }, [updateAllWorksHandler, showLoading]);
 
   return (
     <Routes>

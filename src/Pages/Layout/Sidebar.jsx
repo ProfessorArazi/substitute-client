@@ -6,11 +6,15 @@ import { LoginAndSignup } from "../Users/LoginAndSignup";
 import WorksContext from "../../store/works-context";
 import ReactStars from "react-rating-stars-component";
 import { ImageForm } from "../../Components/Forms/ImageForm";
+import { Details } from "../../Components/Details/Details";
 
 export const Sidebar = () => {
   const ctx = useContext(WorksContext);
   const [showModal, setShowModal] = useState(false);
   const { type, updateType, updateAllWorks } = ctx;
+
+  const user =
+    type !== "guest" && JSON.parse(sessionStorage.getItem("user"))[type];
 
   return (
     <>
@@ -21,8 +25,8 @@ export const Sidebar = () => {
               setShowModal(<ImageForm onClose={() => setShowModal(false)} />)
             }
             src={
-              JSON.parse(sessionStorage.getItem("user"))[type].img
-                ? JSON.parse(sessionStorage.getItem("user"))[type].img
+              user.img
+                ? user.img
                 : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
             }
             alt="user"
@@ -45,7 +49,22 @@ export const Sidebar = () => {
         )}
         {type !== "guest" ? (
           <>
-            <Link to="/account">החשבון שלי</Link>
+            <Nav.Link
+              onClick={() =>
+                setShowModal(
+                  <Details
+                    img={user.img}
+                    name={user.name}
+                    phone={user.phone}
+                    grade={type === "sub" && user.grade.grade}
+                    votes={type === "sub" && user.grade.votes}
+                    onClose={() => setShowModal(false)}
+                  />
+                )
+              }
+            >
+              החשבון שלי
+            </Nav.Link>
             <Link to="/profile">ערוך פרופיל</Link>
             <Link to="/works">העבודות שלי</Link>
 

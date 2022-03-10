@@ -7,6 +7,7 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import he from "date-fns/locale/he";
 import "react-datepicker/dist/react-datepicker.css";
 import { updateWorks } from "../Components/Works/updateWorks";
+import { storageObject } from "../Components/Storage/storageObject";
 
 registerLocale("he", he);
 
@@ -42,7 +43,10 @@ export const Home = () => {
         },
       });
       updateNotifications(data.sub.notifications);
-      sessionStorage.setItem("user", JSON.stringify(data));
+      sessionStorage.setItem(
+        "user",
+        JSON.stringify(storageObject("sub", data))
+      );
     },
     [updateUserWorks, updateNotifications]
   );
@@ -86,7 +90,7 @@ export const Home = () => {
     if (res.data) {
       sessionStorage.setItem(
         "user",
-        JSON.stringify({ ...res.data, filtered: true })
+        JSON.stringify({ ...storageObject("sub", res.data), filtered: true })
       );
       updateAllWorks(res.data.works);
     } else console.log(res.err);
@@ -113,11 +117,7 @@ export const Home = () => {
       updateAllWorks(res.data.works);
       sessionStorage.setItem(
         "user",
-        JSON.stringify({
-          sub: res.data.sub,
-          token: res.data.token,
-          type: res.data.type,
-        })
+        JSON.stringify(storageObject("sub", res.data))
       );
     } else {
       console.log(res.err);
@@ -132,6 +132,7 @@ export const Home = () => {
       JSON.parse(sessionStorage.getItem("user")).type === "sub"
     ) {
       const user = JSON.parse(sessionStorage.getItem("user"));
+
       const updateSubWorksPage = async () => {
         const res = await updateWorks("/sub/works");
         if (res.data) {
@@ -143,13 +144,7 @@ export const Home = () => {
 
       updateSubWorksPage();
     }
-  }, [
-    closeWorks.length,
-    oldWorks.length,
-    rejectedWorks.length,
-    waitingWorks.length,
-    updateUserWorksHandler,
-  ]);
+  }, [updateUserWorksHandler]);
 
   return (
     <>
