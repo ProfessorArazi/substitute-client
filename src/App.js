@@ -10,6 +10,7 @@ todo:
 3.update profile
 4.see profile
 5.work view
+6.mailing list
 */
 
 function App() {
