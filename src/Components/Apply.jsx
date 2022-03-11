@@ -24,7 +24,7 @@ export const ApplyIcon = (props) => {
             </Modal>
           )
         }
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
+        src={apply.img}
         alt="user"
         className="apply"
       />
