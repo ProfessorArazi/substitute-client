@@ -7,7 +7,6 @@ import { storageObject } from "./Storage/storageObject";
 
 export const ApplyIcon = (props) => {
   const { apply, workId } = props;
-  console.log(apply);
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -67,8 +66,6 @@ const ApplyDetails = (props) => {
     } else console.log(res.err);
     showLoading(false);
   };
-
-  console.log(props.apply);
 
   return (
     <>

@@ -99,7 +99,6 @@ export const Home = () => {
 
   const onApplyHandler = async (substituteId, workId, userId) => {
     showLoading(true);
-    const before = new Date().getTime();
     const res = await httpRequest(
       "post",
       "/sub/works/apply",
@@ -122,7 +121,6 @@ export const Home = () => {
     } else {
       console.log(res.err);
     }
-    console.log(new Date().getTime() - before);
     showLoading(false);
   };
 

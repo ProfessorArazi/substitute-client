@@ -8,9 +8,13 @@ todo:
 1.notifications - finished
 2.profile image - finished
 3.update profile
-4.see profile
+4.see profile - finished
 5.work view
 6.mailing list
+7.avoid clashes
+8.age group
+9. error handling
+10.styling
 */
 
 function App() {
