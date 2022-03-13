@@ -97,14 +97,14 @@ export const Home = () => {
     showLoading(false);
   };
 
-  const onApplyHandler = async (substituteId, workId, userId) => {
+  const onApplyHandler = async (substituteId, work, userId) => {
     showLoading(true);
     const res = await httpRequest(
       "post",
       "/sub/works/apply",
       {
         substituteId,
-        workId,
+        work,
         userId,
         email: JSON.parse(sessionStorage.getItem("user")).sub.email,
         type: "sub",
@@ -113,6 +113,11 @@ export const Home = () => {
     );
 
     if (res.data) {
+      if (res.data.error) {
+        showLoading(false);
+        return alert(res.data.error);
+      }
+
       updateAllWorks(res.data.works);
       sessionStorage.setItem(
         "user",
@@ -200,8 +205,8 @@ export const Home = () => {
                   ageGroup={work.ageGroup}
                   onApply={
                     type === "sub"
-                      ? (substituteId, workId, userId) =>
-                          onApplyHandler(substituteId, workId, userId)
+                      ? (substituteId, work, userId) =>
+                          onApplyHandler(substituteId, work, userId)
                       : ""
                   }
                 />

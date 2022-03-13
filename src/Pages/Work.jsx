@@ -58,13 +58,22 @@ export const Work = (props) => {
         </div>
         {props.type === "sub" && props.page === "home" && (
           <Button
-            onClick={() =>
+            onClick={() => {
+              const work = {
+                ageGroup: props.ageGroup,
+                city: props.city,
+                date: props.date,
+                hours: props.hours,
+                id: props.id,
+                school: props.school,
+                subject: props.subject,
+              };
               props.onApply(
                 JSON.parse(sessionStorage.getItem("user")).sub._id,
-                props.id,
+                work,
                 props.userId
-              )
-            }
+              );
+            }}
           >
             הירשם
           </Button>
@@ -83,7 +92,7 @@ export const Work = (props) => {
                   />
                 )}
               </>
-            ) : props.applied ? (
+            ) : props.applied.length ? (
               <>
                 {props.applied.map((apply) => (
                   <ApplyIcon apply={apply.apply} workId={props.id} />
