@@ -92,7 +92,7 @@ export const Work = (props) => {
                   />
                 )}
               </>
-            ) : props.applied.length ? (
+            ) : props.applied && props.applied.length ? (
               <>
                 {props.applied.map((apply) => (
                   <ApplyIcon apply={apply.apply} workId={props.id} />

@@ -11,7 +11,7 @@ todo:
 4.see profile - finished
 5.work view
 6.mailing list
-7.avoid clashes
+7.avoid clashes - finished
 8.age group
 9. error handling
 10.styling

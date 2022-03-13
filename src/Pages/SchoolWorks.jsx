@@ -45,6 +45,10 @@ export const SchoolWorks = () => {
       { token: JSON.parse(sessionStorage.getItem("user")).token }
     );
     if (res.data) {
+      if (res.data.error) {
+        showLoading(false);
+        return alert(res.data.error);
+      }
       sessionStorage.setItem(
         "user",
         JSON.stringify(storageObject("school", res.data))

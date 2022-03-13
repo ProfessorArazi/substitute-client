@@ -57,6 +57,10 @@ export const WorksForm = (props) => {
     );
 
     if (res.data) {
+      if (res.data.error) {
+        showLoading(false);
+        return alert(res.data.error);
+      }
       sessionStorage.setItem(
         "user",
         JSON.stringify(storageObject("school", res.data))
