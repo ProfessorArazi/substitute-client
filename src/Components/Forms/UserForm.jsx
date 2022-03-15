@@ -44,7 +44,7 @@ export const UserForm = (props) => {
     props.onClose();
   };
 
-  const loginOrSignupHandler = async (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     let email;
     let password;
@@ -157,7 +157,7 @@ export const UserForm = (props) => {
           {loading ? (
             loading
           ) : (
-            <Form className="login-form" onSubmit={loginOrSignupHandler}>
+            <Form className="login-form" onSubmit={submitHandler}>
               {props.signup && (
                 <>
                   {!user && (
