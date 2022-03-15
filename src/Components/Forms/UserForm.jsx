@@ -22,6 +22,9 @@ export const UserForm = (props) => {
   const [ageGroupValue, setAgeGroupValue] = useState(
     user ? user[user.type].ageGroup : ""
   );
+  const [mailingList, setMailingList] = useState(
+    user ? user[user.type].mailingList : false
+  );
 
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -104,6 +107,7 @@ export const UserForm = (props) => {
               city,
               phone,
               ageGroup,
+              mailingList,
             });
 
             if (res.data) {
@@ -125,6 +129,7 @@ export const UserForm = (props) => {
             };
             if (user.type === "sub") {
               data.substituteId = user.sub._id;
+              data.changes.mailingList = mailingList;
             } else {
               data.userId = user.school._id;
               data.changes.ageGroup = ageGroup;
@@ -260,6 +265,15 @@ export const UserForm = (props) => {
                     />
                     תיכון
                   </div>
+                )}
+                {((props.signup && type === "sub") ||
+                  (user && user.type === "sub")) && (
+                  <Form.Check
+                    defaultChecked={mailingList}
+                    onChange={(e) => setMailingList(e.target.checked)}
+                    id="mailingList"
+                    label="אני מעוניין לקבל עדכונים למייל "
+                  />
                 )}
                 <Button type="submit">Submit</Button>
               </>

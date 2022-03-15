@@ -1,4 +1,5 @@
 export const storageObject = (type, data) => {
+  console.log(data);
   let obj = {
     [type]: {
       city: data[type].city,
@@ -12,8 +13,10 @@ export const storageObject = (type, data) => {
     type: type,
   };
 
-  if (type === "sub") obj[type].grade = data[type].grade;
-  else {
+  if (type === "sub") {
+    obj[type].grade = data[type].grade;
+    obj[type].mailingList = data[type].mailingList;
+  } else {
     obj[type].ageGroup = data[type].ageGroup;
   }
 

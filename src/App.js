@@ -7,12 +7,12 @@ import "./scss/App.scss";
 todo:
 1.notifications - finished
 2.profile image - finished
-3.update profile
+3.update profile - finished
 4.see profile - finished
 5.work view
 6.mailing list
 7.avoid clashes - finished
-8.age group
+8.age group - finished
 9. error handling
 10.styling
 */
