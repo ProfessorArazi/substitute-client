@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 import Modal from "../../Components/UI/Modal";
-import { UserForm } from "../../Components/Users/UserForm";
+import { UserForm } from "../../Components/Forms/UserForm";
 import WorksContext from "../../store/works-context";
 import ReactStars from "react-rating-stars-component";
 import { ImageForm } from "../../Components/Forms/ImageForm";
