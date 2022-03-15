@@ -3,6 +3,10 @@ import { Form, Button } from "react-bootstrap";
 import WorksContext from "../../store/works-context";
 import { httpRequest } from "../../httpRequest";
 import { storageObject } from "../Storage/storageObject";
+import he from "date-fns/locale/he";
+import DatePicker, { registerLocale } from "react-datepicker";
+
+registerLocale("he", he);
 
 export const WorksForm = (props) => {
   const { work } = props;
@@ -10,12 +14,11 @@ export const WorksForm = (props) => {
   const { updateUserWorks, loading, showLoading } = ctx;
 
   const subjectRef = useRef();
-  const dateRef = useRef();
   const hoursRef = useRef();
 
   const [subjectValue, setSubjectValue] = useState(work ? work.subject : "");
-  const [dateValue, setDateValue] = useState(work ? work.date : "");
   const [hoursValue, setHoursValue] = useState(work ? work.hours : "");
+  const [date, setDate] = useState(new Date());
 
   const addWorkHandler = async (e) => {
     e.preventDefault();
@@ -23,7 +26,7 @@ export const WorksForm = (props) => {
     const user = JSON.parse(sessionStorage.getItem("user")).school;
 
     const subject = subjectRef.current.value;
-    const date = new Date(dateRef.current.value);
+    const dateValue = new Date(date);
     const hours = hoursRef.current.value;
 
     showLoading(true);
@@ -36,7 +39,7 @@ export const WorksForm = (props) => {
         id: work ? work._id : "",
         email: user.email,
         subject,
-        date,
+        date: dateValue,
         hours,
         ageGroup: user.ageGroup,
         city: user.city,
@@ -85,14 +88,19 @@ export const WorksForm = (props) => {
                 type="text"
               />
             </Form.Group>
-
-            <Form.Group className="mb-3" controlId="city">
+            <Form.Group className="mb-3" controlId="name">
               <Form.Label>תאריך</Form.Label>
-              <Form.Control
-                value={dateValue}
-                onInput={() => setDateValue(dateRef.current.value)}
-                ref={dateRef}
-                type="date"
+
+              <DatePicker
+                startDate={date}
+                endDate={new Date(31, 11, 2029)}
+                selected={date}
+                locale="he"
+                dateFormat="dd/MM/yyyy"
+                onChange={(update) => {
+                  setDate(update);
+                }}
+                placeholderText={date.toLocaleDateString()}
               />
             </Form.Group>
 

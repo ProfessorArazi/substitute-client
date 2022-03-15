@@ -10,7 +10,7 @@ todo:
 3.update profile - finished
 4.see profile - finished
 5.work view
-6.mailing list
+6.mailing list - finished
 7.avoid clashes - finished
 8.age group - finished
 9. error handling
