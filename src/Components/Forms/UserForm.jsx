@@ -1,10 +1,10 @@
-import { useState, useRef, useContext } from "react";
-import { Form, Button } from "react-bootstrap";
+import { useContext, useRef, useState } from "react";
+import { Button, Form } from "react-bootstrap";
 import validator from "validator";
-import WorksContext from "../../store/works-context";
 import { httpRequest } from "../../httpRequest";
-import { storageObject } from "../Storage/storageObject";
+import WorksContext from "../../store/works-context";
 import { resizeFile } from "../Images/resizeFile";
+import { storageObject } from "../Storage/storageObject";
 
 export const UserForm = (props) => {
   const { user } = props;
@@ -18,6 +18,9 @@ export const UserForm = (props) => {
   const [cityValue, setCityValue] = useState(user ? user[user.type].city : "");
   const [phoneValue, setphoneValue] = useState(
     user ? user[user.type].phone : ""
+  );
+  const [ageGroupValue, setAgeGroupValue] = useState(
+    user ? user[user.type].ageGroup : ""
   );
 
   const emailRef = useRef();
@@ -56,11 +59,16 @@ export const UserForm = (props) => {
     let name;
     let city;
     let phone;
+    let ageGroup;
 
     if (props.signup) {
       name = nameRef.current.value;
       city = cityRef.current.value;
       phone = phoneRef.current.value;
+
+      if (type === "school" || (user && user.type) === "school") {
+        ageGroup = ageGroupValue;
+      }
     }
 
     let validForm = true;
@@ -76,6 +84,11 @@ export const UserForm = (props) => {
         if (name.length < 2 || city.length < 2 || phone.length !== 10) {
           validForm = false;
         }
+        if (type === "school" || (user && user.type === "school")) {
+          if (!["יסודי", "חטיבה", "תיכון"].includes(ageGroup)) {
+            validForm = false;
+          }
+        }
         if (validForm) {
           let img;
           if (files.length > 0) {
@@ -90,6 +103,7 @@ export const UserForm = (props) => {
               name,
               city,
               phone,
+              ageGroup,
             });
 
             if (res.data) {
@@ -109,9 +123,12 @@ export const UserForm = (props) => {
               },
               type: user.type,
             };
-            user.type === "sub"
-              ? (data.substituteId = user.sub._id)
-              : (data.userId = user.school._id);
+            if (user.type === "sub") {
+              data.substituteId = user.sub._id;
+            } else {
+              data.userId = user.school._id;
+              data.changes.ageGroup = ageGroup;
+            }
 
             const res = await httpRequest("put", `/${user.type}`, data, {
               token: user.token,
@@ -215,6 +232,34 @@ export const UserForm = (props) => {
                       />
                     </Form.Group>
                   </>
+                )}
+                {((props.signup && type === "school") ||
+                  (user && user.type === "school")) && (
+                  <div onChange={(e) => setAgeGroupValue(e.target.value)}>
+                    <input
+                      type="radio"
+                      value="יסודי"
+                      name="age"
+                      defaultChecked={ageGroupValue === "יסודי"}
+                    />
+                    יסודי
+                    <br />
+                    <input
+                      type="radio"
+                      value="חטיבה"
+                      name="age"
+                      defaultChecked={ageGroupValue === "חטיבה"}
+                    />
+                    חטיבה
+                    <br />
+                    <input
+                      type="radio"
+                      value="תיכון"
+                      name="age"
+                      defaultChecked={ageGroupValue === "תיכון"}
+                    />
+                    תיכון
+                  </div>
                 )}
                 <Button type="submit">Submit</Button>
               </>

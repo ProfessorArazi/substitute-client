@@ -12,12 +12,10 @@ export const WorksForm = (props) => {
   const subjectRef = useRef();
   const dateRef = useRef();
   const hoursRef = useRef();
-  const ageRef = useRef();
 
   const [subjectValue, setSubjectValue] = useState(work ? work.subject : "");
   const [dateValue, setDateValue] = useState(work ? work.date : "");
   const [hoursValue, setHoursValue] = useState(work ? work.hours : "");
-  const [ageValue, setAgeValue] = useState(work ? work.ageGroup : "");
 
   const addWorkHandler = async (e) => {
     e.preventDefault();
@@ -27,7 +25,6 @@ export const WorksForm = (props) => {
     const subject = subjectRef.current.value;
     const date = new Date(dateRef.current.value);
     const hours = hoursRef.current.value;
-    const ageGroup = +ageRef.current.value;
 
     showLoading(true);
 
@@ -41,7 +38,7 @@ export const WorksForm = (props) => {
         subject,
         date,
         hours,
-        ageGroup,
+        ageGroup: user.ageGroup,
         city: user.city,
         school: user.name,
         phone: user.phone,
@@ -50,7 +47,6 @@ export const WorksForm = (props) => {
           subject,
           date,
           hours,
-          ageGroup,
         },
       },
       { token: JSON.parse(sessionStorage.getItem("user")).token }
@@ -111,17 +107,6 @@ export const WorksForm = (props) => {
               />
             </Form.Group>
           </>
-
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>גילאים</Form.Label>
-            <Form.Control
-              value={ageValue}
-              onInput={() => setAgeValue(ageRef.current.value)}
-              ref={ageRef}
-              dir="ltr"
-              type="text"
-            />
-          </Form.Group>
 
           <Button type="submit">Submit</Button>
         </Form>

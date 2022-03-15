@@ -13,6 +13,9 @@ export const storageObject = (type, data) => {
   };
 
   if (type === "sub") obj[type].grade = data[type].grade;
+  else {
+    obj[type].ageGroup = data[type].ageGroup;
+  }
 
   return obj;
 };
