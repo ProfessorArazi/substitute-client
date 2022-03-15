@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import WorksContext from "../store/works-context";
+import WorksContext from "../../store/works-context";
 import moment from "moment";
 import { Button } from "react-bootstrap";
-import { ApplyIcon } from "../Components/Apply";
+import { ApplyIcon } from "../../Components/Apply";
 import ReactStars from "react-rating-stars-component";
-import { httpRequest } from "../httpRequest";
-import { storageObject } from "../Components/Storage/storageObject";
+import { httpRequest } from "../../httpRequest";
+import { storageObject } from "../../Components/Storage/storageObject";
 
 export const Work = (props) => {
   const ctx = useContext(WorksContext);

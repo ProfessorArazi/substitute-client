@@ -1,4 +1,4 @@
-import { Work } from "../Pages/Work";
+import { Work } from "../../Components/Works/Work";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 export const WorksFormat = (props) => {

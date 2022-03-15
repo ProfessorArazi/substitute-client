@@ -1,4 +1,4 @@
-import { Sidebar } from "./Pages/Layout/Sidebar";
+import { Sidebar } from "./Components/Layout/Sidebar";
 import { SiteRoutes } from "./SiteRoutes";
 import WorksProvider from "./store/WorksProvider";
 import "./scss/App.scss";

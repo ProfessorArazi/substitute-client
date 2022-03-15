@@ -1,6 +1,6 @@
 import { useContext, useState, useRef, useEffect, useCallback } from "react";
 import WorksContext from "../store/works-context";
-import { Work } from "./Work";
+import { Work } from "../Components/Works/Work";
 import { httpRequest } from "../httpRequest";
 import { Navbar, Button } from "react-bootstrap";
 import DatePicker, { registerLocale } from "react-datepicker";

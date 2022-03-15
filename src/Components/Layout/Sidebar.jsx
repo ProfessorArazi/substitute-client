@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 import Modal from "../../Components/UI/Modal";
-import { LoginAndSignup } from "../Users/LoginAndSignup";
+import { UserForm } from "../../Components/Users/UserForm";
 import WorksContext from "../../store/works-context";
 import ReactStars from "react-rating-stars-component";
 import { ImageForm } from "../../Components/Forms/ImageForm";
@@ -13,8 +13,7 @@ export const Sidebar = () => {
   const [showModal, setShowModal] = useState(false);
   const { type, updateType, updateAllWorks } = ctx;
 
-  const user =
-    type !== "guest" && JSON.parse(sessionStorage.getItem("user"))[type];
+  const user = type !== "guest" && JSON.parse(sessionStorage.getItem("user"));
 
   return (
     <>
@@ -25,8 +24,8 @@ export const Sidebar = () => {
               setShowModal(<ImageForm onClose={() => setShowModal(false)} />)
             }
             src={
-              user.img
-                ? user.img
+              user[type].img
+                ? user[type].img
                 : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
             }
             alt="user"
@@ -40,7 +39,7 @@ export const Sidebar = () => {
               classNames="stars"
               count={5}
               size={24}
-              value={JSON.parse(sessionStorage.getItem("user")).sub.grade.grade}
+              value={user.sub.grade.grade}
               edit={false}
               isHalf={true}
             />
@@ -53,11 +52,11 @@ export const Sidebar = () => {
               onClick={() =>
                 setShowModal(
                   <Details
-                    img={user.img}
-                    name={user.name}
-                    phone={user.phone}
-                    grade={type === "sub" && user.grade.grade}
-                    votes={type === "sub" && user.grade.votes}
+                    img={user[type].img}
+                    name={user[type].name}
+                    phone={user[type].phone}
+                    grade={type === "sub" && user[type].grade.grade}
+                    votes={type === "sub" && user[type].grade.votes}
                     onClose={() => setShowModal(false)}
                   />
                 )
@@ -65,7 +64,19 @@ export const Sidebar = () => {
             >
               החשבון שלי
             </Nav.Link>
-            <Link to="/profile">ערוך פרופיל</Link>
+            <Nav.Link
+              onClick={() =>
+                setShowModal(
+                  <UserForm
+                    user={user}
+                    signup
+                    onClose={() => setShowModal(false)}
+                  />
+                )
+              }
+            >
+              ערוך פרופיל
+            </Nav.Link>
             <Link to="/works">העבודות שלי</Link>
 
             <Nav.Link
@@ -82,9 +93,7 @@ export const Sidebar = () => {
           <>
             <Nav.Link
               onClick={() =>
-                setShowModal(
-                  <LoginAndSignup onClose={() => setShowModal(false)} />
-                )
+                setShowModal(<UserForm onClose={() => setShowModal(false)} />)
               }
             >
               התחבר
@@ -92,7 +101,7 @@ export const Sidebar = () => {
             <Nav.Link
               onClick={() =>
                 setShowModal(
-                  <LoginAndSignup signup onClose={() => setShowModal(false)} />
+                  <UserForm signup onClose={() => setShowModal(false)} />
                 )
               }
             >

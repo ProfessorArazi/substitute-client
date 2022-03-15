@@ -40,7 +40,7 @@ export const ImageForm = (props) => {
       data.userId = user.school._id;
     }
     showLoading(true);
-    const res = await httpRequest("post", `/${user.type}/image`, data, {
+    const res = await httpRequest("put", `/${user.type}/image`, data, {
       token: user.token,
     });
     if (res.data) {

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import WorksContext from "../store/works-context";
-import { WorksFormat } from "../Components/WorksFormat";
+import { WorksFormat } from "../Components/Works/WorksFormat";
 import { httpRequest } from "../httpRequest";
 import { Button } from "react-bootstrap";
 import Modal from "../Components/UI/Modal";
