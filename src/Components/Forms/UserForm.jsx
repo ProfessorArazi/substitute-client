@@ -7,12 +7,18 @@ import { storageObject } from "../Storage/storageObject";
 import { resizeFile } from "../Images/resizeFile";
 
 export const UserForm = (props) => {
+  const { user } = props;
   const ctx = useContext(WorksContext);
   const { updateType, updateAllWorks, updateUserWorks, showLoading, loading } =
     ctx;
 
   const [files, setFiles] = useState([]);
   const [type, setType] = useState();
+  const [nameValue, setNameValue] = useState(user ? user[user.type].name : "");
+  const [cityValue, setCityValue] = useState(user ? user[user.type].city : "");
+  const [phoneValue, setphoneValue] = useState(
+    user ? user[user.type].phone : ""
+  );
 
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -25,15 +31,15 @@ export const UserForm = (props) => {
   };
 
   const setUserInStorage = (data) => {
-    if ((props.user && props.user.type === "school") || type === "school") {
+    if ((user && user.type === "school") || type === "school") {
       updateUserWorks({ works: { works: data.school.works, type: "school" } });
     }
 
     sessionStorage.setItem(
       "user",
-      JSON.stringify(storageObject(props.user ? props.user.type : type, data))
+      JSON.stringify(storageObject(user ? user.type : type, data))
     );
-    updateType(props.user ? props.user.type : type);
+    updateType(user ? user.type : type);
 
     props.onClose();
   };
@@ -42,7 +48,7 @@ export const UserForm = (props) => {
     e.preventDefault();
     let email;
     let password;
-    if (!props.user) {
+    if (!user) {
       email = emailRef.current.value;
       password = passwordRef.current.value;
     }
@@ -59,7 +65,7 @@ export const UserForm = (props) => {
 
     let validForm = true;
 
-    if (!props.user) {
+    if (!user) {
       if (!validator.isEmail(email) || password.length <= 3) {
         validForm = false;
       }
@@ -76,7 +82,7 @@ export const UserForm = (props) => {
             img = await resizeFile(files[0]);
           }
           showLoading(true);
-          if (!props.user) {
+          if (!user) {
             const res = await httpRequest("post", `/${type}`, {
               img,
               email,
@@ -93,25 +99,25 @@ export const UserForm = (props) => {
               console.log(res.err);
             }
             showLoading(false);
-          } else if (props.user) {
+          } else if (user) {
             const data = {
-              email: props.user[props.user.type].email,
+              email: user[user.type].email,
               changes: {
                 name,
                 city,
                 phone,
               },
-              type: props.user.type,
+              type: user.type,
             };
-            props.user.type === "sub"
-              ? (data.substituteId = props.user.sub._id)
-              : (data.userId = props.user.school._id);
+            user.type === "sub"
+              ? (data.substituteId = user.sub._id)
+              : (data.userId = user.school._id);
 
-            const res = await httpRequest("put", `/${props.user.type}`, data, {
-              token: props.user.token,
+            const res = await httpRequest("put", `/${user.type}`, data, {
+              token: user.token,
             });
             if (res.data) {
-              if (props.user.type === "sub") updateAllWorks(res.data.works);
+              if (user.type === "sub") updateAllWorks(res.data.works);
               setUserInStorage(res.data);
             } else {
               console.log(res.err);
@@ -141,7 +147,7 @@ export const UserForm = (props) => {
 
   return (
     <>
-      {!type && !props.user ? (
+      {!type && !user ? (
         <div className="login-actions">
           <Button onClick={() => setType("sub")}>מורה מחליף</Button>
           <Button onClick={() => setType("school")}>בית ספר</Button>
@@ -154,7 +160,7 @@ export const UserForm = (props) => {
             <Form className="login-form" onSubmit={loginOrSignupHandler}>
               {props.signup && (
                 <>
-                  {!props.user && (
+                  {!user && (
                     <Form.Group className="mb-3" controlId="name">
                       <Form.Label>תמונת פרופיל</Form.Label>
                       <Form.Control onChange={onImageChange} type="file" />
@@ -163,22 +169,38 @@ export const UserForm = (props) => {
 
                   <Form.Group className="mb-3" controlId="name">
                     <Form.Label>שם</Form.Label>
-                    <Form.Control ref={nameRef} type="text" />
+                    <Form.Control
+                      value={nameValue}
+                      onInput={() => setNameValue(nameRef.current.value)}
+                      ref={nameRef}
+                      type="text"
+                    />
                   </Form.Group>
 
                   <Form.Group className="mb-3" controlId="city">
                     <Form.Label>עיר</Form.Label>
-                    <Form.Control ref={cityRef} type="text" />
+                    <Form.Control
+                      value={cityValue}
+                      onInput={() => setCityValue(cityRef.current.value)}
+                      ref={cityRef}
+                      type="text"
+                    />
                   </Form.Group>
 
                   <Form.Group className="mb-3" controlId="טלפון">
                     <Form.Label>טלפון</Form.Label>
-                    <Form.Control dir="ltr" ref={phoneRef} type="text" />
+                    <Form.Control
+                      value={phoneValue}
+                      onInput={() => setphoneValue(phoneRef.current.value)}
+                      dir="ltr"
+                      ref={phoneRef}
+                      type="text"
+                    />
                   </Form.Group>
                 </>
               )}
               <>
-                {!props.user && (
+                {!user && (
                   <>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                       <Form.Label>אימייל</Form.Label>
