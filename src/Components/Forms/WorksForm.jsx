@@ -19,7 +19,7 @@ export const WorksForm = (props) => {
 
   const [subjectValue, setSubjectValue] = useState(work ? work.subject : "");
   const [hoursValue, setHoursValue] = useState(work ? work.hours : "");
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(work ? new Date(work.date) : new Date());
 
   const addWorkHandler = async (e) => {
     e.preventDefault();
