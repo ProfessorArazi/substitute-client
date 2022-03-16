@@ -5,6 +5,7 @@ import { Form, Button } from "react-bootstrap";
 import { httpRequest } from "../../httpRequest";
 import { resizeFile } from "../Images/resizeFile";
 import { storageObject } from "../Storage/storageObject";
+import { toast } from "react-toastify";
 
 export const ImageForm = (props) => {
   const ctx = useContext(WorksContext);
@@ -25,6 +26,15 @@ export const ImageForm = (props) => {
   const uploadImageHandler = async (e) => {
     e.preventDefault();
     const user = JSON.parse(sessionStorage.getItem("user"));
+
+    if (files.length === 0) {
+      return toast.error("לא הכנסת תמונה", {
+        autoClose: 1000,
+        position: "top-left",
+        theme: "colored",
+        hideProgressBar: true,
+      });
+    }
 
     const img = await resizeFile(files[0]);
 
@@ -73,13 +83,15 @@ export const ImageForm = (props) => {
       {loading ? (
         loading
       ) : (
-        <Form onSubmit={uploadImageHandler}>
-          <Form.Group className="mb-3" controlId="image">
-            <Form.Label>פרופיל</Form.Label>
-            <Form.Control onChange={onImageChange} type="file" />
-          </Form.Group>
-          <Button type="submit">submit</Button>
-        </Form>
+        <>
+          <Form onSubmit={uploadImageHandler}>
+            <Form.Group className="mb-3" controlId="image">
+              <Form.Label>פרופיל</Form.Label>
+              <Form.Control onChange={onImageChange} type="file" />
+            </Form.Group>
+            <Button type="submit">submit</Button>
+          </Form>
+        </>
       )}
     </>
   );

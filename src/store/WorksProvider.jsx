@@ -25,7 +25,7 @@ const defaultWorksState = {
 const worksReducer = (state, action) => {
   if (action.type === "ALL") {
     return {
-      works: action.works,
+      works: action.works.sort((a, b) => new Date(a.date) - new Date(b.date)),
       closeWorks: state.closeWorks,
       waitingWorks: state.waitingWorks,
       rejectedWorks: state.rejectedWorks,
@@ -68,10 +68,16 @@ const worksReducer = (state, action) => {
 
     return {
       works: state.works,
-      closeWorks: closeWorks,
-      waitingWorks: waitingWorks,
-      rejectedWorks: rejectedWorks,
-      oldWorks: oldWorks,
+      closeWorks: closeWorks.sort(
+        (a, b) => new Date(a.date) - new Date(b.date)
+      ),
+      waitingWorks: waitingWorks.sort(
+        (a, b) => new Date(a.date) - new Date(b.date)
+      ),
+      rejectedWorks: rejectedWorks.sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+      ),
+      oldWorks: oldWorks.sort((a, b) => new Date(b.date) - new Date(a.date)),
       type: state.type,
       loading: state.loading,
       notifications: state.notifications,

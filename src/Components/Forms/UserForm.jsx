@@ -25,12 +25,14 @@ export const UserForm = (props) => {
   const [mailingList, setMailingList] = useState(
     user ? user[user.type].mailingList : false
   );
+  const [descValue, setDescValue] = useState(user && user[user.type].desc);
 
   const emailRef = useRef();
   const passwordRef = useRef();
   const nameRef = useRef();
   const cityRef = useRef();
   const phoneRef = useRef();
+  const descRef = useRef();
 
   const onImageChange = (e) => {
     setFiles(e.target.files);
@@ -63,6 +65,7 @@ export const UserForm = (props) => {
     let city;
     let phone;
     let ageGroup;
+    let desc;
 
     if (props.signup) {
       name = nameRef.current.value;
@@ -71,6 +74,8 @@ export const UserForm = (props) => {
 
       if (type === "school" || (user && user.type) === "school") {
         ageGroup = ageGroupValue;
+      } else {
+        desc = descValue;
       }
     }
 
@@ -108,6 +113,7 @@ export const UserForm = (props) => {
               phone,
               ageGroup,
               mailingList,
+              desc,
             });
 
             if (res.data) {
@@ -124,12 +130,13 @@ export const UserForm = (props) => {
                 name,
                 city,
                 phone,
+                mailingList,
               },
               type: user.type,
             };
             if (user.type === "sub") {
               data.substituteId = user.sub._id;
-              data.changes.mailingList = mailingList;
+              data.changes.desc = desc;
             } else {
               data.userId = user.school._id;
               data.changes.ageGroup = ageGroup;
@@ -238,6 +245,19 @@ export const UserForm = (props) => {
                     </Form.Group>
                   </>
                 )}
+                {((props.signup && type === "sub") ||
+                  (user && user.type === "sub")) && (
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>ספר על עצמך קצת</Form.Label>
+                    <Form.Control
+                      value={descValue}
+                      onInput={() => setDescValue(descRef.current.value)}
+                      ref={descRef}
+                      as="textarea"
+                      rows={3}
+                    />
+                  </Form.Group>
+                )}
                 {((props.signup && type === "school") ||
                   (user && user.type === "school")) && (
                   <div onChange={(e) => setAgeGroupValue(e.target.value)}>
@@ -266,8 +286,8 @@ export const UserForm = (props) => {
                     תיכון
                   </div>
                 )}
-                {((props.signup && type === "sub") ||
-                  (user && user.type === "sub")) && (
+
+                {props.signup && (
                   <Form.Check
                     defaultChecked={mailingList}
                     onChange={(e) => setMailingList(e.target.checked)}
@@ -275,6 +295,7 @@ export const UserForm = (props) => {
                     label="אני מעוניין לקבל עדכונים למייל "
                   />
                 )}
+
                 <Button type="submit">Submit</Button>
               </>
             </Form>

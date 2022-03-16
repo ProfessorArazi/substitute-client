@@ -2,6 +2,8 @@ import { Sidebar } from "./Components/Layout/Sidebar";
 import { SiteRoutes } from "./SiteRoutes";
 import WorksProvider from "./store/WorksProvider";
 import "./scss/App.scss";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 /* 
 todo:
@@ -13,13 +15,15 @@ todo:
 6.mailing list - finished
 7.avoid clashes - finished
 8.age group - finished
-9. error handling
-10.styling
+9.forms
+10. error handling
+11.styling
 */
 
 function App() {
   return (
     <WorksProvider>
+      <ToastContainer />
       <div className="layout">
         <Sidebar />
 

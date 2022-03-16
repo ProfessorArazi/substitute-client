@@ -8,6 +8,7 @@ import he from "date-fns/locale/he";
 import "react-datepicker/dist/react-datepicker.css";
 import { updateWorks } from "../Components/Works/updateWorks";
 import { storageObject } from "../Components/Storage/storageObject";
+import { toast } from "react-toastify";
 
 registerLocale("he", he);
 
@@ -21,10 +22,6 @@ export const Home = () => {
 
   const ctx = useContext(WorksContext);
   const {
-    closeWorks,
-    oldWorks,
-    waitingWorks,
-    rejectedWorks,
     updateUserWorks,
     works,
     updateAllWorks,
@@ -115,7 +112,12 @@ export const Home = () => {
     if (res.data) {
       if (res.data.error) {
         showLoading(false);
-        return alert(res.data.error);
+        return toast.error(res.data.error, {
+          autoClose: 1000,
+          position: "top-left",
+          theme: "colored",
+          hideProgressBar: true,
+        });
       }
 
       updateAllWorks(res.data.works);

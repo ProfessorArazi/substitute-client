@@ -6,6 +6,7 @@ import { Button } from "react-bootstrap";
 import Modal from "../Components/UI/Modal";
 import { WorksForm } from "../Components/Forms/WorksForm";
 import { storageObject } from "../Components/Storage/storageObject";
+import { toast } from "react-toastify";
 
 export const SchoolWorks = () => {
   const ctx = useContext(WorksContext);
@@ -47,7 +48,12 @@ export const SchoolWorks = () => {
     if (res.data) {
       if (res.data.error) {
         showLoading(false);
-        return alert(res.data.error);
+        return toast.error(res.data.error, {
+          autoClose: 1000,
+          position: "top-left",
+          theme: "colored",
+          hideProgressBar: true,
+        });
       }
       sessionStorage.setItem(
         "user",
@@ -116,9 +122,12 @@ export const SchoolWorks = () => {
         </Button>
       )}
 
-      {loading
-        ? loading
-        : structures.map((structure, i) => (
+      {loading ? (
+        loading
+      ) : (
+        <>
+          {" "}
+          {structures.map((structure, i) => (
             <WorksFormat
               key={i}
               title={structure.title}
@@ -132,6 +141,8 @@ export const SchoolWorks = () => {
               }
             />
           ))}
+        </>
+      )}
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>{showModal}</Modal>
       )}

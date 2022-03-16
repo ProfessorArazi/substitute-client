@@ -5,6 +5,7 @@ import { httpRequest } from "../../httpRequest";
 import { storageObject } from "../Storage/storageObject";
 import he from "date-fns/locale/he";
 import DatePicker, { registerLocale } from "react-datepicker";
+import { toast } from "react-toastify";
 
 registerLocale("he", he);
 
@@ -57,8 +58,14 @@ export const WorksForm = (props) => {
 
     if (res.data) {
       if (res.data.error) {
+        console.log(res.data.error);
         showLoading(false);
-        return alert(res.data.error);
+        return toast.error(res.data.error, {
+          autoClose: 1000,
+          position: "top-left",
+          theme: "colored",
+          hideProgressBar: true,
+        });
       }
       sessionStorage.setItem(
         "user",
@@ -111,7 +118,7 @@ export const WorksForm = (props) => {
                 onInput={() => setHoursValue(hoursRef.current.value)}
                 ref={hoursRef}
                 dir="ltr"
-                type="text"
+                type="number"
               />
             </Form.Group>
           </>

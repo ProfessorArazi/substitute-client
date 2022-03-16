@@ -1,5 +1,5 @@
 import { useContext, useEffect, useCallback } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { Home } from "./Pages/Home";
 import { SchoolWorks } from "./Pages/SchoolWorks";
 import { SubWorks } from "./Pages/SubWorks";
@@ -9,11 +9,13 @@ import { updateWorks } from "./Components/Works/updateWorks";
 import { storageObject } from "./Components/Storage/storageObject";
 
 export const SiteRoutes = () => {
+  const { pathname } = useLocation();
   const ctx = useContext(WorksContext);
   const {
     updateType,
     updateNotifications,
     updateAllWorks,
+    updateUserWorks,
     showLoading,
     type,
     loading,
@@ -31,6 +33,18 @@ export const SiteRoutes = () => {
     [updateAllWorks, updateNotifications]
   );
 
+  const updateUserWorksHandler = useCallback(
+    (data, user) => {
+      updateUserWorks({
+        works: {
+          works: [...data.sub.works],
+          subId: user.sub._id,
+        },
+      });
+    },
+    [updateUserWorks]
+  );
+
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem("user"));
     if (user) {
@@ -40,14 +54,17 @@ export const SiteRoutes = () => {
 
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem("user"));
-
     if (user && user.type === "sub") {
       const updateHome = async () => {
         showLoading(true);
-        const res = await updateWorks("/works");
+        const res = await updateWorks(
+          `${pathname === "/works" ? "/sub" : ""}/works`
+        );
 
         if (res.data) {
-          updateAllWorksHandler(res.data);
+          pathname === "/works"
+            ? updateUserWorksHandler(res.data, user)
+            : updateAllWorksHandler(res.data);
           showLoading(false);
         } else {
           console.log(res.error);
@@ -56,7 +73,7 @@ export const SiteRoutes = () => {
 
       updateHome();
     }
-  }, [updateAllWorksHandler, showLoading]);
+  }, [updateAllWorksHandler, updateUserWorksHandler, showLoading]);
 
   return (
     <Routes>
