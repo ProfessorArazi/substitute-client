@@ -94,8 +94,8 @@ export const Work = (props) => {
               </>
             ) : props.applied && props.applied.length ? (
               <>
-                {props.applied.map((apply) => (
-                  <ApplyIcon apply={apply.apply} workId={props.id} />
+                {props.applied.map((apply, i) => (
+                  <ApplyIcon key={i} apply={apply.apply} workId={props.id} />
                 ))}
               </>
             ) : (

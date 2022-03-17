@@ -6,6 +6,7 @@ import { storageObject } from "../Storage/storageObject";
 import he from "date-fns/locale/he";
 import DatePicker, { registerLocale } from "react-datepicker";
 import { toast } from "react-toastify";
+import { Input } from "./Input";
 
 registerLocale("he", he);
 
@@ -20,6 +21,7 @@ export const WorksForm = (props) => {
   const [subjectValue, setSubjectValue] = useState(work ? work.subject : "");
   const [hoursValue, setHoursValue] = useState(work ? work.hours : "");
   const [date, setDate] = useState(work ? new Date(work.date) : new Date());
+  const [errors, setErrors] = useState({});
 
   const addWorkHandler = async (e) => {
     e.preventDefault();
@@ -29,6 +31,22 @@ export const WorksForm = (props) => {
     const subject = subjectRef.current.value;
     const dateValue = new Date(date);
     const hours = hoursRef.current.value;
+
+    const formErrors = {};
+
+    if (subject.length < 2) {
+      formErrors.subject = true;
+    }
+
+    if (hours < 1 || hours > 10) {
+      formErrors.hours = true;
+    }
+
+    if (Object.keys(formErrors).length > 0) {
+      return setErrors(formErrors);
+    }
+
+    setErrors({});
 
     showLoading(true);
 
@@ -79,6 +97,25 @@ export const WorksForm = (props) => {
     showLoading(false);
   };
 
+  const inputs = [
+    {
+      name: "subject",
+      label: "מקצוע",
+      value: subjectValue,
+      onInput: () => setSubjectValue(subjectRef.current.value),
+      ref: subjectRef,
+      type: "text",
+    },
+    {
+      name: "hours",
+      label: "שעות",
+      value: hoursValue,
+      onInput: () => setHoursValue(hoursRef.current.value),
+      ref: hoursRef,
+      type: "number",
+    },
+  ];
+
   return (
     <>
       {loading ? (
@@ -86,42 +123,35 @@ export const WorksForm = (props) => {
       ) : (
         <Form className="login-form" onSubmit={addWorkHandler}>
           <>
-            <Form.Group className="mb-3" controlId="name">
-              <Form.Label>מקצוע</Form.Label>
-              <Form.Control
-                value={subjectValue}
-                onInput={() => setSubjectValue(subjectRef.current.value)}
-                ref={subjectRef}
-                type="text"
+            {inputs.map((input, i) => (
+              <Input
+                key={i}
+                errors={errors}
+                name={input.name}
+                label={input.label}
+                value={input.value}
+                onInput={input.onInput}
+                ref={input.ref}
+                type={input.type}
               />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="name">
-              <Form.Label>תאריך</Form.Label>
-
-              <DatePicker
-                startDate={date}
-                endDate={new Date(31, 11, 2029)}
-                selected={date}
-                locale="he"
-                dateFormat="dd/MM/yyyy"
-                onChange={(update) => {
-                  setDate(update);
-                }}
-                placeholderText={date.toLocaleDateString()}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="טלפון">
-              <Form.Label>שעות</Form.Label>
-              <Form.Control
-                value={hoursValue}
-                onInput={() => setHoursValue(hoursRef.current.value)}
-                ref={hoursRef}
-                dir="ltr"
-                type="number"
-              />
-            </Form.Group>
+            ))}
           </>
+
+          <Form.Group className="mb-3" controlId="name">
+            <Form.Label>תאריך</Form.Label>
+
+            <DatePicker
+              startDate={date}
+              endDate={new Date(31, 11, 2029)}
+              selected={date}
+              locale="he"
+              dateFormat="dd/MM/yyyy"
+              onChange={(update) => {
+                setDate(update);
+              }}
+              placeholderText={date.toLocaleDateString()}
+            />
+          </Form.Group>
 
           <Button type="submit">Submit</Button>
         </Form>

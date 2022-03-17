@@ -58,8 +58,8 @@ export const Notifications = () => {
         }}
       >
         {notifications.length > 0 ? (
-          notifications.map((notification) => (
-            <Link className="noti-link" to="/works">
+          notifications.map((notification, i) => (
+            <Link key={i} className="noti-link" to="/works">
               <MenuItem onClick={handleClose}>{notification}</MenuItem>
             </Link>
           ))
