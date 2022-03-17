@@ -1,10 +1,12 @@
 import { useContext, useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { Input } from "./Input";
 import validator from "validator";
 import { httpRequest } from "../../httpRequest";
 import WorksContext from "../../store/works-context";
 import { resizeFile } from "../Images/resizeFile";
 import { storageObject } from "../Storage/storageObject";
+import "../../scss/App.scss";
 
 export const UserForm = (props) => {
   const { user } = props;
@@ -26,6 +28,8 @@ export const UserForm = (props) => {
     user ? user[user.type].mailingList : false
   );
   const [descValue, setDescValue] = useState(user && user[user.type].desc);
+  const [errors, setErrors] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
 
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -66,6 +70,7 @@ export const UserForm = (props) => {
     let phone;
     let ageGroup;
     let desc;
+    let formErrors = {};
 
     if (props.signup) {
       name = nameRef.current.value;
@@ -79,100 +84,157 @@ export const UserForm = (props) => {
       }
     }
 
-    let validForm = true;
-
     if (!user) {
-      if (!validator.isEmail(email) || password.length <= 3) {
-        validForm = false;
+      if (!validator.isEmail(email)) {
+        formErrors.email = true;
+      }
+      if (password.length <= 3) {
+        formErrors.password = true;
       }
     }
 
-    if (validForm) {
-      if (props.signup) {
-        if (name.length < 2 || city.length < 2 || phone.length !== 10) {
-          validForm = false;
-        }
-        if (type === "school" || (user && user.type === "school")) {
-          if (!["יסודי", "חטיבה", "תיכון"].includes(ageGroup)) {
-            validForm = false;
-          }
-        }
-        if (validForm) {
-          let img;
-          if (files.length > 0) {
-            img = await resizeFile(files[0]);
-          }
-          showLoading(true);
-          if (!user) {
-            const res = await httpRequest("post", `/${type}`, {
-              img,
-              email,
-              password,
-              name,
-              city,
-              phone,
-              ageGroup,
-              mailingList,
-              desc,
-            });
+    if (props.signup) {
+      if (name.length < 2) {
+        formErrors.name = true;
+      }
+      if (city.length < 2) {
+        formErrors.city = true;
+      }
+      if (phone.length !== 10) {
+        formErrors.phone = true;
+      }
 
-            if (res.data) {
-              if (type === "sub") updateAllWorks(res.data.works);
-              setUserInStorage(res.data);
-            } else {
-              console.log(res.err);
-            }
-            showLoading(false);
-          } else if (user) {
-            const data = {
-              email: user[user.type].email,
-              changes: {
-                name,
-                city,
-                phone,
-                mailingList,
-              },
-              type: user.type,
-            };
-            if (user.type === "sub") {
-              data.substituteId = user.sub._id;
-              data.changes.desc = desc;
-            } else {
-              data.userId = user.school._id;
-              data.changes.ageGroup = ageGroup;
-            }
+      // if (type === "school" || (user && user.type === "school")) {
+      //   if (!["יסודי", "חטיבה", "תיכון"].includes(ageGroup)) {
+      //     validForm = false;
+      //   }
+      // }
 
-            const res = await httpRequest("put", `/${user.type}`, data, {
-              token: user.token,
-            });
-            if (res.data) {
-              if (user.type === "sub") updateAllWorks(res.data.works);
-              setUserInStorage(res.data);
-            } else {
-              console.log(res.err);
-            }
-            showLoading(false);
-          }
-        }
-      } else {
-        showLoading(true);
-        const res = await httpRequest("post", `/${type}/login`, {
+      if (Object.keys(formErrors).length > 0) {
+        return setErrors(formErrors);
+      }
+      setErrors({});
+      let img;
+      if (files.length > 0) {
+        img = await resizeFile(files[0]);
+      }
+      showLoading(true);
+      if (!user) {
+        const res = await httpRequest("post", `/${type}`, {
+          img,
           email,
           password,
+          name,
+          city,
+          phone,
+          ageGroup,
+          mailingList,
+          desc,
         });
 
         if (res.data) {
           if (type === "sub") updateAllWorks(res.data.works);
-
           setUserInStorage(res.data);
-          showLoading(false);
         } else {
           console.log(res.err);
-          showLoading(false);
         }
+        showLoading(false);
+      } else if (user) {
+        const data = {
+          email: user[user.type].email,
+          changes: {
+            name,
+            city,
+            phone,
+            mailingList,
+          },
+          type: user.type,
+        };
+        if (user.type === "sub") {
+          data.substituteId = user.sub._id;
+          data.changes.desc = desc;
+        } else {
+          data.userId = user.school._id;
+          data.changes.ageGroup = ageGroup;
+        }
+
+        const res = await httpRequest("put", `/${user.type}`, data, {
+          token: user.token,
+        });
+        if (res.data) {
+          if (user.type === "sub") {
+            updateAllWorks(res.data.works);
+          }
+
+          setUserInStorage(res.data);
+        } else {
+          console.log("פרטים לא נכונים");
+        }
+        showLoading(false);
+      }
+    } else {
+      showLoading(true);
+      const res = await httpRequest("post", `/${type}/login`, {
+        email,
+        password,
+      });
+
+      if (res.data) {
+        if (type === "sub") updateAllWorks(res.data.works);
+
+        setUserInStorage(res.data);
+        showLoading(false);
+      } else {
+        setErrorMessage("פרטים לא נכונים");
+        showLoading(false);
       }
     }
   };
+
+  const inputs = [
+    {
+      name: "name",
+      label: "שם",
+      value: nameValue,
+      onInput: () => setNameValue(nameRef.current.value),
+      ref: nameRef,
+      type: "text",
+    },
+    {
+      name: "city",
+      label: "עיר",
+      value: cityValue,
+      onInput: () => setCityValue(cityRef.current.value),
+      ref: cityRef,
+      type: "text",
+    },
+    {
+      name: "phone",
+      label: "טלפון",
+      value: phoneValue,
+      onInput: () => setphoneValue(phoneRef.current.value),
+      dir: "ltr",
+      ref: phoneRef,
+      type: "text",
+    },
+  ];
+
+  const loginInputs = [
+    {
+      name: "email",
+      label: "אימייל",
+      ref: emailRef,
+      type: "email",
+      dir: "ltr",
+    },
+    {
+      name: "password",
+      label: "סיסמה",
+      ref: passwordRef,
+      type: "password",
+      dir: "ltr",
+    },
+  ];
 
   return (
     <>
@@ -190,73 +252,59 @@ export const UserForm = (props) => {
               {props.signup && (
                 <>
                   {!user && (
-                    <Form.Group className="mb-3" controlId="name">
-                      <Form.Label>תמונת פרופיל</Form.Label>
-                      <Form.Control onChange={onImageChange} type="file" />
-                    </Form.Group>
+                    <Input
+                      label="תמונת פרופיל"
+                      type="file"
+                      onChange={onImageChange}
+                    />
                   )}
 
-                  <Form.Group className="mb-3" controlId="name">
-                    <Form.Label>שם</Form.Label>
-                    <Form.Control
-                      value={nameValue}
-                      onInput={() => setNameValue(nameRef.current.value)}
-                      ref={nameRef}
-                      type="text"
+                  {inputs.map((input, i) => (
+                    <Input
+                      key={i}
+                      errors={errors}
+                      name={input.name}
+                      label={input.label}
+                      value={input.value}
+                      onInput={input.onInput}
+                      dir={input.dir && input.dir}
+                      ref={input.ref}
+                      type={input.type}
                     />
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="city">
-                    <Form.Label>עיר</Form.Label>
-                    <Form.Control
-                      value={cityValue}
-                      onInput={() => setCityValue(cityRef.current.value)}
-                      ref={cityRef}
-                      type="text"
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="טלפון">
-                    <Form.Label>טלפון</Form.Label>
-                    <Form.Control
-                      value={phoneValue}
-                      onInput={() => setphoneValue(phoneRef.current.value)}
-                      dir="ltr"
-                      ref={phoneRef}
-                      type="text"
-                    />
-                  </Form.Group>
+                  ))}
                 </>
               )}
               <>
                 {!user && (
                   <>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                      <Form.Label>אימייל</Form.Label>
-                      <Form.Control dir="ltr" ref={emailRef} type="email" />
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                      <Form.Label>סיסמה</Form.Label>
-                      <Form.Control
-                        dir="ltr"
-                        ref={passwordRef}
-                        type="password"
+                    {loginInputs.map((input, i) => (
+                      <Input
+                        key={i}
+                        errors={errors}
+                        name={input.name}
+                        label={input.label}
+                        ref={input.ref}
+                        type={input.type}
+                        dir={input.dir}
                       />
-                    </Form.Group>
+                    ))}
+                    {!props.signup && errorMessage.length > 0 && (
+                      <div className="login-error">{errorMessage}</div>
+                    )}
                   </>
                 )}
                 {((props.signup && type === "sub") ||
                   (user && user.type === "sub")) && (
-                  <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>ספר על עצמך קצת</Form.Label>
-                    <Form.Control
-                      value={descValue}
-                      onInput={() => setDescValue(descRef.current.value)}
-                      ref={descRef}
-                      as="textarea"
-                      rows={3}
-                    />
-                  </Form.Group>
+                  <Input
+                    errors={errors}
+                    name="desc"
+                    label="ספר קצת על עצמך"
+                    value={descValue}
+                    onInput={() => setDescValue(descRef.current.value)}
+                    ref={descRef}
+                    type="textarea"
+                    rows={3}
+                  />
                 )}
                 {((props.signup && type === "school") ||
                   (user && user.type === "school")) && (
