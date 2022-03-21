@@ -16,8 +16,8 @@ todo:
 6.mailing list - finished
 7.avoid clashes - finished
 8.age group - finished
-9.forms
-10. error handling
+9.forms - finished
+10. error handling - finished
 11.styling
 */
 
@@ -27,7 +27,6 @@ function App() {
       <ToastContainer />
       <div className="layout">
         <Sidebar />
-
         <SiteRoutes />
       </div>
     </WorksProvider>

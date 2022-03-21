@@ -4,6 +4,7 @@ import Modal from "./UI/Modal";
 import WorksContext from "../store/works-context";
 import { Details } from "./Details/Details";
 import { storageObject } from "./Storage/storageObject";
+import { toast } from "react-toastify";
 
 export const ApplyIcon = (props) => {
   const { apply, workId } = props;
@@ -54,6 +55,15 @@ const ApplyDetails = (props) => {
     );
 
     if (res.data) {
+      if (res.data.error) {
+        showLoading(false);
+        return toast.error(res.data.error, {
+          autoClose: 1000,
+          position: "top-left",
+          theme: "colored",
+          hideProgressBar: true,
+        });
+      }
       sessionStorage.setItem(
         "user",
         JSON.stringify(storageObject("school", res.data))
