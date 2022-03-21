@@ -27,7 +27,7 @@ export const UserForm = (props) => {
   const [mailingList, setMailingList] = useState(
     user ? user[user.type].mailingList : false
   );
-  const [descValue, setDescValue] = useState(user && user[user.type].desc);
+  const [descValue, setDescValue] = useState(user ? user[user.type].desc : "");
   const [errors, setErrors] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
 

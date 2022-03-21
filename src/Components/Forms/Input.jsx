@@ -11,6 +11,8 @@ export const Input = forwardRef((props, ref) => {
             className={`form-input ${
               props.errors && props.errors[props.name] && "is-invalid"
             }`}
+            value={props.value}
+            onInput={props.onInput}
             ref={ref}
             as={props.type}
             rows={3}

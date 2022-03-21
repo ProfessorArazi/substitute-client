@@ -97,6 +97,17 @@ export const Work = (props) => {
                 {props.applied.map((apply, i) => (
                   <ApplyIcon key={i} apply={apply.apply} workId={props.id} />
                 ))}
+                <Button onClick={() => props.onEdit(props.work)}>ערוך</Button>
+                <Button
+                  onClick={() =>
+                    props.onDelete(
+                      JSON.parse(sessionStorage.getItem("user")).school.id,
+                      props.id
+                    )
+                  }
+                >
+                  מחק
+                </Button>
               </>
             ) : (
               <>
