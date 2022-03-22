@@ -13,7 +13,7 @@ registerLocale("he", he);
 export const WorksForm = (props) => {
   const { work } = props;
   const ctx = useContext(WorksContext);
-  const { updateUserWorks, loading, showLoading } = ctx;
+  const { updateUserWorks, modalLoading, showModalLoading } = ctx;
 
   const subjectRef = useRef();
   const hoursRef = useRef();
@@ -48,7 +48,7 @@ export const WorksForm = (props) => {
 
     setErrors({});
 
-    showLoading(true);
+    showModalLoading(true);
 
     const res = await httpRequest(
       work ? "put" : "post",
@@ -77,7 +77,7 @@ export const WorksForm = (props) => {
     if (res.data) {
       if (res.data.error) {
         console.log(res.data.error);
-        showLoading(false);
+        showModalLoading(false);
         return toast.error(res.data.error, {
           autoClose: 1000,
           position: "top-left",
@@ -94,7 +94,7 @@ export const WorksForm = (props) => {
       });
       props.onClose();
     } else console.log(res.err);
-    showLoading(false);
+    showModalLoading(false);
   };
 
   const inputs = [
@@ -118,8 +118,8 @@ export const WorksForm = (props) => {
 
   return (
     <>
-      {loading ? (
-        loading
+      {modalLoading ? (
+        modalLoading
       ) : (
         <Form className="login-form" onSubmit={addWorkHandler}>
           <>

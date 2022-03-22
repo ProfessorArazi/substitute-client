@@ -13,6 +13,7 @@ const defaultWorksState = {
     ? JSON.parse(sessionStorage.getItem("user")).type
     : "guest",
   loading: false,
+  modalLoading: false,
   works: [],
   closeWorks: [],
   waitingWorks: [],
@@ -32,6 +33,7 @@ const worksReducer = (state, action) => {
       oldWorks: state.oldWorks,
       type: state.type,
       loading: state.loading,
+      modalLoading: state.modalLoading,
       notifications: state.notifications,
       notificationsNumber: state.notificationsNumber,
     };
@@ -80,6 +82,7 @@ const worksReducer = (state, action) => {
       oldWorks: oldWorks.sort((a, b) => new Date(b.date) - new Date(a.date)),
       type: state.type,
       loading: state.loading,
+      modalLoading: state.modalLoading,
       notifications: state.notifications,
       notificationsNumber: state.notificationsNumber,
     };
@@ -94,6 +97,7 @@ const worksReducer = (state, action) => {
       rejectedWorks: state.rejectedWorks,
       oldWorks: state.oldWorks,
       loading: state.loading,
+      modalLoading: state.modalLoading,
       notifications: state.notifications,
       notificationsNumber: state.notificationsNumber,
     };
@@ -109,6 +113,7 @@ const worksReducer = (state, action) => {
       rejectedWorks: state.rejectedWorks,
       oldWorks: state.oldWorks,
       loading: state.loading,
+      modalLoading: state.modalLoading,
     };
   }
 
@@ -123,6 +128,7 @@ const worksReducer = (state, action) => {
       rejectedWorks: state.rejectedWorks,
       oldWorks: state.oldWorks,
       loading: state.loading,
+      modalLoading: state.modalLoading,
     };
   }
 
@@ -134,6 +140,27 @@ const worksReducer = (state, action) => {
         ) : (
           false
         ),
+      modalLoading: state.modalLoading,
+      type: state.type,
+      works: state.works,
+      closeWorks: state.closeWorks,
+      waitingWorks: state.waitingWorks,
+      rejectedWorks: state.rejectedWorks,
+      oldWorks: state.oldWorks,
+      notifications: state.notifications,
+      notificationsNumber: state.notificationsNumber,
+    };
+  }
+
+  if (action.type === "MODALLOADING") {
+    return {
+      modalLoading:
+        action.loading === true ? (
+          <PacmanLoader color="goldenrod" loading={true} css={override} />
+        ) : (
+          false
+        ),
+      loading: state.loading,
       type: state.type,
       works: state.works,
       closeWorks: state.closeWorks,
@@ -182,6 +209,13 @@ const CartProvider = (props) => {
     });
   }, []);
 
+  const showModalLoadingHandler = useCallback((loading) => {
+    dispatchWorksAction({
+      type: "MODALLOADING",
+      loading: loading,
+    });
+  }, []);
+
   const updateNotificationsHandler = useCallback((notifications) => {
     dispatchWorksAction({
       type: "NOTIFICATION",
@@ -199,6 +233,7 @@ const CartProvider = (props) => {
   const worksContext = {
     type: worksState.type,
     loading: worksState.loading,
+    modalLoading: worksState.modalLoading,
     works: worksState.works,
     closeWorks: worksState.closeWorks,
     waitingWorks: worksState.waitingWorks,
@@ -210,6 +245,7 @@ const CartProvider = (props) => {
     updateAllWorks: updateAllWorksHandler,
     updateUserWorks: updateUserWorksHandler,
     showLoading: showLoadingHandler,
+    showModalLoading: showModalLoadingHandler,
     updateNotifications: updateNotificationsHandler,
     updateNotificationsNumber: updateNotificationsNumberHandler,
   };

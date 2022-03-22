@@ -5,6 +5,7 @@ const WorksContext = React.createContext({
     ? JSON.parse(sessionStorage.getItem("user")).type
     : "guest",
   loading: false,
+  modalLoading: false,
   works: [],
   closeWorks: [],
   waitingWorks: [],
@@ -17,6 +18,7 @@ const WorksContext = React.createContext({
   updateAllWorks: (works) => {},
   updateUserWorks: (user) => {},
   showLoading: (loading) => {},
+  showModalLoading: (loading) => {},
   updateNotifications: (notifications) => {},
   updateNotificationsNumber: (number) => {},
 });

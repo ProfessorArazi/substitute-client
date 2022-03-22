@@ -35,12 +35,17 @@ export const ApplyIcon = (props) => {
 
 const ApplyDetails = (props) => {
   const ctx = useContext(WorksContext);
-  const { updateUserWorks, updateNotifications, showLoading, loading } = ctx;
+  const {
+    updateUserWorks,
+    updateNotifications,
+    showModalLoading,
+    modalLoading,
+  } = ctx;
 
   const pickSubHandler = async () => {
     const { apply, workId } = props;
 
-    showLoading(true);
+    showModalLoading(true);
     const res = await httpRequest(
       "post",
       "/school/works/pick",
@@ -56,7 +61,7 @@ const ApplyDetails = (props) => {
 
     if (res.data) {
       if (res.data.error) {
-        showLoading(false);
+        showModalLoading(false);
         return toast.error(res.data.error, {
           autoClose: 1000,
           position: "top-left",
@@ -74,13 +79,13 @@ const ApplyDetails = (props) => {
 
       props.onClose();
     } else console.log(res.err);
-    showLoading(false);
+    showModalLoading(false);
   };
 
   return (
     <>
-      {loading ? (
-        loading
+      {modalLoading ? (
+        modalLoading
       ) : (
         <Details
           img={props.apply.img}

@@ -11,8 +11,13 @@ import "../../scss/App.scss";
 export const UserForm = (props) => {
   const { user } = props;
   const ctx = useContext(WorksContext);
-  const { updateType, updateAllWorks, updateUserWorks, showLoading, loading } =
-    ctx;
+  const {
+    updateType,
+    updateAllWorks,
+    updateUserWorks,
+    showModalLoading,
+    modalLoading,
+  } = ctx;
 
   const [files, setFiles] = useState([]);
   const [type, setType] = useState();
@@ -118,7 +123,7 @@ export const UserForm = (props) => {
       if (files.length > 0) {
         img = await resizeFile(files[0]);
       }
-      showLoading(true);
+      showModalLoading(true);
       if (!user) {
         const res = await httpRequest("post", `/${type}`, {
           img,
@@ -138,7 +143,7 @@ export const UserForm = (props) => {
         } else {
           console.log(res.err);
         }
-        showLoading(false);
+        showModalLoading(false);
       } else if (user) {
         const data = {
           email: user[user.type].email,
@@ -170,10 +175,10 @@ export const UserForm = (props) => {
         } else {
           console.log("פרטים לא נכונים");
         }
-        showLoading(false);
+        showModalLoading(false);
       }
     } else {
-      showLoading(true);
+      showModalLoading(true);
       const res = await httpRequest("post", `/${type}/login`, {
         email,
         password,
@@ -183,10 +188,10 @@ export const UserForm = (props) => {
         if (type === "sub") updateAllWorks(res.data.works);
 
         setUserInStorage(res.data);
-        showLoading(false);
+        showModalLoading(false);
       } else {
         setErrorMessage("פרטים לא נכונים");
-        showLoading(false);
+        showModalLoading(false);
       }
     }
   };
@@ -245,8 +250,8 @@ export const UserForm = (props) => {
         </div>
       ) : (
         <>
-          {loading ? (
-            loading
+          {modalLoading ? (
+            modalLoading
           ) : (
             <Form className="login-form" onSubmit={submitHandler}>
               {props.signup && (

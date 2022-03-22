@@ -13,8 +13,8 @@ export const ImageForm = (props) => {
     updateAllWorks,
     updateUserWorks,
     updateNotifications,
-    showLoading,
-    loading,
+    showModalLoading,
+    modalLoading,
   } = ctx;
 
   const [files, setFiles] = useState([]);
@@ -49,7 +49,7 @@ export const ImageForm = (props) => {
     } else {
       data.userId = user.school._id;
     }
-    showLoading(true);
+    showModalLoading(true);
     const res = await httpRequest("put", `/${user.type}/image`, data, {
       token: user.token,
     });
@@ -75,13 +75,13 @@ export const ImageForm = (props) => {
       updateNotifications(res.data[user.type].notifications);
       props.onClose();
     } else console.log(res.error);
-    showLoading(false);
+    showModalLoading(false);
   };
 
   return (
     <>
-      {loading ? (
-        loading
+      {modalLoading ? (
+        modalLoading
       ) : (
         <>
           <Form onSubmit={uploadImageHandler}>
