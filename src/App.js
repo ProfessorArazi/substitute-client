@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Sidebar } from "./Components/Layout/Sidebar";
 import { SiteRoutes } from "./SiteRoutes";
 import WorksProvider from "./store/WorksProvider";
@@ -22,6 +23,10 @@ todo:
 */
 
 function App() {
+  useEffect(() => {
+    document.title = "Substitute";
+  }, []);
+
   return (
     <WorksProvider>
       <ToastContainer />
