@@ -74,7 +74,7 @@ export const ImageForm = (props) => {
       }
       updateNotifications(res.data[user.type].notifications);
       props.onClose();
-    } else console.log(res.error);
+    } else console.log(res.err);
     showModalLoading(false);
   };
 

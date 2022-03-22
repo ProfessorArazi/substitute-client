@@ -48,24 +48,39 @@ export const UserForm = (props) => {
   };
 
   const setUserInStorage = (data) => {
-    if ((user && user.type === "school") || type === "school") {
+    if (
+      (user && user.type === "school") ||
+      type === "school" ||
+      data.type === "school"
+    ) {
       updateUserWorks({ works: { works: data.school.works, type: "school" } });
     }
 
     sessionStorage.setItem(
       "user",
-      JSON.stringify(storageObject(user ? user.type : type, data))
+      JSON.stringify(storageObject(user ? user.type : data.type, data))
     );
-    updateType(user ? user.type : type);
+    updateType(user ? user.type : data.type);
 
     props.onClose();
   };
 
   const submitHandler = async (e) => {
-    e.preventDefault();
+    let demoType;
+
+    if (typeof e === "string") {
+      demoType = e;
+    } else {
+      e.preventDefault();
+    }
+
     let email;
     let password;
-    if (!user) {
+
+    if (props.demo) {
+      email = `demo${Math.floor(Math.random() * 10000)}@gmail.com`;
+      password = `Name${Math.floor(Math.random() * 1000) + 100}!`;
+    } else if (!user) {
       email = emailRef.current.value;
       password = passwordRef.current.value;
     }
@@ -78,12 +93,22 @@ export const UserForm = (props) => {
     let formErrors = {};
 
     if (props.signup) {
-      name = nameRef.current.value;
-      city = cityRef.current.value;
-      phone = phoneRef.current.value;
+      if (props.demo) {
+        name = "דמו";
+        city = "רמת גן";
+        phone = "0544444444";
+      } else {
+        name = nameRef.current.value;
+        city = cityRef.current.value;
+        phone = phoneRef.current.value;
+      }
 
-      if (type === "school" || (user && user.type) === "school") {
-        ageGroup = ageGroupValue;
+      if (
+        type === "school" ||
+        (user && user.type) === "school" ||
+        demoType === "school"
+      ) {
+        ageGroup = ageGroupValue || "יסודי";
       } else {
         desc = descValue;
       }
@@ -125,7 +150,7 @@ export const UserForm = (props) => {
       }
       showModalLoading(true);
       if (!user) {
-        const res = await httpRequest("post", `/${type}`, {
+        const res = await httpRequest("post", `/${type || demoType}`, {
           img,
           email,
           password,
@@ -135,10 +160,12 @@ export const UserForm = (props) => {
           ageGroup,
           mailingList,
           desc,
+          demo: props.demo ? true : false,
         });
 
         if (res.data) {
-          if (type === "sub") updateAllWorks(res.data.works);
+          if (type === "sub" || demoType === "sub")
+            updateAllWorks(res.data.works);
           setUserInStorage(res.data);
         } else {
           console.log(res.err);
@@ -245,13 +272,29 @@ export const UserForm = (props) => {
     <>
       {!type && !user ? (
         <div className="login-actions">
-          <Button onClick={() => setType("sub")}>מורה מחליף</Button>
-          <Button onClick={() => setType("school")}>בית ספר</Button>
+          <Button
+            onClick={() => {
+              setType("sub");
+              props.demo && submitHandler("sub");
+            }}
+          >
+            מורה מחליף
+          </Button>
+          <Button
+            onClick={() => {
+              setType("school");
+              props.demo && submitHandler("school");
+            }}
+          >
+            בית ספר
+          </Button>
         </div>
       ) : (
         <>
           {modalLoading ? (
             modalLoading
+          ) : props.demo ? (
+            ""
           ) : (
             <Form className="login-form" onSubmit={submitHandler}>
               {props.signup && (

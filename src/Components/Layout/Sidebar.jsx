@@ -107,6 +107,15 @@ export const Sidebar = () => {
             >
               הרשמה
             </Nav.Link>
+            <Nav.Link
+              onClick={() =>
+                setShowModal(
+                  <UserForm signup demo onClose={() => setShowModal(false)} />
+                )
+              }
+            >
+              דמו
+            </Nav.Link>
           </>
         )}
       </nav>
