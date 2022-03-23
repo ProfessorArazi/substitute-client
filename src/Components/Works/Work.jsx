@@ -19,7 +19,7 @@ export const Work = (props) => {
       "/school/rate",
       {
         email: user.school.email,
-        userId: user.school.id,
+        userId: user.school._id,
         type: "school",
         workId: props.id,
         subId: props.picked._id,
@@ -54,9 +54,51 @@ export const Work = (props) => {
         <div>
           {props.city && <p>עיר : {props.city}</p>}
           <p>שעות : {props.hours}</p>
-          <p>כיתות : {props.ageGroup}</p>
+          {props.ageGroup && <p>כיתות : {props.ageGroup}</p>}
         </div>
-        {props.type === "sub" && props.page === "home" && (
+        {props.type === "school" &&
+          (props.picked ? (
+            <>
+              <p>המורה שנבחר: {props.picked.name}</p>
+              {props.old && !props.grade && (
+                <ReactStars
+                  onChange={rateTeacherHandler}
+                  classNames="stars"
+                  count={5}
+                  size={24}
+                />
+              )}
+            </>
+          ) : (
+            !props.old && (
+              <>
+                <div>
+                  {props.applied &&
+                    props.applied.map((apply, i) => (
+                      <ApplyIcon
+                        key={i}
+                        apply={apply.apply}
+                        workId={props.id}
+                      />
+                    ))}
+                </div>
+                <div>
+                  <Button onClick={() => props.onEdit(props.work)}>ערוך</Button>
+                  <Button
+                    onClick={() =>
+                      props.onDelete(
+                        JSON.parse(sessionStorage.getItem("user")).school.id,
+                        props.id
+                      )
+                    }
+                  >
+                    מחק
+                  </Button>
+                </div>
+              </>
+            )
+          ))}
+        {props.type === "sub" && props.page === "home" ? (
           <Button
             onClick={() => {
               const work = {
@@ -77,54 +119,15 @@ export const Work = (props) => {
           >
             הירשם
           </Button>
-        )}
-        {props.type === "school" && props.page === "works" && (
-          <div>
-            {props.picked ? (
-              <>
-                <p>המורה שנבחר: {props.picked.name}</p>
-                {props.old && !props.grade && (
-                  <ReactStars
-                    onChange={rateTeacherHandler}
-                    classNames="stars"
-                    count={5}
-                    size={24}
-                  />
-                )}
-              </>
-            ) : props.applied && props.applied.length ? (
-              <>
-                {props.applied.map((apply, i) => (
-                  <ApplyIcon key={i} apply={apply.apply} workId={props.id} />
-                ))}
-                <Button onClick={() => props.onEdit(props.work)}>ערוך</Button>
-                <Button
-                  onClick={() =>
-                    props.onDelete(
-                      JSON.parse(sessionStorage.getItem("user")).school.id,
-                      props.id
-                    )
-                  }
-                >
-                  מחק
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button onClick={() => props.onEdit(props.work)}>ערוך</Button>
-                <Button
-                  onClick={() =>
-                    props.onDelete(
-                      JSON.parse(sessionStorage.getItem("user")).school.id,
-                      props.id
-                    )
-                  }
-                >
-                  מחק
-                </Button>
-              </>
-            )}
-          </div>
+        ) : (
+          props.onCancel && (
+            <Button
+              variant="danger"
+              onClick={() => props.onCancel(props.id, props.work.userId)}
+            >
+              ביטול הרשמה
+            </Button>
+          )
         )}
       </div>
     </>

@@ -19,16 +19,20 @@ export const WorksFormat = (props) => {
               page="works"
               date={work.date}
               subject={work.subject}
+              school={props.type === "sub" && work.school}
+              ageGroup={props.type === "sub" && work.ageGroup}
               hours={work.hours}
-              ageGroup={work.ageGroup}
               applied={work.applied}
               old={now > new Date(work.date).getTime()}
               grade={work.grade ? work.grade : false}
-              picked={work.taken._id ? work.taken : false}
+              picked={
+                work.taken._id && props.type === "school" ? work.taken : false
+              }
               onDelete={
                 props.onDelete ? (userId, id) => props.onDelete(userId, id) : ""
               }
               onEdit={(work) => (props.onEdit(work) ? props.onEdit : "")}
+              onCancel={props.onCancel && props.onCancel}
             />
           </CSSTransition>
         ))}
