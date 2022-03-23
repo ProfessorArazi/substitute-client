@@ -299,7 +299,7 @@ export const UserForm = (props) => {
             <Form className="login-form" onSubmit={submitHandler}>
               {props.signup && (
                 <>
-                  {!user && (
+                  {!user && type === "sub" && (
                     <Input
                       label="תמונת פרופיל"
                       type="file"

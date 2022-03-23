@@ -18,7 +18,7 @@ export const Sidebar = () => {
   return (
     <>
       <nav id="sidebar" className="sidebar">
-        {type !== "guest" && (
+        {type === "sub" && (
           <img
             onClick={() =>
               setShowModal(<ImageForm onClose={() => setShowModal(false)} />)

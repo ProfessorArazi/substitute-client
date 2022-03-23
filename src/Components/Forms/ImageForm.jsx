@@ -42,13 +42,9 @@ export const ImageForm = (props) => {
       img,
       email: user[user.type].email,
       type: user.type,
+      substituteId: user.sub._id,
     };
 
-    if (user.type === "sub") {
-      data.substituteId = user.sub._id;
-    } else {
-      data.userId = user.school._id;
-    }
     showModalLoading(true);
     const res = await httpRequest("put", `/${user.type}/image`, data, {
       token: user.token,
@@ -58,20 +54,15 @@ export const ImageForm = (props) => {
         "user",
         JSON.stringify(storageObject(user.type, res.data))
       );
-      if (user.type === "sub") {
-        updateAllWorks(res.data.works);
-        updateUserWorks({
-          works: {
-            works: [...res.data.sub.works],
-            subId: user.sub._id,
-          },
-        });
-      } else {
-        console.log(res.data);
-        updateUserWorks({
-          works: { works: res.data.school.works, type: "school" },
-        });
-      }
+
+      updateAllWorks(res.data.works);
+      updateUserWorks({
+        works: {
+          works: [...res.data.sub.works],
+          subId: user.sub._id,
+        },
+      });
+
       updateNotifications(res.data[user.type].notifications);
       props.onClose();
     } else console.log(res.err);
