@@ -16,8 +16,18 @@
   }
 }
 
+.filter {
+  width: 85%;
+  padding: 10px 20px;
+  direction: rtl;
+}
+
 @media (max-width: 768px) {
   .works {
     display: block;
+    width: 100%;
+  }
+  .filter {
+    width: 100%;
   }
 }

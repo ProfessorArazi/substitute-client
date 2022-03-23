@@ -156,14 +156,7 @@ export const Home = () => {
       <>
         {type === "sub" ? (
           <>
-            <Navbar
-              style={{
-                width: "85%",
-                padding: "10px 20px",
-              }}
-              bg="secondary"
-              dir="rtl"
-            >
+            <Navbar className="filter" bg="secondary">
               <input ref={cityRef} type="text" placeholder="עיר" />
               <input
                 ref={minHoursRef}

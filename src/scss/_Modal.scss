@@ -10,9 +10,9 @@
 
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 35%;
-  width: auto;
+  top: 1%;
+  left: 32%;
+  width: 30%;
   padding: 1rem;
   border-radius: 7px;
   box-shadow: 0 2px 200px #000;
@@ -26,7 +26,7 @@
   margin: 10px auto;
   color: #fff;
   min-height: 5rem;
-  min-width: 10rem;
+  width: 100%;
   max-height: 30rem;
   overflow: auto;
   overflow-x: hidden;
@@ -39,13 +39,10 @@
 }
 
 @media (max-width: 768px) {
-  .modal {
-    width: 28rem;
-    left: calc(55% - 20rem);
-  }
   .modal-overlay {
-    left: 10%;
-    top: 10%;
+    left: 5%;
+    top: 5%;
+    width: 90%;
   }
 }
 
