@@ -25,6 +25,7 @@ export const WorksFormat = (props) => {
               applied={work.applied}
               old={now > new Date(work.date).getTime()}
               grade={work.grade ? work.grade : false}
+              phone={props.close && work.phone}
               picked={
                 work.taken._id && props.type === "school" ? work.taken : false
               }

@@ -1,3 +1,9 @@
+a {
+  display: block !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+}
+
 .sidebar {
   margin: 0;
   padding: 0;
@@ -10,14 +16,16 @@
   text-align: center;
 }
 
-.sidebar a,
-.sidebar button {
-  display: block;
-  color: #fff;
-  padding: 16px;
-  text-decoration: none;
-  cursor: pointer;
+.navbar a {
+  color: #000 !important;
+  padding: 8px !important;
 }
+
+.sidebar a {
+  color: #fff;
+  padding: 16px !important;
+}
+
 .sidebar a.active {
   background-color: #04aa6d;
   color: white;
@@ -39,22 +47,4 @@
   object-fit: cover;
   margin: 10px auto;
   border: 2px solid #fff;
-}
-
-@media screen and (max-width: 700px) {
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-  }
-  .sidebar a {
-    float: left;
-  }
-}
-
-@media screen and (max-width: 400px) {
-  .sidebar a {
-    text-align: center;
-    float: none;
-  }
 }

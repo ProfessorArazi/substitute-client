@@ -55,6 +55,7 @@ export const Work = (props) => {
           {props.city && <p>עיר : {props.city}</p>}
           <p>שעות : {props.hours}</p>
           {props.ageGroup && <p>כיתות : {props.ageGroup}</p>}
+          {props.phone && <p>טלפון של ביה"ס: {props.phone}</p>}
         </div>
         {props.type === "school" &&
           (props.picked ? (

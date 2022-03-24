@@ -56,6 +56,7 @@ export const SubWorks = () => {
     {
       title: "עבודות קרובות",
       works: closeWorks,
+      close: true,
     },
     {
       title: "עבודות בהמתנה",
@@ -106,6 +107,7 @@ export const SubWorks = () => {
               title={structure.title}
               works={structure.works}
               onCancel={structure.cancelHandler && structure.cancelHandler}
+              close={structure.close}
             />
           ))
         : loading}

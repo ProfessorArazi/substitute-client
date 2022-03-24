@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { Nav } from "react-bootstrap";
+import { Navbar, Nav, Container } from "react-bootstrap";
 import Modal from "../../Components/UI/Modal";
 import { UserForm } from "../../Components/Forms/UserForm";
 import WorksContext from "../../store/works-context";
@@ -9,116 +9,154 @@ import { ImageForm } from "../../Components/Forms/ImageForm";
 import { Details } from "../../Components/Details/Details";
 
 export const Sidebar = () => {
-  const ctx = useContext(WorksContext);
   const [showModal, setShowModal] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+
+  const ctx = useContext(WorksContext);
   const { type, updateType, updateAllWorks } = ctx;
+
+  const toggleHandler = () => {
+    setExpanded(expanded ? false : "expanded");
+  };
+
+  const closeToggleHandler = () => {
+    setExpanded(false);
+  };
 
   const user = type !== "guest" && JSON.parse(sessionStorage.getItem("user"));
 
+  const menu = (
+    <>
+      {type === "sub" && (
+        <img
+          onClick={() =>
+            setShowModal(<ImageForm onClose={() => setShowModal(false)} />)
+          }
+          src={
+            user[type].img
+              ? user[type].img
+              : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
+          }
+          alt="user"
+          className="user-img"
+        />
+      )}
+
+      {type === "sub" && (
+        <>
+          <ReactStars
+            classNames="stars"
+            count={5}
+            size={24}
+            value={user.sub.grade.grade}
+            edit={false}
+            isHalf={true}
+          />
+          <Link to="/">עבודות זמינות</Link>
+        </>
+      )}
+      {type !== "guest" ? (
+        <>
+          <Nav.Link
+            onClick={() =>
+              setShowModal(
+                <Details
+                  img={user[type].img}
+                  name={user[type].name}
+                  phone={user[type].phone}
+                  grade={type === "sub" && user[type].grade.grade}
+                  votes={type === "sub" && user[type].grade.votes}
+                  onClose={() => setShowModal(false)}
+                />
+              )
+            }
+          >
+            החשבון שלי
+          </Nav.Link>
+          <Nav.Link
+            onClick={() =>
+              setShowModal(
+                <UserForm
+                  user={user}
+                  signup
+                  onClose={() => setShowModal(false)}
+                />
+              )
+            }
+          >
+            ערוך פרופיל
+          </Nav.Link>
+          <Link to="/works">העבודות שלי</Link>
+
+          <Nav.Link
+            onClick={() => {
+              updateType("guest");
+              sessionStorage.clear();
+              updateAllWorks([]);
+            }}
+          >
+            התנתק
+          </Nav.Link>
+        </>
+      ) : (
+        <>
+          <Nav.Link
+            onClick={() =>
+              setShowModal(<UserForm onClose={() => setShowModal(false)} />)
+            }
+          >
+            התחבר
+          </Nav.Link>
+          <Nav.Link
+            onClick={() =>
+              setShowModal(
+                <UserForm signup onClose={() => setShowModal(false)} />
+              )
+            }
+          >
+            הרשמה
+          </Nav.Link>
+          <Nav.Link
+            onClick={() =>
+              setShowModal(
+                <UserForm signup demo onClose={() => setShowModal(false)} />
+              )
+            }
+          >
+            דמו
+          </Nav.Link>
+        </>
+      )}
+    </>
+  );
+
   return (
     <>
-      <nav id="sidebar" className="sidebar">
-        {type === "sub" && (
-          <img
-            onClick={() =>
-              setShowModal(<ImageForm onClose={() => setShowModal(false)} />)
-            }
-            src={
-              user[type].img
-                ? user[type].img
-                : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
-            }
-            alt="user"
-            className="user-img"
-          />
-        )}
-
-        {type === "sub" && (
-          <>
-            <ReactStars
-              classNames="stars"
-              count={5}
-              size={24}
-              value={user.sub.grade.grade}
-              edit={false}
-              isHalf={true}
+      {window.innerWidth > 768 ? (
+        <nav id="sidebar" className="sidebar">
+          {menu}
+        </nav>
+      ) : (
+        <Navbar
+          className="navbar"
+          dir="rtl"
+          bg="light"
+          expand="lg"
+          expanded={expanded}
+        >
+          <Container>
+            <Navbar.Toggle
+              onClick={toggleHandler}
+              aria-controls="basic-navbar-nav"
             />
-            <Link to="/">עבודות זמינות</Link>
-          </>
-        )}
-        {type !== "guest" ? (
-          <>
-            <Nav.Link
-              onClick={() =>
-                setShowModal(
-                  <Details
-                    img={user[type].img}
-                    name={user[type].name}
-                    phone={user[type].phone}
-                    grade={type === "sub" && user[type].grade.grade}
-                    votes={type === "sub" && user[type].grade.votes}
-                    onClose={() => setShowModal(false)}
-                  />
-                )
-              }
-            >
-              החשבון שלי
-            </Nav.Link>
-            <Nav.Link
-              onClick={() =>
-                setShowModal(
-                  <UserForm
-                    user={user}
-                    signup
-                    onClose={() => setShowModal(false)}
-                  />
-                )
-              }
-            >
-              ערוך פרופיל
-            </Nav.Link>
-            <Link to="/works">העבודות שלי</Link>
-
-            <Nav.Link
-              onClick={() => {
-                updateType("guest");
-                sessionStorage.clear();
-                updateAllWorks([]);
-              }}
-            >
-              התנתק
-            </Nav.Link>
-          </>
-        ) : (
-          <>
-            <Nav.Link
-              onClick={() =>
-                setShowModal(<UserForm onClose={() => setShowModal(false)} />)
-              }
-            >
-              התחבר
-            </Nav.Link>
-            <Nav.Link
-              onClick={() =>
-                setShowModal(
-                  <UserForm signup onClose={() => setShowModal(false)} />
-                )
-              }
-            >
-              הרשמה
-            </Nav.Link>
-            <Nav.Link
-              onClick={() =>
-                setShowModal(
-                  <UserForm signup demo onClose={() => setShowModal(false)} />
-                )
-              }
-            >
-              דמו
-            </Nav.Link>
-          </>
-        )}
-      </nav>
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav onClick={closeToggleHandler} className="me-auto">
+                {menu}
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+      )}
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>{showModal}</Modal>
       )}
