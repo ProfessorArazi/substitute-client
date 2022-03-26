@@ -1,25 +1,15 @@
-import { useContext, useState, useRef, useEffect, useCallback } from "react";
+import { useContext, useEffect, useCallback, useState } from "react";
 import WorksContext from "../store/works-context";
 import { Work } from "../Components/Works/Work";
 import { httpRequest } from "../httpRequest";
-import { Navbar, Button } from "react-bootstrap";
-import DatePicker, { registerLocale } from "react-datepicker";
-import he from "date-fns/locale/he";
-import "react-datepicker/dist/react-datepicker.css";
 import { updateWorks } from "../Components/Works/updateWorks";
 import { storageObject } from "../Components/Storage/storageObject";
 import { toast } from "react-toastify";
-
-registerLocale("he", he);
+import { BsFilterRight } from "react-icons/bs";
+import { FilterForm } from "../Components/Forms/FilterForm";
+import Modal from "../Components/UI/Modal";
 
 export const Home = () => {
-  const cityRef = useRef();
-  const minHoursRef = useRef();
-  const maxHoursRef = useRef();
-
-  const [dateRange, setDateRange] = useState([null, null]);
-  const [startDate, endDate] = dateRange;
-
   const ctx = useContext(WorksContext);
   const {
     updateUserWorks,
@@ -30,6 +20,8 @@ export const Home = () => {
     showLoading,
     updateNotifications,
   } = ctx;
+
+  const [showModal, setShowModal] = useState(false);
 
   const updateUserWorksHandler = useCallback(
     (data, user) => {
@@ -47,52 +39,6 @@ export const Home = () => {
     },
     [updateUserWorks, updateNotifications]
   );
-
-  const onFilterHandler = async () => {
-    let start;
-    let end;
-    if (startDate) {
-      start = new Date([
-        startDate.getFullYear(),
-        startDate.getMonth() + 1,
-        startDate.getDate(),
-      ]);
-    }
-    if (endDate) {
-      end = new Date([
-        endDate.getFullYear(),
-        endDate.getMonth() + 1,
-        endDate.getDate() + 1,
-      ]);
-    }
-    showLoading(true);
-    const user = JSON.parse(sessionStorage.getItem("user"));
-    const res = await httpRequest(
-      "post",
-      "/works",
-      {
-        substituteId: user.sub._id,
-        email: user.sub.email,
-        type: "sub",
-
-        city: cityRef.current.value,
-        minHours: minHoursRef.current.value,
-        maxHours: maxHoursRef.current.value,
-        startDate: start,
-        endDate: end,
-      },
-      { token: user.token }
-    );
-
-    if (res.data) {
-      sessionStorage.setItem(
-        "user",
-        JSON.stringify({ ...storageObject("sub", res.data), filtered: true })
-      );
-      updateAllWorks(res.data.works);
-    } else console.log(res.err);
-    showLoading(false);
-  };
 
   const onApplyHandler = async (substituteId, work, userId) => {
     showLoading(true);
@@ -156,33 +102,25 @@ export const Home = () => {
       <>
         {type === "sub" ? (
           <>
-            <Navbar className="filter" bg="secondary">
-              <input ref={cityRef} type="text" placeholder="עיר" />
-              <input
-                ref={minHoursRef}
-                type="number"
-                placeholder="מינימום שעות"
-              />
-              <input
-                ref={maxHoursRef}
-                type="number"
-                placeholder="מקסימום שעות"
-              />
-              <DatePicker
-                selectsRange={true}
-                startDate={startDate}
-                endDate={endDate}
-                locale="he"
-                dateFormat="dd/MM/yyyy"
-                onChange={(update) => {
-                  setDateRange(update);
-                }}
-                placeholderText="תאריך"
-                withPortal
-              />
-
-              <Button onClick={onFilterHandler}>סנן</Button>
-            </Navbar>
+            {window.innerWidth <= 768 ? (
+              <div id="filter">
+                <BsFilterRight
+                  id="filter-icon"
+                  onClick={() => {
+                    showModal
+                      ? setShowModal(false)
+                      : setShowModal(
+                          <FilterForm onClose={() => setShowModal(false)} />
+                        );
+                  }}
+                />
+                <p>סינון</p>
+              </div>
+            ) : (
+              <div className="filter">
+                <FilterForm />
+              </div>
+            )}
             <h2>עבודות זמינות</h2>
             <div className="works">
               {works.map((work, i) => (
@@ -207,6 +145,9 @@ export const Home = () => {
                 />
               ))}
             </div>
+            {showModal && (
+              <Modal onClose={() => setShowModal(false)}>{showModal}</Modal>
+            )}
           </>
         ) : (
           <h2>דף הבית</h2>

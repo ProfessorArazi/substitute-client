@@ -1,0 +1,9 @@
+.filter-form {
+  display: flex;
+  justify-content: space-between;
+  input,
+  .react-datepicker__input-container {
+    width: 10rem;
+    height: 2rem;
+  }
+}

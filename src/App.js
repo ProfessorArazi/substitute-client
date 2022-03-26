@@ -7,7 +7,6 @@ import "./scss/App.scss";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-
 /* 
 todo:
 1.notifications - finished

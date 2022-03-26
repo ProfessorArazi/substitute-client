@@ -20,6 +20,16 @@
   width: 85%;
   padding: 10px 20px;
   direction: rtl;
+  margin-top: 4%;
+  background: gray;
+}
+
+#filter {
+  text-align: right;
+  margin-right: 5%;
+  #filter-icon {
+    font-size: 2.5rem;
+  }
 }
 
 @media (max-width: 768px) {
