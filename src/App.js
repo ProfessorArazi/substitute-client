@@ -26,7 +26,7 @@ todo:
 function App() {
   useEffect(() => {
     axios(process.env.REACT_APP_SERVER);
-    document.title = "Substitute";
+    document.title = "Substitutes";
   }, []);
 
   return (
