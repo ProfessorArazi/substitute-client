@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./scss/App.scss";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 /* 
 todo:
@@ -24,6 +25,7 @@ todo:
 
 function App() {
   useEffect(() => {
+    axios(process.env.REACT_APP_SERVER);
     document.title = "Substitute";
   }, []);
 
