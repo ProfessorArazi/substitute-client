@@ -1,6 +1,5 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { httpRequest } from "../httpRequest";
-import Modal from "./UI/Modal";
 import WorksContext from "../store/works-context";
 import { Details } from "./Details/Details";
 import { storageObject } from "./Storage/storageObject";
@@ -8,27 +7,24 @@ import { toast } from "react-toastify";
 
 export const ApplyIcon = (props) => {
   const { apply, workId } = props;
-  const [showModal, setShowModal] = useState(false);
+  const { showModal } = useContext(WorksContext);
 
   return (
     <>
       <img
         onClick={() =>
-          setShowModal(
-            <Modal onClose={() => setShowModal(false)}>
-              <ApplyDetails
-                apply={apply}
-                workId={workId}
-                onClose={() => setShowModal(false)}
-              />
-            </Modal>
+          showModal(
+            <ApplyDetails
+              apply={apply}
+              workId={workId}
+              onClose={() => showModal(false)}
+            />
           )
         }
         src={apply.img}
         alt="user"
         className="apply"
       />
-      {showModal && showModal}
     </>
   );
 };

@@ -84,7 +84,9 @@ export const FilterForm = () => {
         withPortal
       />
 
-      <Button onClick={onFilterHandler}>סנן</Button>
+      <Button variant="success" onClick={onFilterHandler}>
+        חפש
+      </Button>
     </form>
   );
 };

@@ -1,7 +1,6 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import Modal from "../../Components/UI/Modal";
 import { UserForm } from "../../Components/Forms/UserForm";
 import WorksContext from "../../store/works-context";
 import ReactStars from "react-rating-stars-component";
@@ -9,11 +8,10 @@ import { ImageForm } from "../../Components/Forms/ImageForm";
 import { Details } from "../../Components/Details/Details";
 
 export const Sidebar = () => {
-  const [showModal, setShowModal] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
   const ctx = useContext(WorksContext);
-  const { type, updateType, updateAllWorks } = ctx;
+  const { type, updateType, updateAllWorks, showModal } = ctx;
 
   const toggleHandler = () => {
     setExpanded(expanded ? false : "expanded");
@@ -30,7 +28,7 @@ export const Sidebar = () => {
       {type === "sub" && (
         <img
           onClick={() =>
-            setShowModal(<ImageForm onClose={() => setShowModal(false)} />)
+            showModal(<ImageForm onClose={() => showModal(false)} />)
           }
           src={
             user[type].img
@@ -59,14 +57,13 @@ export const Sidebar = () => {
         <>
           <Nav.Link
             onClick={() =>
-              setShowModal(
+              showModal(
                 <Details
                   img={user[type].img}
                   name={user[type].name}
                   phone={user[type].phone}
                   grade={type === "sub" && user[type].grade.grade}
                   votes={type === "sub" && user[type].grade.votes}
-                  onClose={() => setShowModal(false)}
                 />
               )
             }
@@ -75,12 +72,8 @@ export const Sidebar = () => {
           </Nav.Link>
           <Nav.Link
             onClick={() =>
-              setShowModal(
-                <UserForm
-                  user={user}
-                  signup
-                  onClose={() => setShowModal(false)}
-                />
+              showModal(
+                <UserForm onClose={() => showModal(false)} user={user} signup />
               )
             }
           >
@@ -102,24 +95,22 @@ export const Sidebar = () => {
         <>
           <Nav.Link
             onClick={() =>
-              setShowModal(<UserForm onClose={() => setShowModal(false)} />)
+              showModal(<UserForm onClose={() => showModal(false)} />)
             }
           >
             התחבר
           </Nav.Link>
           <Nav.Link
             onClick={() =>
-              setShowModal(
-                <UserForm signup onClose={() => setShowModal(false)} />
-              )
+              showModal(<UserForm onClose={() => showModal(false)} signup />)
             }
           >
             הרשמה
           </Nav.Link>
           <Nav.Link
             onClick={() =>
-              setShowModal(
-                <UserForm signup demo onClose={() => setShowModal(false)} />
+              showModal(
+                <UserForm onClose={() => showModal(false)} signup demo />
               )
             }
           >
@@ -156,9 +147,6 @@ export const Sidebar = () => {
             </Navbar.Collapse>
           </Container>
         </Navbar>
-      )}
-      {showModal && (
-        <Modal onClose={() => setShowModal(false)}>{showModal}</Modal>
       )}
     </>
   );

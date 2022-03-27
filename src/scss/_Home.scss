@@ -20,8 +20,12 @@
   width: 85%;
   padding: 10px 20px;
   direction: rtl;
-  margin-top: 4%;
-  background: gray;
+  margin-top: 5%;
+
+  .me-auto {
+    margin-right: 0 !important;
+    width: 100%;
+  }
 }
 
 #filter {

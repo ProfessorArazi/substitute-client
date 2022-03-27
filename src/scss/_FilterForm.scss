@@ -1,9 +1,21 @@
 .filter-form {
   display: flex;
   justify-content: space-between;
+  width: 100%;
   input,
   .react-datepicker__input-container {
     width: 10rem;
     height: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-form {
+    display: block;
+
+    input,
+    .react-datepicker__input-container {
+      margin-bottom: 10px;
+    }
   }
 }

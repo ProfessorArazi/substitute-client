@@ -7,6 +7,7 @@ import WorksContext from "./store/works-context";
 import { Notifications } from "./Components/UI/Notifications";
 import { updateWorks } from "./Components/Works/updateWorks";
 import { storageObject } from "./Components/Storage/storageObject";
+import Modal from "./Components/UI/Modal";
 
 export const SiteRoutes = () => {
   const { pathname } = useLocation();
@@ -19,6 +20,8 @@ export const SiteRoutes = () => {
     showLoading,
     type,
     loading,
+    modal,
+    showModal,
   } = ctx;
 
   const updateAllWorksHandler = useCallback(
@@ -76,44 +79,55 @@ export const SiteRoutes = () => {
   }, [updateAllWorksHandler, updateUserWorksHandler, showLoading]);
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        exact
-        element={
-          <>
-            {type !== "guest" && !loading && (
-              <Notifications notifications={4} />
-            )}
-            {type !== "school" ? (
-              !loading ? (
-                <Home type={type} />
-              ) : (
-                loading
-              )
-            ) : (
-              <SchoolWorks />
-            )}
-          </>
-        }
-      ></Route>
-      {(type === "sub" ||
-        (sessionStorage.getItem("user") &&
-          JSON.parse(sessionStorage.getItem("user")).sub)) && (
-        <>
-          <Route
-            path="/works"
-            exact
-            element={
-              <>
+    <>
+      <Routes>
+        <Route
+          path="/"
+          exact
+          element={
+            <>
+              {type !== "guest" && !loading && (
                 <Notifications notifications={4} />
-                <SubWorks />
-              </>
-            }
-          ></Route>
-        </>
+              )}
+              {type !== "school" ? (
+                !loading ? (
+                  <Home type={type} />
+                ) : (
+                  loading
+                )
+              ) : (
+                <SchoolWorks />
+              )}
+            </>
+          }
+        ></Route>
+        {(type === "sub" ||
+          (sessionStorage.getItem("user") &&
+            JSON.parse(sessionStorage.getItem("user")).sub)) && (
+          <>
+            <Route
+              path="/works"
+              exact
+              element={
+                <>
+                  <Notifications notifications={4} />
+                  <SubWorks />
+                </>
+              }
+            ></Route>
+          </>
+        )}
+        <Route path="*" element={<Navigate to="/" />}></Route>
+      </Routes>
+      {modal && (
+        <Modal
+          onClose={() => {
+            showModal(false);
+          }}
+        >
+          {modal}
+        </Modal>
       )}
-      <Route path="*" element={<Navigate to="/" />}></Route>
-    </Routes>
+    </>
   );
 };

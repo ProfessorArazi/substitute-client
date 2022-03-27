@@ -1,13 +1,13 @@
-import { useContext, useEffect, useCallback, useState } from "react";
+import { useContext, useEffect, useCallback } from "react";
 import WorksContext from "../store/works-context";
 import { Work } from "../Components/Works/Work";
 import { httpRequest } from "../httpRequest";
 import { updateWorks } from "../Components/Works/updateWorks";
 import { storageObject } from "../Components/Storage/storageObject";
 import { toast } from "react-toastify";
-import { BsFilterRight } from "react-icons/bs";
+import { Navbar, Container, Nav } from "react-bootstrap";
+import { FaFilter } from "react-icons/fa";
 import { FilterForm } from "../Components/Forms/FilterForm";
-import Modal from "../Components/UI/Modal";
 
 export const Home = () => {
   const ctx = useContext(WorksContext);
@@ -16,12 +16,9 @@ export const Home = () => {
     works,
     updateAllWorks,
     type,
-
     showLoading,
     updateNotifications,
   } = ctx;
-
-  const [showModal, setShowModal] = useState(false);
 
   const updateUserWorksHandler = useCallback(
     (data, user) => {
@@ -102,7 +99,21 @@ export const Home = () => {
       <>
         {type === "sub" ? (
           <>
-            {window.innerWidth <= 768 ? (
+            <Navbar className="filter" dir="rtl" bg="light" expand="lg">
+              <Container>
+                <Navbar.Toggle aria-controls="basic-navbar-nav">
+                  <span>
+                    <FaFilter />
+                  </span>
+                </Navbar.Toggle>
+                <Navbar.Collapse id="basic-navbar-nav">
+                  <Nav className="me-auto">
+                    <FilterForm />
+                  </Nav>
+                </Navbar.Collapse>
+              </Container>
+            </Navbar>
+            {/* {window.innerWidth <= 768 ? (
               <div id="filter">
                 <BsFilterRight
                   id="filter-icon"
@@ -120,7 +131,7 @@ export const Home = () => {
               <div className="filter">
                 <FilterForm />
               </div>
-            )}
+            )} */}
             <h2>עבודות זמינות</h2>
             <div className="works">
               {works.map((work, i) => (
@@ -145,9 +156,6 @@ export const Home = () => {
                 />
               ))}
             </div>
-            {showModal && (
-              <Modal onClose={() => setShowModal(false)}>{showModal}</Modal>
-            )}
           </>
         ) : (
           <h2>דף הבית</h2>

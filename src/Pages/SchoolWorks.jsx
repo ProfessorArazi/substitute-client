@@ -1,9 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import WorksContext from "../store/works-context";
 import { WorksFormat } from "../Components/Works/WorksFormat";
 import { httpRequest } from "../httpRequest";
 import { Button } from "react-bootstrap";
-import Modal from "../Components/UI/Modal";
 import { WorksForm } from "../Components/Forms/WorksForm";
 import { storageObject } from "../Components/Storage/storageObject";
 import { toast } from "react-toastify";
@@ -16,10 +15,9 @@ export const SchoolWorks = () => {
     updateUserWorks,
     updateNotifications,
     showLoading,
+    showModal,
     loading,
   } = ctx;
-
-  const [showModal, setShowModal] = useState(false);
 
   const structures = [
     {
@@ -114,7 +112,7 @@ export const SchoolWorks = () => {
       {!loading && (
         <Button
           onClick={() =>
-            setShowModal(<WorksForm onClose={() => setShowModal(false)} />)
+            showModal(<WorksForm onClose={() => showModal(false)} />)
           }
           className="add-work__btn"
         >
@@ -134,17 +132,10 @@ export const SchoolWorks = () => {
               type="school"
               works={structure.works}
               onDelete={(userId, id) => onDeleteHandler(userId, id)}
-              onEdit={(work) =>
-                setShowModal(
-                  <WorksForm work={work} onClose={() => setShowModal(false)} />
-                )
-              }
+              onEdit={(work) => showModal(<WorksForm work={work} />)}
             />
           ))}
         </>
-      )}
-      {showModal && (
-        <Modal onClose={() => setShowModal(false)}>{showModal}</Modal>
       )}
     </>
   );

@@ -13,6 +13,7 @@ const WorksContext = React.createContext({
   oldWorks: [],
   notifications: [],
   notificationsNumber: 0,
+  modal: false,
 
   updateType: (type) => {},
   updateAllWorks: (works) => {},
@@ -21,6 +22,7 @@ const WorksContext = React.createContext({
   showModalLoading: (loading) => {},
   updateNotifications: (notifications) => {},
   updateNotificationsNumber: (number) => {},
+  showModal: (modal) => {},
 });
 
 export default WorksContext;
