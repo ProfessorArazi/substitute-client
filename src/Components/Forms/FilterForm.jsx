@@ -68,23 +68,38 @@ export const FilterForm = () => {
 
   return (
     <form className="filter-form">
-      <input ref={cityRef} type="text" placeholder="עיר" />
-      <input ref={minHoursRef} type="number" placeholder="מינימום שעות" />
-      <input ref={maxHoursRef} type="number" placeholder="מקסימום שעות" />
-      <DatePicker
-        selectsRange={true}
-        startDate={startDate}
-        endDate={endDate}
-        locale="he"
-        dateFormat="dd/MM/yyyy"
-        onChange={(update) => {
-          setDateRange(update);
-        }}
-        placeholderText="תאריך"
-        withPortal
-      />
+      <label className="city-input">
+        <span>עיר</span>
+        <input ref={cityRef} type="text" />
+      </label>
+      <label className="hours-input">
+        <span>מינימום שעות</span>
+        <input ref={minHoursRef} type="number" />
+      </label>
+      <label className="hours-input">
+        <span>מקסימום שעות</span>
+        <input dir="ltr" ref={maxHoursRef} type="number" />
+      </label>
+      <label className="date-input">
+        <span>תאריך</span>
+        <DatePicker
+          selectsRange={true}
+          startDate={startDate}
+          endDate={endDate}
+          locale="he"
+          dateFormat="dd/MM/yyyy"
+          onChange={(update) => {
+            setDateRange(update);
+          }}
+          withPortal
+        />
+      </label>
 
-      <Button variant="success" onClick={onFilterHandler}>
+      <Button
+        className="filter-btn"
+        variant="success"
+        onClick={onFilterHandler}
+      >
         חפש
       </Button>
     </form>

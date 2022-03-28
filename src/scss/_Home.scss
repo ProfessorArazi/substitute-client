@@ -44,5 +44,10 @@
   .filter {
     width: 100%;
     margin: 0;
+
+    .navbar-toggler {
+      border: none !important;
+      box-shadow: none !important;
+    }
   }
 }

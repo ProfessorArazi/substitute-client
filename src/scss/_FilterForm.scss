@@ -2,20 +2,49 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  input,
-  .react-datepicker__input-container {
-    width: 10rem;
-    height: 2rem;
+  padding-left: 10%;
+
+  label {
+    width: 25%;
+    span {
+      display: inline-block;
+      height: 60%;
+      width: 100%;
+    }
+  }
+  .filter-btn {
+    position: absolute;
+    bottom: 0;
+    left: 2%;
+    padding: 6px 16px;
   }
 }
 
 @media (max-width: 768px) {
   .filter-form {
-    display: block;
+    margin: 0 auto;
+    padding-left: 17%;
+
+    .city-input {
+      width: 25%;
+    }
+
+    .hours-input {
+      width: 20%;
+    }
+
+    .date-input {
+      width: 18%;
+    }
 
     input,
     .react-datepicker__input-container {
+      width: 100%;
       margin-bottom: 10px;
+    }
+
+    .filter-btn {
+      bottom: 10%;
     }
   }
 }
