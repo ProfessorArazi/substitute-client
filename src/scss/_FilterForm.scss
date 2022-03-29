@@ -4,19 +4,24 @@
   width: 100%;
   padding-left: 10%;
 
+  &__span {
+    display: inline-block;
+    height: 60%;
+    width: 100%;
+  }
+
   label {
     width: 25%;
-    span {
-      display: inline-block;
-      height: 60%;
-      width: 100%;
-    }
   }
   .filter-btn {
     position: absolute;
     bottom: 0;
     left: 2%;
     padding: 6px 16px;
+  }
+
+  .react-datepicker__navigation {
+    top: 5%;
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import WorksContext from "../../store/works-context";
 import { httpRequest } from "../../httpRequest";
 import DatePicker, { registerLocale } from "react-datepicker";
@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import he from "date-fns/locale/he";
 import { Button } from "react-bootstrap";
 import { storageObject } from "../Storage/storageObject";
+import { BsCheckLg } from "react-icons/bs";
 
 export const FilterForm = () => {
   registerLocale("he", he);
@@ -17,8 +18,15 @@ export const FilterForm = () => {
   const minHoursRef = useRef();
   const maxHoursRef = useRef();
 
+  const [showDate, setShowDate] = useState(false);
   const [dateRange, setDateRange] = useState([null, null]);
   const [startDate, endDate] = dateRange;
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      setShowDate(false);
+    }
+  }, [startDate, endDate]);
 
   const onFilterHandler = async () => {
     let start;
@@ -69,30 +77,34 @@ export const FilterForm = () => {
   return (
     <form className="filter-form">
       <label className="city-input">
-        <span>עיר</span>
+        <span className="filter-form__span">עיר</span>
         <input ref={cityRef} type="text" />
       </label>
       <label className="hours-input">
-        <span>מינימום שעות</span>
+        <span className="filter-form__span">מינימום שעות</span>
         <input ref={minHoursRef} type="number" />
       </label>
       <label className="hours-input">
-        <span>מקסימום שעות</span>
+        <span className="filter-form__span">מקסימום שעות</span>
         <input dir="ltr" ref={maxHoursRef} type="number" />
       </label>
       <label className="date-input">
-        <span>תאריך</span>
-        <DatePicker
-          selectsRange={true}
-          startDate={startDate}
-          endDate={endDate}
-          locale="he"
-          dateFormat="dd/MM/yyyy"
-          onChange={(update) => {
-            setDateRange(update);
-          }}
-          withPortal
-        />
+        <span className="filter-form__span">תאריך</span>
+        {!showDate && <input onClick={() => setShowDate(true)} />}
+        {showDate && (
+          <DatePicker
+            withPortal
+            selectsRange={true}
+            startDate={startDate}
+            endDate={endDate}
+            minDate={new Date()}
+            locale="he"
+            dateFormat="dd/MM/yyyy"
+            onChange={(update) => {
+              setDateRange(update);
+            }}
+          />
+        )}
       </label>
 
       <Button
@@ -100,7 +112,7 @@ export const FilterForm = () => {
         variant="success"
         onClick={onFilterHandler}
       >
-        חפש
+        <BsCheckLg />
       </Button>
     </form>
   );
