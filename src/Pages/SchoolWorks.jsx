@@ -132,7 +132,11 @@ export const SchoolWorks = () => {
               type="school"
               works={structure.works}
               onDelete={(userId, id) => onDeleteHandler(userId, id)}
-              onEdit={(work) => showModal(<WorksForm work={work} />)}
+              onEdit={(work) =>
+                showModal(
+                  <WorksForm onClose={() => showModal(false)} work={work} />
+                )
+              }
             />
           ))}
         </>

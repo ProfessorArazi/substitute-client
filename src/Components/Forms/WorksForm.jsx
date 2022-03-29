@@ -18,9 +18,11 @@ export const WorksForm = (props) => {
   const subjectRef = useRef();
   const hoursRef = useRef();
 
+  const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1));
+
   const [subjectValue, setSubjectValue] = useState(work ? work.subject : "");
   const [hoursValue, setHoursValue] = useState(work ? work.hours : "");
-  const [date, setDate] = useState(work ? new Date(work.date) : new Date());
+  const [date, setDate] = useState(work ? new Date(work.date) : tomorrow);
   const [errors, setErrors] = useState({});
 
   const addWorkHandler = async (e) => {
@@ -141,6 +143,7 @@ export const WorksForm = (props) => {
             <Form.Label>תאריך</Form.Label>
 
             <DatePicker
+              minDate={tomorrow}
               startDate={date}
               endDate={new Date(31, 11, 2029)}
               selected={date}

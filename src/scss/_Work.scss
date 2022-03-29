@@ -2,9 +2,9 @@
   position: relative;
   padding: 10px 0;
   direction: rtl;
-  // display: flex;
+  display: flex;
   justify-content: center;
-  // gap: 3rem;
+  gap: 3rem;
   border: 2px solid black;
   width: 47%;
   border-radius: 10px;
@@ -30,8 +30,8 @@
 
 @media (max-width: 768px) {
   .work {
+    display: block;
     width: 100%;
     margin: 10px 0;
-    gap: 2rem;
   }
 }
