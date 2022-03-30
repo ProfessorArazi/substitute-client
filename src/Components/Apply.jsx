@@ -21,7 +21,11 @@ export const ApplyIcon = (props) => {
             />
           )
         }
-        src={apply.img}
+        src={
+          apply.img.length > 0
+            ? apply.img
+            : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
+        }
         alt="user"
         className="apply"
       />
