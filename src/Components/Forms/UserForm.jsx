@@ -6,6 +6,8 @@ import { httpRequest } from "../../httpRequest";
 import WorksContext from "../../store/works-context";
 import { resizeFile } from "../Images/resizeFile";
 import { storageObject } from "../Storage/storageObject";
+import { toast } from "react-toastify";
+
 import "../../scss/App.scss";
 
 export const UserForm = (props) => {
@@ -168,7 +170,12 @@ export const UserForm = (props) => {
             updateAllWorks(res.data.works);
           setUserInStorage(res.data);
         } else {
-          console.log(res.err);
+          toast.error("האימייל שהוזן קיים במערכת", {
+            autoClose: 1000,
+            position: "top-left",
+            theme: "colored",
+            hideProgressBar: true,
+          });
         }
         showModalLoading(false);
       } else if (user) {
