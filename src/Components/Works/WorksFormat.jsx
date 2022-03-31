@@ -14,6 +14,7 @@ export const WorksFormat = (props) => {
             <Work
               key={work._id}
               id={work._id}
+              city={work.city}
               work={work}
               type={props.type}
               page="works"

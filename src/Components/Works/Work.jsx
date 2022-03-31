@@ -43,18 +43,23 @@ export const Work = (props) => {
   return (
     <>
       <div className="work">
-        <div>
+        <div className="work-inner__flex">
           {props.school && <p>בית הספר : {props.school}</p>}
+          <p>מקצוע : {props.subject}</p>
+        </div>
+        <div className="work-inner__flex">
           <p>
             תאריך :{" "}
             {moment(new Date(props.date).getTime()).format("DD.MM.YYYY")}
           </p>
-          <p>מקצוע : {props.subject}</p>
+          <p>שעות : {props.hours}</p>
         </div>
         <div>
-          {props.city && <p>עיר : {props.city}</p>}
-          <p>שעות : {props.hours}</p>
-          {props.ageGroup && <p>כיתות : {props.ageGroup}</p>}
+          <div className="work-inner__flex">
+            {props.city && <p>עיר : {props.city}</p>}
+
+            {props.ageGroup && <p>כיתות : {props.ageGroup}</p>}
+          </div>
           {props.phone && <p>טלפון של ביה"ס: {props.phone}</p>}
         </div>
         {props.type === "school" &&

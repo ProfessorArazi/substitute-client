@@ -11,6 +11,12 @@
   margin: 10px;
   animation: animatedOpacity 700ms linear;
 
+  &-inner__flex {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 10%;
+  }
+
   button {
     margin: 10px;
     height: 40px;

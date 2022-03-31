@@ -28,18 +28,11 @@
   }
 }
 
-#filter {
-  text-align: right;
-  margin-right: 5%;
-  #filter-icon {
-    font-size: 2.5rem;
-  }
-}
-
 @media (max-width: 768px) {
   .works {
     display: block;
     width: 100%;
+    padding: 0;
   }
   .filter {
     width: 100%;

@@ -113,25 +113,7 @@ export const Home = () => {
                 </Navbar.Collapse>
               </Container>
             </Navbar>
-            {/* {window.innerWidth <= 768 ? (
-              <div id="filter">
-                <BsFilterRight
-                  id="filter-icon"
-                  onClick={() => {
-                    showModal
-                      ? setShowModal(false)
-                      : setShowModal(
-                          <FilterForm onClose={() => setShowModal(false)} />
-                        );
-                  }}
-                />
-                <p>סינון</p>
-              </div>
-            ) : (
-              <div className="filter">
-                <FilterForm />
-              </div>
-            )} */}
+
             <h2>עבודות זמינות</h2>
             <div className="works">
               {works.map((work, i) => (
