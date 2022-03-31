@@ -80,7 +80,7 @@ export const UserForm = (props) => {
     let password;
 
     if (props.demo) {
-      email = `demo${Math.floor(Math.random() * 10000)}@gmail.com`;
+      email = `demo${Math.floor(Math.random() * 100000)}@gmail.com`;
       password = `Name${Math.floor(Math.random() * 1000) + 100}!`;
     } else if (!user) {
       email = emailRef.current.value;
