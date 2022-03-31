@@ -1,12 +1,13 @@
 import { useCallback, useReducer } from "react";
 import WorksContext from "./works-context";
 import PacmanLoader from "react-spinners/PacmanLoader";
-import { css } from "@emotion/react";
 
-const override = css`
-  display: block;
-  margin: 10px auto;
-`;
+const style = {
+  position: "fixed",
+  top: "10%",
+  left: "45%",
+  transform: "translate(-50%, -50%)",
+};
 
 const defaultWorksState = {
   type: sessionStorage.getItem("user")
@@ -142,7 +143,9 @@ const worksReducer = (state, action) => {
     return {
       loading:
         action.loading === true ? (
-          <PacmanLoader color="goldenrod" loading={true} css={override} />
+          <div style={style}>
+            <PacmanLoader color="goldenrod" loading={true} />
+          </div>
         ) : (
           false
         ),
@@ -163,7 +166,9 @@ const worksReducer = (state, action) => {
     return {
       modalLoading:
         action.loading === true ? (
-          <PacmanLoader color="goldenrod" loading={true} css={override} />
+          <div style={style}>
+            <PacmanLoader color="goldenrod" loading={true} />
+          </div>
         ) : (
           false
         ),
