@@ -23,6 +23,8 @@ const defaultWorksState = {
   notifications: [],
   notificationsNumber: 0,
   modal: false,
+  profileImage:
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png",
 };
 
 const worksReducer = (state, action) => {
@@ -39,6 +41,7 @@ const worksReducer = (state, action) => {
       notifications: state.notifications,
       notificationsNumber: state.notificationsNumber,
       modal: state.modal,
+      profileImage: state.profileImage,
     };
   }
 
@@ -89,6 +92,7 @@ const worksReducer = (state, action) => {
       notifications: state.notifications,
       notificationsNumber: state.notificationsNumber,
       modal: state.modal,
+      profileImage: state.profileImage,
     };
   }
 
@@ -105,6 +109,7 @@ const worksReducer = (state, action) => {
       notifications: state.notifications,
       notificationsNumber: state.notificationsNumber,
       modal: state.modal,
+      profileImage: state.profileImage,
     };
   }
   if (action.type === "NOTIFICATION") {
@@ -120,6 +125,7 @@ const worksReducer = (state, action) => {
       loading: state.loading,
       modalLoading: state.modalLoading,
       modal: state.modal,
+      profileImage: state.profileImage,
     };
   }
 
@@ -136,6 +142,7 @@ const worksReducer = (state, action) => {
       loading: state.loading,
       modalLoading: state.modalLoading,
       modal: state.modal,
+      profileImage: state.profileImage,
     };
   }
 
@@ -159,6 +166,7 @@ const worksReducer = (state, action) => {
       notifications: state.notifications,
       notificationsNumber: state.notificationsNumber,
       modal: state.modal,
+      profileImage: state.profileImage,
     };
   }
 
@@ -182,12 +190,30 @@ const worksReducer = (state, action) => {
       notifications: state.notifications,
       notificationsNumber: state.notificationsNumber,
       modal: state.modal,
+      profileImage: state.profileImage,
     };
   }
 
   if (action.type === "MODAL") {
     return {
       modal: action.modal,
+      notifications: state.notifications,
+      notificationsNumber: action.number,
+      type: state.type,
+      works: state.works,
+      closeWorks: state.closeWorks,
+      waitingWorks: state.waitingWorks,
+      rejectedWorks: state.rejectedWorks,
+      oldWorks: state.oldWorks,
+      loading: state.loading,
+      modalLoading: state.modalLoading,
+      profileImage: state.profileImage,
+    };
+  }
+  if (action.type === "IMAGE") {
+    return {
+      profileImage: action.src,
+      modal: state.modal,
       notifications: state.notifications,
       notificationsNumber: action.number,
       type: state.type,
@@ -266,6 +292,13 @@ const CartProvider = (props) => {
     });
   }, []);
 
+  const updateProfileImageHandler = useCallback((src) => {
+    dispatchWorksAction({
+      type: "IMAGE",
+      src: src,
+    });
+  }, []);
+
   const worksContext = {
     type: worksState.type,
     loading: worksState.loading,
@@ -278,6 +311,7 @@ const CartProvider = (props) => {
     notifications: worksState.notifications,
     notificationsNumber: worksState.notificationsNumber,
     modal: worksState.modal,
+    profileImage: worksState.profileImage,
     updateType: updateTypeHandler,
     updateAllWorks: updateAllWorksHandler,
     updateUserWorks: updateUserWorksHandler,
@@ -286,6 +320,7 @@ const CartProvider = (props) => {
     updateNotifications: updateNotificationsHandler,
     updateNotificationsNumber: updateNotificationsNumberHandler,
     showModal: showModalHandler,
+    updateProfileImage: updateProfileImageHandler,
   };
 
   return (

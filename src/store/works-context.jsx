@@ -14,6 +14,8 @@ const WorksContext = React.createContext({
   notifications: [],
   notificationsNumber: 0,
   modal: false,
+  profileImage:
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png",
 
   updateType: (type) => {},
   updateAllWorks: (works) => {},
@@ -23,6 +25,7 @@ const WorksContext = React.createContext({
   updateNotifications: (notifications) => {},
   updateNotificationsNumber: (number) => {},
   showModal: (modal) => {},
+  updateProfileImage: (src) => {},
 });
 
 export default WorksContext;
