@@ -5,3 +5,10 @@
   width: 3rem;
   height: 3rem;
 }
+
+@media (max-width: 768px) {
+  .add-work__btn {
+    right: 3%;
+    top: 8%;
+  }
+}

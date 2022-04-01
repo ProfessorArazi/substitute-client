@@ -20,8 +20,8 @@ export const WorksFormat = (props) => {
               page="works"
               date={work.date}
               subject={work.subject}
-              school={props.type === "sub" && work.school}
-              ageGroup={props.type === "sub" && work.ageGroup}
+              school={work.school}
+              ageGroup={work.ageGroup}
               hours={work.hours}
               applied={work.applied}
               old={now > new Date(work.date).getTime()}
