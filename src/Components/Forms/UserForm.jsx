@@ -238,6 +238,8 @@ export const UserForm = (props) => {
       });
 
       if (res.data) {
+        setUserInStorage(res.data);
+        showModalLoading(false);
         if (type === "sub") {
           updateAllWorks(res.data.works);
           const subWorks = await updateWorks("/sub/works");
@@ -248,9 +250,6 @@ export const UserForm = (props) => {
             console.log(res.error);
           }
         }
-
-        setUserInStorage(res.data);
-        showModalLoading(false);
       } else {
         setErrorMessage("פרטים לא נכונים");
         showModalLoading(false);
