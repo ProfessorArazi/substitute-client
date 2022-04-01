@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState, useCallback } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Input } from "./Input";
 import validator from "validator";
@@ -7,6 +7,7 @@ import WorksContext from "../../store/works-context";
 import { resizeFile } from "../Images/resizeFile";
 import { storageObject } from "../Storage/storageObject";
 import { toast } from "react-toastify";
+import { updateWorks } from "../Works/updateWorks";
 
 import "../../scss/App.scss";
 
@@ -18,6 +19,7 @@ export const UserForm = (props) => {
     updateAllWorks,
     updateUserWorks,
     showModalLoading,
+    updateNotifications,
     modalLoading,
   } = ctx;
 
@@ -48,6 +50,23 @@ export const UserForm = (props) => {
   const onImageChange = (e) => {
     setFiles(e.target.files);
   };
+
+  const updateUserWorksHandler = useCallback(
+    (data, user) => {
+      updateUserWorks({
+        works: {
+          works: [...data.sub.works],
+          subId: user.sub._id,
+        },
+      });
+      updateNotifications(data.sub.notifications);
+      sessionStorage.setItem(
+        "user",
+        JSON.stringify(storageObject("sub", data))
+      );
+    },
+    [updateUserWorks, updateNotifications]
+  );
 
   const setUserInStorage = (data) => {
     if (
@@ -219,7 +238,16 @@ export const UserForm = (props) => {
       });
 
       if (res.data) {
-        if (type === "sub") updateAllWorks(res.data.works);
+        if (type === "sub") {
+          updateAllWorks(res.data.works);
+          const subWorks = await updateWorks("/sub/works");
+          if (subWorks.data) {
+            const user = JSON.parse(sessionStorage.getItem("user"));
+            updateUserWorksHandler(subWorks.data, user);
+          } else {
+            console.log(res.error);
+          }
+        }
 
         setUserInStorage(res.data);
         showModalLoading(false);
