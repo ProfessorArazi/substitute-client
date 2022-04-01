@@ -4,6 +4,7 @@ import { Input } from "./Input";
 import validator from "validator";
 import { httpRequest } from "../../httpRequest";
 import WorksContext from "../../store/works-context";
+import { resizeFile } from "../Images/resizeFile";
 import { storageObject } from "../Storage/storageObject";
 import { toast } from "react-toastify";
 
@@ -17,7 +18,6 @@ export const UserForm = (props) => {
     updateAllWorks,
     updateUserWorks,
     showModalLoading,
-    updateProfileImage,
     modalLoading,
   } = ctx;
 
@@ -69,7 +69,6 @@ export const UserForm = (props) => {
 
   const submitHandler = async (e) => {
     let demoType;
-    const fd = new FormData();
 
     if (typeof e === "string") {
       demoType = e;
@@ -147,40 +146,29 @@ export const UserForm = (props) => {
         return setErrors(formErrors);
       }
       setErrors({});
-      // let img;
+      let img;
       if (files.length > 0) {
-        fd.append("files", files[0], files[0].name);
-        // img = await resizeFile(files[0]);
+        img = await resizeFile(files[0]);
       }
       showModalLoading(true);
       if (!user) {
-        fd.append(
-          "state",
-          JSON.stringify({
-            email,
-            password,
-            name,
-            city,
-            phone,
-            ageGroup,
-            mailingList,
-            desc,
-            demo: props.demo ? true : false,
-          })
-        );
-        const res = await httpRequest("post", `/${type || demoType}`, fd);
+        const res = await httpRequest("post", `/${type || demoType}`, {
+          img,
+          email,
+          password,
+          name,
+          city,
+          phone,
+          ageGroup,
+          mailingList,
+          desc,
+          demo: props.demo ? true : false,
+        });
 
         if (res.data) {
           if (type === "sub" || demoType === "sub")
             updateAllWorks(res.data.works);
           setUserInStorage(res.data);
-          if (res.data.sub.img.img) {
-            const image = res.data.sub.img.img.data.data;
-            const base64String = btoa(
-              String.fromCharCode(...new Uint8Array(image))
-            );
-            updateProfileImage(`data:image/png;base64,${base64String}`);
-          }
         } else {
           toast.error("האימייל שהוזן קיים במערכת", {
             autoClose: 1000,

@@ -1,18 +1,15 @@
-import React, { useContext } from "react";
-import WorksContext from "../../store/works-context";
+import React from "react";
 import ReactStars from "react-rating-stars-component";
 import { Button } from "react-bootstrap";
 
 export const Details = (props) => {
-  const { profileImage } = useContext(WorksContext);
-
   return (
     <div>
       <ul style={{ listStyle: "none" }}>
-        {profileImage && (
+        {props.img && (
           <img
             style={{ width: "100px", height: "100px", objectFit: "cover" }}
-            src={profileImage}
+            src={props.img}
             alt="profile"
           />
         )}

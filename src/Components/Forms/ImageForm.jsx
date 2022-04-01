@@ -3,6 +3,7 @@ import { useState, useContext } from "react";
 import WorksContext from "../../store/works-context";
 import { Form, Button } from "react-bootstrap";
 import { httpRequest } from "../../httpRequest";
+import { resizeFile } from "../Images/resizeFile";
 import { storageObject } from "../Storage/storageObject";
 import { toast } from "react-toastify";
 
@@ -13,7 +14,6 @@ export const ImageForm = (props) => {
     updateUserWorks,
     updateNotifications,
     showModalLoading,
-    updateProfileImage,
     modalLoading,
   } = ctx;
 
@@ -26,7 +26,6 @@ export const ImageForm = (props) => {
   const uploadImageHandler = async (e) => {
     e.preventDefault();
     const user = JSON.parse(sessionStorage.getItem("user"));
-    const fd = new FormData();
 
     if (files.length === 0) {
       return toast.error("לא הכנסת תמונה", {
@@ -36,18 +35,18 @@ export const ImageForm = (props) => {
         hideProgressBar: true,
       });
     }
-    fd.append("files", files[0], files[0].name);
-    fd.append(
-      "state",
-      JSON.stringify({
-        email: user[user.type].email,
-        type: user.type,
-        substituteId: user.sub._id,
-      })
-    );
+
+    const img = await resizeFile(files[0]);
+
+    const data = {
+      img,
+      email: user[user.type].email,
+      type: user.type,
+      substituteId: user.sub._id,
+    };
 
     showModalLoading(true);
-    const res = await httpRequest("put", `/${user.type}/image`, fd, {
+    const res = await httpRequest("put", `/${user.type}/image`, data, {
       token: user.token,
     });
     if (res.data) {
@@ -55,9 +54,7 @@ export const ImageForm = (props) => {
         "user",
         JSON.stringify(storageObject(user.type, res.data))
       );
-      const image = res.data.sub.img.img.data.data;
-      const base64String = btoa(String.fromCharCode(...new Uint8Array(image)));
-      updateProfileImage(`data:image/png;base64,${base64String}`);
+
       updateAllWorks(res.data.works);
       updateUserWorks({
         works: {

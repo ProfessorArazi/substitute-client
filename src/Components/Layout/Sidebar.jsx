@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { UserForm } from "../../Components/Forms/UserForm";
@@ -11,14 +11,7 @@ export const Sidebar = () => {
   const [expanded, setExpanded] = useState(false);
 
   const ctx = useContext(WorksContext);
-  const {
-    type,
-    updateType,
-    updateAllWorks,
-    showModal,
-    profileImage,
-    updateProfileImage,
-  } = ctx;
+  const { type, updateType, updateAllWorks, showModal } = ctx;
 
   const toggleHandler = () => {
     setExpanded(expanded ? false : "expanded");
@@ -30,15 +23,6 @@ export const Sidebar = () => {
 
   const user = type !== "guest" && JSON.parse(sessionStorage.getItem("user"));
 
-  useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
-    if (user && user.sub.img) {
-      const image = user.sub.img.img.data.data;
-      const base64String = btoa(String.fromCharCode(...new Uint8Array(image)));
-      updateProfileImage(`data:image/png;base64,${base64String}`);
-    }
-  }, [updateProfileImage]);
-
   const menu = (
     <>
       {type === "sub" && (
@@ -46,7 +30,11 @@ export const Sidebar = () => {
           onClick={() =>
             showModal(<ImageForm onClose={() => showModal(false)} />)
           }
-          src={profileImage}
+          src={
+            user[type].img
+              ? user[type].img
+              : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
+          }
           alt="user"
           className="user-img"
         />
@@ -71,6 +59,7 @@ export const Sidebar = () => {
             onClick={() =>
               showModal(
                 <Details
+                  img={user[type].img}
                   name={user[type].name}
                   phone={user[type].phone}
                   grade={type === "sub" && user[type].grade.grade}
