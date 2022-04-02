@@ -123,7 +123,7 @@ export const WorksForm = (props) => {
       {modalLoading ? (
         modalLoading
       ) : (
-        <Form className="login-form" onSubmit={addWorkHandler}>
+        <Form dir="rtl" onSubmit={addWorkHandler}>
           <>
             {inputs.map((input, i) => (
               <Input
