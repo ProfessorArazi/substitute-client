@@ -5,7 +5,7 @@ import { Button } from "react-bootstrap";
 export const Details = (props) => {
   return (
     <div>
-      <ul style={{ listStyle: "none" }}>
+      <ul style={{ listStyle: "none", textAlign: "center" }}>
         {props.img && (
           <img
             style={{ width: "100px", height: "100px", objectFit: "cover" }}
@@ -15,11 +15,12 @@ export const Details = (props) => {
         )}
         <li>שם: {props.name}</li>
         <li>טלפון: {props.phone}</li>
-        {props.grade && (
+        {props.grade !== "school" && (
           <>
             <li>
               {
                 <ReactStars
+                  classNames={"stars"}
                   count={5}
                   size={24}
                   edit={false}
@@ -31,8 +32,8 @@ export const Details = (props) => {
             <li>דירוגים: {props.votes}</li>
           </>
         )}
+        {props.onClick && <Button onClick={props.onClick}>בחר</Button>}
       </ul>
-      {props.onClick && <Button onClick={props.onClick}>בחר</Button>}
     </div>
   );
 };

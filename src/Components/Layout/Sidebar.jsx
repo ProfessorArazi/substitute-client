@@ -62,8 +62,8 @@ export const Sidebar = () => {
                   img={user[type].img}
                   name={user[type].name}
                   phone={user[type].phone}
-                  grade={type === "sub" && user[type].grade.grade}
-                  votes={type === "sub" && user[type].grade.votes}
+                  grade={type === "sub" ? user[type].grade.grade : "school"}
+                  votes={type === "sub" ? user[type].grade.votes : "school"}
                 />
               )
             }

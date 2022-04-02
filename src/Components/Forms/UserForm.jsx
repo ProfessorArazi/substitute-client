@@ -397,7 +397,7 @@ export const UserForm = (props) => {
                       name="age"
                       defaultChecked={ageGroupValue === "יסודי"}
                     />
-                    יסודי
+                    {" יסודי"}
                     <br />
                     <input
                       type="radio"
@@ -405,7 +405,7 @@ export const UserForm = (props) => {
                       name="age"
                       defaultChecked={ageGroupValue === "חטיבה"}
                     />
-                    חטיבה
+                    {" חטיבה"}
                     <br />
                     <input
                       type="radio"
@@ -413,7 +413,7 @@ export const UserForm = (props) => {
                       name="age"
                       defaultChecked={ageGroupValue === "תיכון"}
                     />
-                    תיכון
+                    {" תיכון"}
                   </div>
                 )}
 
@@ -426,7 +426,9 @@ export const UserForm = (props) => {
                   />
                 )}
 
-                <Button type="submit">Submit</Button>
+                <Button type="submit">
+                  {props.signup ? "הירשם" : "התחבר"}
+                </Button>
               </>
             </Form>
           )}
