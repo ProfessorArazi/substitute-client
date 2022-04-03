@@ -28,7 +28,10 @@ function App() {
 
       <div className="layout">
         {window.innerWidth > 768 ? (
-          <Sidebar />
+          <>
+            <Sidebar />
+            <SiteRoutes />
+          </>
         ) : (
           <Sidebar>
             <SiteRoutes />
