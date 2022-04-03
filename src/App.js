@@ -25,9 +25,15 @@ function App() {
   return (
     <WorksProvider>
       <ToastContainer />
+
       <div className="layout">
-        <Sidebar />
-        <SiteRoutes />
+        {window.innerWidth > 768 ? (
+          <Sidebar />
+        ) : (
+          <Sidebar>
+            <SiteRoutes />
+          </Sidebar>
+        )}
       </div>
     </WorksProvider>
   );

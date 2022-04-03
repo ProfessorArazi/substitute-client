@@ -7,7 +7,7 @@ import ReactStars from "react-rating-stars-component";
 import { ImageForm } from "../../Components/Forms/ImageForm";
 import { Details } from "../../Components/Details/Details";
 
-export const Sidebar = () => {
+export const Sidebar = (props) => {
   const [expanded, setExpanded] = useState(false);
 
   const ctx = useContext(WorksContext);
@@ -128,25 +128,28 @@ export const Sidebar = () => {
           {menu}
         </nav>
       ) : (
-        <Navbar
-          className="navbar"
-          dir="rtl"
-          bg="light"
-          expand="lg"
-          expanded={expanded}
-        >
-          <Container>
-            <Navbar.Toggle
-              onClick={toggleHandler}
-              aria-controls="basic-navbar-nav"
-            />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav onClick={closeToggleHandler} className="me-auto">
-                {menu}
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
+        <>
+          <Navbar
+            className="navbar"
+            dir="rtl"
+            bg="light"
+            expand="lg"
+            expanded={expanded}
+          >
+            <Container>
+              <Navbar.Toggle
+                onClick={toggleHandler}
+                aria-controls="basic-navbar-nav"
+              />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav onClick={closeToggleHandler} className="me-auto">
+                  {menu}
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
+          {<div onClick={closeToggleHandler}>{props.children}</div>}
+        </>
       )}
     </>
   );
