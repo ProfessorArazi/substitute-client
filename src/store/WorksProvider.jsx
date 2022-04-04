@@ -4,7 +4,7 @@ import PacmanLoader from "react-spinners/PacmanLoader";
 
 const style = {
   position: "fixed",
-  top: "10%",
+  top: "15%",
   left: "45%",
   transform: "translate(-50%, -50%)",
 };

@@ -4,35 +4,36 @@ a {
   cursor: pointer !important;
 }
 
+.navbar,
+.sidebar {
+  background: #d36104;
+}
+
 .sidebar {
   margin: 0;
-  padding: 0;
+  padding-top: 1rem;
   position: fixed;
   right: 0;
-  height: 100%;
   color: white;
-  background: #440c5a;
+  height: 100%;
   width: 15%;
   text-align: center;
 }
 
-.navbar a {
-  color: #000 !important;
+.nav-link {
+  color: #fff !important;
+}
+
+.navbar .nav-link {
   padding: 8px !important;
 }
 
-.sidebar a {
-  color: #fff;
+.sidebar .nav-link {
   padding: 16px !important;
 }
 
-.sidebar a.active {
-  background-color: #04aa6d;
-  color: white;
-}
-
 .sidebar a:hover:not(.active) {
-  background-color: #555;
+  background-color: #e38f4b;
   color: white;
 }
 
@@ -47,4 +48,11 @@ a {
   object-fit: cover;
   margin: 10px auto;
   border: 2px solid #fff;
+}
+
+.school-name {
+  margin-right: 0 !important;
+  font-weight: bold;
+  font-size: 1.5rem !important;
+  color: #fff !important;
 }

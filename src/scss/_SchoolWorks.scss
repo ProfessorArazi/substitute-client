@@ -1,14 +1,18 @@
 .add-work__btn {
-  position: absolute;
-  right: 17%;
-  top: 1%;
-  width: 3rem;
-  height: 3rem;
+  width: 85%;
+  text-align: right;
+  padding: 2% 3% 0;
+
+  button {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.5rem;
+    padding-top: 0;
+  }
 }
 
 @media (max-width: 768px) {
   .add-work__btn {
-    right: 3%;
-    top: 10%;
+    width: 100%;
   }
 }

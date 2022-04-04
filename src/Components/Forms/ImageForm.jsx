@@ -80,7 +80,9 @@ export const ImageForm = (props) => {
               <Form.Label>פרופיל</Form.Label>
               <Form.Control onChange={onImageChange} type="file" />
             </Form.Group>
-            <Button type="submit">submit</Button>
+            <Button className="light-blue__btn" type="submit">
+              submit
+            </Button>
           </Form>
         </>
       )}

@@ -1,8 +1,10 @@
 .filter-form {
+  position: absolute;
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding-left: 10%;
+  background-color: #e38f4b;
+  padding: 15px 0 15px 15px;
 
   &__span {
     display: inline-block;
@@ -12,12 +14,13 @@
 
   label {
     width: 25%;
+    color: #fff;
   }
   .filter-btn {
     position: absolute;
-    bottom: 0;
-    left: 2%;
-    padding: 6px 16px;
+    bottom: 10%;
+    left: 0.5%;
+    padding: 1px 8px;
   }
 
   .react-datepicker__navigation {
@@ -27,6 +30,7 @@
 
 @media (max-width: 768px) {
   .filter-form {
+    position: relative;
     margin: 0 auto;
     padding-left: 17%;
     padding-top: 5%;

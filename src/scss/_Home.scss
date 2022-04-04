@@ -18,13 +18,21 @@
 
 .filter {
   width: 85%;
-  padding: 10px 20px;
   direction: rtl;
-  margin-top: 5%;
+  padding: 0 !important;
+  margin-bottom: 8%;
+  background-color: #e38f4b;
 
   .me-auto {
     margin-right: 0 !important;
     width: 100%;
+  }
+  .container {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .toggle {
+    padding-right: 16px;
   }
 }
 

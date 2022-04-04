@@ -107,11 +107,7 @@ export const FilterForm = () => {
         )}
       </label>
 
-      <Button
-        className="filter-btn"
-        variant="success"
-        onClick={onFilterHandler}
-      >
+      <Button className="filter-btn light-blue__btn" onClick={onFilterHandler}>
         <BsCheckLg />
       </Button>
     </form>

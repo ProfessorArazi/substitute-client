@@ -77,7 +77,7 @@ export const Work = (props) => {
             </>
           ) : (
             !props.old && (
-              <>
+              <div className="extras">
                 <div>
                   {props.applied &&
                     props.applied.map((apply, i) => (
@@ -88,9 +88,15 @@ export const Work = (props) => {
                       />
                     ))}
                 </div>
-                <div>
-                  <Button onClick={() => props.onEdit(props.work)}>ערוך</Button>
+                <div className="actions">
                   <Button
+                    className="light-blue__btn"
+                    onClick={() => props.onEdit(props.work)}
+                  >
+                    ערוך
+                  </Button>
+                  <Button
+                    className="delete__btn"
                     onClick={() =>
                       props.onDelete(
                         JSON.parse(sessionStorage.getItem("user")).school.id,
@@ -101,11 +107,12 @@ export const Work = (props) => {
                     מחק
                   </Button>
                 </div>
-              </>
+              </div>
             )
           ))}
         {props.type === "sub" && props.page === "home" ? (
           <Button
+            className="light-blue__btn"
             onClick={() => {
               const work = {
                 ageGroup: props.ageGroup,
@@ -128,7 +135,7 @@ export const Work = (props) => {
         ) : (
           props.onCancel && (
             <Button
-              variant="danger"
+              className="delete__btn"
               onClick={() => props.onCancel(props.id, props.work.userId)}
             >
               ביטול הרשמה

@@ -110,14 +110,16 @@ export const SchoolWorks = () => {
   return (
     <>
       {!loading && (
-        <Button
-          onClick={() =>
-            showModal(<WorksForm onClose={() => showModal(false)} />)
-          }
-          className="add-work__btn"
-        >
-          +
-        </Button>
+        <div className="add-work__btn">
+          <Button
+            onClick={() =>
+              showModal(<WorksForm onClose={() => showModal(false)} />)
+            }
+            className=" light-blue__btn"
+          >
+            +
+          </Button>
+        </div>
       )}
 
       {loading ? (

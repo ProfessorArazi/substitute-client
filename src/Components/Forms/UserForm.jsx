@@ -307,6 +307,7 @@ export const UserForm = (props) => {
       {!type && !user ? (
         <div className="login-actions">
           <Button
+            className="light-blue__btn"
             onClick={() => {
               setType("sub");
               props.demo && submitHandler("sub");
@@ -315,6 +316,7 @@ export const UserForm = (props) => {
             מורה מחליף
           </Button>
           <Button
+            className="light-blue__btn"
             onClick={() => {
               setType("school");
               props.demo && submitHandler("school");
@@ -426,8 +428,8 @@ export const UserForm = (props) => {
                   />
                 )}
 
-                <Button type="submit">
-                  {props.signup ? "הירשם" : "התחבר"}
+                <Button className="light-blue__btn" type="submit">
+                  {user ? "עדכן" : props.signup ? "הירשם" : "התחבר"}
                 </Button>
               </>
             </Form>

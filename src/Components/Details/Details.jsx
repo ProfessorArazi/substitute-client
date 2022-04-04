@@ -32,7 +32,11 @@ export const Details = (props) => {
             <li>דירוגים: {props.votes}</li>
           </>
         )}
-        {props.onClick && <Button onClick={props.onClick}>בחר</Button>}
+        {props.onClick && (
+          <Button className="light-blue__btn" onClick={props.onClick}>
+            בחר
+          </Button>
+        )}
       </ul>
     </div>
   );

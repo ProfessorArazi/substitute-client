@@ -7,9 +7,14 @@ export const WorksFormat = (props) => {
   return (
     <>
       <h2>{title}</h2>
+      {!works.length && (
+        <div className="works">
+          <p>אין עבודות כרגע</p>
+        </div>
+      )}
 
       <TransitionGroup component={"ul"} className="works">
-        {works.length > 0 ? (
+        {works.length > 0 &&
           works.map((work, i) => (
             <CSSTransition key={i} timeout={700} classNames="works-work">
               <Work
@@ -40,10 +45,7 @@ export const WorksFormat = (props) => {
                 onCancel={props.onCancel && props.onCancel}
               />
             </CSSTransition>
-          ))
-        ) : (
-          <p>אין עבודות כרגע</p>
-        )}
+          ))}
       </TransitionGroup>
     </>
   );

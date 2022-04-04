@@ -99,9 +99,12 @@ export const Home = () => {
       <>
         {type === "sub" ? (
           <>
-            <Navbar className="filter" dir="rtl" bg="light" expand="lg">
+            <Navbar className="filter" dir="rtl" expand="lg">
               <Container>
-                <Navbar.Toggle aria-controls="basic-navbar-nav">
+                <Navbar.Toggle
+                  className="toggle"
+                  aria-controls="basic-navbar-nav"
+                >
                   <span>
                     <FaFilter />
                   </span>

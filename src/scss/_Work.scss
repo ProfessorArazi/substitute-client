@@ -5,11 +5,12 @@
   display: block;
   justify-content: center;
   gap: 3rem;
-  border: 2px solid black;
   width: 47%;
   border-radius: 10px;
   margin: 10px;
   animation: animatedOpacity 700ms linear;
+  background-color: #003d64;
+  color: #fff;
 
   &-inner__flex {
     display: flex;
@@ -17,10 +18,25 @@
     margin: 0 10%;
   }
 
+  .extras {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 7%;
+  }
+
+  .delete__btn {
+    background-color: #d34304;
+    border: #d34304;
+  }
+  .delete__btn:hover {
+    background-color: rgb(221, 73, 70);
+    border: rgb(221, 73, 70);
+  }
+
   button {
     margin: 10px;
-    height: 40px;
-    padding: 0 12px;
+    font-size: 13px;
+    font-weight: 500;
   }
 }
 

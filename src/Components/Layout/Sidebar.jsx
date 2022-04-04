@@ -25,23 +25,23 @@ export const Sidebar = (props) => {
 
   const menu = (
     <>
-      {type === "sub" && (
-        <img
-          onClick={() =>
-            showModal(<ImageForm onClose={() => showModal(false)} />)
-          }
-          src={
-            user[type].img
-              ? user[type].img
-              : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
-          }
-          alt="user"
-          className="user-img"
-        />
+      {type === "school" && (
+        <p className="school-name">{`ביה"ס ${user[type].name}`}</p>
       )}
-
       {type === "sub" && (
         <>
+          <img
+            onClick={() =>
+              showModal(<ImageForm onClose={() => showModal(false)} />)
+            }
+            src={
+              user[type].img
+                ? user[type].img
+                : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
+            }
+            alt="user"
+            className="user-img"
+          />
           <ReactStars
             classNames="stars"
             count={5}
@@ -50,12 +50,15 @@ export const Sidebar = (props) => {
             edit={false}
             isHalf={true}
           />
-          <Link to="/">עבודות זמינות</Link>
+          <Link className="nav-link" to="/">
+            עבודות זמינות
+          </Link>
         </>
       )}
       {type !== "guest" ? (
         <>
           <Nav.Link
+            className="nav-link"
             onClick={() =>
               showModal(
                 <Details
@@ -71,6 +74,7 @@ export const Sidebar = (props) => {
             החשבון שלי
           </Nav.Link>
           <Nav.Link
+            className="nav-link"
             onClick={() =>
               showModal(
                 <UserForm onClose={() => showModal(false)} user={user} signup />
@@ -79,9 +83,12 @@ export const Sidebar = (props) => {
           >
             ערוך פרופיל
           </Nav.Link>
-          <Link to="/works">העבודות שלי</Link>
+          <Link className="nav-link" to="/works">
+            העבודות שלי
+          </Link>
 
           <Nav.Link
+            className="nav-link"
             onClick={() => {
               updateType("guest");
               sessionStorage.clear();
@@ -94,6 +101,7 @@ export const Sidebar = (props) => {
       ) : (
         <>
           <Nav.Link
+            className="nav-link"
             onClick={() =>
               showModal(<UserForm onClose={() => showModal(false)} />)
             }
@@ -101,6 +109,7 @@ export const Sidebar = (props) => {
             התחבר
           </Nav.Link>
           <Nav.Link
+            className="nav-link"
             onClick={() =>
               showModal(<UserForm onClose={() => showModal(false)} signup />)
             }
@@ -108,6 +117,7 @@ export const Sidebar = (props) => {
             הרשמה
           </Nav.Link>
           <Nav.Link
+            className="nav-link"
             onClick={() =>
               showModal(
                 <UserForm onClose={() => showModal(false)} signup demo />
@@ -129,13 +139,7 @@ export const Sidebar = (props) => {
         </nav>
       ) : (
         <>
-          <Navbar
-            className="navbar"
-            dir="rtl"
-            bg="light"
-            expand="lg"
-            expanded={expanded}
-          >
+          <Navbar className="navbar" dir="rtl" expand="lg" expanded={expanded}>
             <Container>
               <Navbar.Toggle
                 onClick={toggleHandler}
