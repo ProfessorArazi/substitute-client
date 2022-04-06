@@ -81,7 +81,6 @@ const ApplyDetails = (props) => {
     } else console.log(res.err);
     showModalLoading(false);
   };
-
   return (
     <>
       {modalLoading ? (
@@ -93,6 +92,7 @@ const ApplyDetails = (props) => {
           phone={props.apply.phone}
           grade={props.apply.grades.grade}
           votes={props.apply.grades.votes}
+          desc={props.apply.desc}
           onClick={pickSubHandler}
         />
       )}

@@ -67,6 +67,7 @@ export const Sidebar = (props) => {
                   phone={user[type].phone}
                   grade={type === "sub" ? user[type].grade.grade : "school"}
                   votes={type === "sub" ? user[type].grade.votes : "school"}
+                  desc={type === "sub" ? user[type].desc : "school"}
                 />
               )
             }

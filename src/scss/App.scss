@@ -7,6 +7,7 @@
 @import "./Apply";
 @import "./Notifications";
 @import "./FilterForm";
+@import "./WorksForm";
 
 * {
   padding: 0;
@@ -30,7 +31,21 @@ h1,
 h2 {
   margin-right: 15%;
   padding-top: 1%;
-  padding-bottom: 2%;
+  padding: 2% 0;
+}
+
+input {
+  padding: 0 5px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .layout {

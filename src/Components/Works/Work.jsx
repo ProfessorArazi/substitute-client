@@ -78,7 +78,7 @@ export const Work = (props) => {
           ) : (
             !props.old && (
               <div className="extras">
-                <div>
+                <div className="extras-appliers">
                   {props.applied &&
                     props.applied.map((apply, i) => (
                       <ApplyIcon
@@ -88,7 +88,7 @@ export const Work = (props) => {
                       />
                     ))}
                 </div>
-                <div className="actions">
+                <div className="extras-actions">
                   <Button
                     className="light-blue__btn"
                     onClick={() => props.onEdit(props.work)}

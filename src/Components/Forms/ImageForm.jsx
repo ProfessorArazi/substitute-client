@@ -75,13 +75,13 @@ export const ImageForm = (props) => {
         modalLoading
       ) : (
         <>
-          <Form onSubmit={uploadImageHandler}>
+          <Form dir="rtl" onSubmit={uploadImageHandler}>
             <Form.Group className="mb-3" controlId="image">
               <Form.Label>פרופיל</Form.Label>
               <Form.Control onChange={onImageChange} type="file" />
             </Form.Group>
             <Button className="light-blue__btn" type="submit">
-              submit
+              שלח
             </Button>
           </Form>
         </>

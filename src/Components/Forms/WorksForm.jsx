@@ -123,7 +123,7 @@ export const WorksForm = (props) => {
       {modalLoading ? (
         modalLoading
       ) : (
-        <Form dir="rtl" onSubmit={addWorkHandler}>
+        <Form className="work-form" dir="rtl" onSubmit={addWorkHandler}>
           <>
             {inputs.map((input, i) => (
               <Input
@@ -141,8 +141,8 @@ export const WorksForm = (props) => {
 
           <Form.Group className="mb-3" controlId="name">
             <Form.Label>תאריך</Form.Label>
-
             <DatePicker
+              className="work-form__date form-control "
               minDate={tomorrow}
               startDate={date}
               endDate={new Date(31, 11, 2029)}
@@ -156,8 +156,8 @@ export const WorksForm = (props) => {
             />
           </Form.Group>
 
-          <Button className="light-blue__btn" type="submit">
-            Submit
+          <Button className="light-blue__btn work-form__btn" type="submit">
+            {work ? "עדכן" : "צור"}
           </Button>
         </Form>
       )}

@@ -17,6 +17,7 @@ export const Details = (props) => {
         <li>טלפון: {props.phone}</li>
         {props.grade !== "school" && (
           <>
+            {props.desc && <li>על עצמי: {props.desc}</li>}
             <li>
               {
                 <ReactStars

@@ -421,6 +421,7 @@ export const UserForm = (props) => {
 
                 {props.signup && (
                   <Form.Check
+                    className="check-email"
                     defaultChecked={mailingList}
                     onChange={(e) => setMailingList(e.target.checked)}
                     id="mailingList"

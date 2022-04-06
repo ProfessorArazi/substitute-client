@@ -117,7 +117,7 @@ export const Home = () => {
               </Container>
             </Navbar>
 
-            <h2>עבודות זמינות</h2>
+            <h1>עבודות זמינות</h1>
             <div className="works">
               {works.map((work, i) => (
                 <Work
