@@ -22,9 +22,15 @@
     display: flex;
     justify-content: space-between;
     margin: 0 7%;
+    position: relative;
 
     &-appliers {
       padding-top: 4px;
+    }
+    &-actions {
+      position: absolute;
+      left: 0;
+      bottom: 0;
     }
   }
 
