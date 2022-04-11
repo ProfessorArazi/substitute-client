@@ -53,7 +53,6 @@ export const UserForm = (props) => {
 
   const updateUserWorksHandler = useCallback(
     (data, user) => {
-      console.log(data);
       updateUserWorks({
         works: {
           works: [...data.sub.works],
@@ -186,11 +185,13 @@ export const UserForm = (props) => {
         });
 
         if (res.data) {
-          if (type === "sub" || demoType === "sub")
-            updateAllWorks(res.data.works);
           setUserInStorage(res.data);
-          const user = JSON.parse(sessionStorage.getItem("user"));
-          updateUserWorksHandler(res.data, user);
+          if (type === "sub" || demoType === "sub") {
+            updateAllWorks(res.data.works);
+
+            const user = JSON.parse(sessionStorage.getItem("user"));
+            updateUserWorksHandler(res.data, user);
+          }
         } else {
           toast.error("האימייל שהוזן קיים במערכת", {
             autoClose: 1000,

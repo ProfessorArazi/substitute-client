@@ -116,7 +116,7 @@ export const SchoolWorks = () => {
 
       {loading ? (
         <div className="loading-p">
-          <p>מחפש עבודות...</p>
+          <p>מביא עבודות...</p>
         </div>
       ) : (
         <>

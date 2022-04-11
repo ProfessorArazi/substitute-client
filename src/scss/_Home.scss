@@ -35,7 +35,13 @@
   }
 }
 
-@media (max-width: 768px) {
+.home-page__desc {
+  width: 85%;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+@media (max-width: 992px) {
   .works {
     display: block;
     width: 100%;
@@ -49,5 +55,9 @@
       border: none !important;
       box-shadow: none !important;
     }
+  }
+  .home-page__desc {
+    width: 90%;
+    margin: 10px auto;
   }
 }

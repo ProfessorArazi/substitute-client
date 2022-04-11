@@ -10,9 +10,12 @@
 
 .modal-overlay {
   position: fixed;
-  top: 1%;
-  left: 34%;
-  width: 27%;
+  top: 45%;
+  left: 42.5%;
+
+  transform: translate(-50%, -50%);
+
+  width: 300px;
   padding: 1rem;
   border-radius: 7px;
   box-shadow: 0 2px 200px #000;
@@ -38,11 +41,11 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .modal-overlay {
-    left: 5%;
-    top: 5%;
-    width: 90%;
+    left: 50%;
+
+    max-width: 70%;
   }
 }
 

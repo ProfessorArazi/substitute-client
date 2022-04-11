@@ -1,8 +1,8 @@
 .noti {
   background-color: #e38f4b;
   text-align: left;
-  padding: 0 1.5%;
-  height: 3rem;
+  padding: 0.5% 1.5%;
+  height: 4rem;
 
   svg {
     cursor: pointer;
@@ -17,10 +17,10 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .noti {
     position: absolute;
     background: transparent;
-    top: 0;
+    top: 1%;
   }
 }

@@ -1,8 +1,10 @@
 .filter-form {
   display: flex;
   justify-content: center;
+
   gap: 1rem;
-  width: 100%;
+  width: 85%;
+  margin: 0 auto;
   background-color: #e38f4b;
   padding-bottom: 4%;
 
@@ -22,20 +24,21 @@
   }
 
   label {
-    width: 20%;
     color: #fff;
+    height: 100px;
   }
   .filter-btn {
-    height: 30px;
-    width: 30px;
-    position: absolute;
-    bottom: 36%;
-    left: 4%;
-    padding: 0 3px;
-    border-radius: 25px;
-
-    svg {
-      font-size: 14px;
+    position: relative;
+    button {
+      position: absolute;
+      height: 30px;
+      width: 30px;
+      border-radius: 25px;
+      padding: 0 3px;
+      bottom: 10%;
+      svg {
+        font-size: 14px;
+      }
     }
   }
 
@@ -44,32 +47,20 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1120px) {
   .filter-form {
-    position: relative;
-    margin: 0 auto;
-    padding: 5% 2% 4% 17%;
-    gap: 7%;
-
-    .city-input {
-      width: 25%;
-    }
-
-    .hours-input {
-      width: 20%;
-    }
-
-    .date-input {
-      width: 18%;
-    }
-
-    input,
-    .react-datepicker__input-container {
+    padding-left: 3%;
+    gap: 0.5rem;
+    .city-input input {
       width: 100%;
-      margin-bottom: 10px;
     }
-    .filter-btn {
-      bottom: 16%;
+
+    .hours-input input {
+      width: 50%;
+    }
+
+    .date-input input {
+      width: 90%;
     }
   }
 }

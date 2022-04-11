@@ -16,6 +16,7 @@
   box-sizing: border-box;
 }
 body {
+  font-family: "Dosis", sans-serif !important;
   background-image: url("../assets/substitutes-background.jpg") !important;
   background-size: cover;
   background-repeat: no-repeat;
@@ -41,6 +42,15 @@ h1 {
 
 input {
   padding: 0 5px;
+  max-width: 300px;
+}
+
+button {
+  max-width: 300px;
+}
+
+form {
+  margin: 10px auto;
 }
 
 input::-webkit-outer-spin-button,
@@ -69,7 +79,7 @@ input[type="number"] {
   border: #a3e2f0 !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   body {
     width: 100%;
   }
