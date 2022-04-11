@@ -67,45 +67,37 @@ export const SchoolWorks = () => {
   };
 
   useEffect(() => {
-    if (!closeWorks.length && !oldWorks.length) {
-      const user = JSON.parse(sessionStorage.getItem("user"));
+    const user = JSON.parse(sessionStorage.getItem("user"));
 
-      const updateStorage = async () => {
-        showLoading(true);
-        const res = await httpRequest(
-          "post",
-          "/school/works",
-          {
-            userId: user.school._id,
-            email: user.school.email,
-            type: "school",
-          },
-          { token: user.token }
+    const updateStorage = async () => {
+      showLoading(true);
+      const res = await httpRequest(
+        "post",
+        "/school/works",
+        {
+          userId: user.school._id,
+          email: user.school.email,
+          type: "school",
+        },
+        { token: user.token }
+      );
+
+      if (res.data) {
+        updateUserWorks({
+          works: { works: res.data.school.works, type: "school" },
+        });
+        sessionStorage.setItem(
+          "user",
+          JSON.stringify(storageObject("school", res.data))
         );
+        updateNotifications(res.data.school.notifications);
+      } else console.log(res.err);
 
-        if (res.data) {
-          updateUserWorks({
-            works: { works: res.data.school.works, type: "school" },
-          });
-          sessionStorage.setItem(
-            "user",
-            JSON.stringify(storageObject("school", res.data))
-          );
-          updateNotifications(res.data.school.notifications);
-        } else console.log(res.err);
+      showLoading(false);
+    };
 
-        showLoading(false);
-      };
-
-      updateStorage();
-    }
-  }, [
-    updateNotifications,
-    updateUserWorks,
-    showLoading,
-    closeWorks.length,
-    oldWorks.length,
-  ]);
+    updateStorage();
+  }, [updateNotifications, updateUserWorks, showLoading]);
 
   return (
     <>
