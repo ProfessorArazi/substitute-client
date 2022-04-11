@@ -8,6 +8,7 @@
 @import "./Notifications";
 @import "./FilterForm";
 @import "./WorksForm";
+@import "./Details";
 
 * {
   padding: 0;
@@ -30,11 +31,11 @@ nav {
 h1,
 h2 {
   margin-right: 15%;
-  padding-top: 1%;
-  padding: 2% 0;
+  padding-bottom: 2%;
 }
 
 h1 {
+  padding-top: 2%;
   font-size: 3rem !important;
 }
 

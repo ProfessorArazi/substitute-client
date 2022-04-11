@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 
 export const Details = (props) => {
   return (
-    <div>
+    <div className="details">
       <ul style={{ listStyle: "none", textAlign: "center" }}>
         {props.img && (
           <img

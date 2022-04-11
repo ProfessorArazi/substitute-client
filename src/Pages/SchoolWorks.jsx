@@ -123,7 +123,9 @@ export const SchoolWorks = () => {
       )}
 
       {loading ? (
-        loading
+        <div className="loading-p">
+          <p>מחפש עבודות...</p>
+        </div>
       ) : (
         <>
           {" "}
