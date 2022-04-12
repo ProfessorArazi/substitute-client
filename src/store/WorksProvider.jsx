@@ -2,10 +2,17 @@ import { useCallback, useReducer } from "react";
 import WorksContext from "./works-context";
 import PacmanLoader from "react-spinners/PacmanLoader";
 
-const style = {
+const loadingstyle = {
   position: "fixed",
-  top: "15%",
-  left: "45%",
+  top: "10%",
+  left: "43%",
+  transform: "translate(-50%, -50%)",
+};
+
+const modalLoadingstyle = {
+  position: "fixed",
+  top: "28%",
+  left: "43%",
   transform: "translate(-50%, -50%)",
 };
 
@@ -143,7 +150,7 @@ const worksReducer = (state, action) => {
     return {
       loading:
         action.loading === true ? (
-          <div style={style}>
+          <div style={loadingstyle}>
             <PacmanLoader color="goldenrod" loading={true} />
           </div>
         ) : (
@@ -166,7 +173,7 @@ const worksReducer = (state, action) => {
     return {
       modalLoading:
         action.loading === true ? (
-          <div style={style}>
+          <div style={modalLoadingstyle}>
             <PacmanLoader color="goldenrod" loading={true} />
           </div>
         ) : (
