@@ -69,17 +69,21 @@ export const UserForm = (props) => {
   );
 
   const setUserInStorage = (data) => {
+    let justLoggedIn = false;
     if (
       (user && user.type === "school") ||
       type === "school" ||
       data.type === "school"
     ) {
       updateUserWorks({ works: { works: data.school.works, type: "school" } });
+      justLoggedIn = true;
     }
 
     sessionStorage.setItem(
       "user",
-      JSON.stringify(storageObject(user ? user.type : data.type, data))
+      JSON.stringify(
+        storageObject(user ? user.type : data.type, data, justLoggedIn)
+      )
     );
     updateType(user ? user.type : data.type);
 

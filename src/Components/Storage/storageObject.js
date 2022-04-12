@@ -1,4 +1,4 @@
-export const storageObject = (type, data) => {
+export const storageObject = (type, data, justLoggedIn = false) => {
   let obj = {
     [type]: {
       _id: data[type]._id,
@@ -17,6 +17,7 @@ export const storageObject = (type, data) => {
     obj[type].grade = data[type].grade;
     obj[type].desc = data[type].desc;
   } else {
+    if (justLoggedIn) obj[type].justLoggedIn = justLoggedIn;
     obj[type].ageGroup = data[type].ageGroup;
   }
 

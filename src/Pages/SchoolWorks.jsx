@@ -70,6 +70,12 @@ export const SchoolWorks = () => {
     const user = JSON.parse(sessionStorage.getItem("user"));
 
     const updateStorage = async () => {
+      if (user.school.justLoggedIn) {
+        return sessionStorage.setItem(
+          "user",
+          JSON.stringify(storageObject("school", user))
+        );
+      }
       showLoading(true);
       const res = await httpRequest(
         "post",
@@ -115,9 +121,7 @@ export const SchoolWorks = () => {
       )}
 
       {loading ? (
-        <div className="loading-p">
-          <p>מביא עבודות...</p>
-        </div>
+        loading
       ) : (
         <>
           {" "}
