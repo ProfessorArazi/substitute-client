@@ -1,5 +1,7 @@
 import ReactDOM from "react-dom";
 import "../../scss/App.scss";
+import { IconContext } from "react-icons";
+import { IoCloseOutline } from "react-icons/io5";
 
 const Backdrop = (props) => {
   return <div className="backdrop" onClick={props.onClose} />;
@@ -8,9 +10,9 @@ const Backdrop = (props) => {
 const ModalOverlay = (props) => {
   return (
     <div className="modal-overlay">
-      <p onClick={props.onClose} className="close-btn">
-        X
-      </p>
+      <IconContext.Provider value={{ className: "close-btn" }}>
+        <IoCloseOutline onClick={props.onClose} />
+      </IconContext.Provider>
       <div className="content">{props.children}</div>
     </div>
   );

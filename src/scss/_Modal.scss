@@ -10,7 +10,7 @@
 
 .modal-overlay {
   position: fixed;
-  top: 44%;
+  top: 40%;
   left: 42.5%;
 
   transform: translate(-50%, -50%);
@@ -26,31 +26,46 @@
 
 .content {
   justify-content: center;
-  margin: 10px auto;
+  margin: 0 auto;
   color: #fff;
   min-height: 5rem;
   width: 100%;
-  max-height: 27rem;
+  max-height: 21rem;
   overflow: auto;
   overflow-x: hidden;
   padding-right: 1rem;
-  img {
-    width: 900px;
-    height: 700px;
-    object-fit: cover;
-  }
 }
 
 .close-btn {
   display: inline;
   color: #fff;
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   opacity: 0.4;
   cursor: pointer;
 }
 
 .close-btn:hover {
   opacity: 0.9;
+}
+
+/* width */
+.content::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* Track */
+.content::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: #035069;
+  border-radius: 10px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+  background: #08a9de;
 }
 @media (max-width: 992px) {
   .modal-overlay {
