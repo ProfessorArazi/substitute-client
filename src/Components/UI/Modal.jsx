@@ -8,6 +8,9 @@ const Backdrop = (props) => {
 const ModalOverlay = (props) => {
   return (
     <div className="modal-overlay">
+      <p onClick={props.onClose} className="close-btn">
+        X
+      </p>
       <div className="content">{props.children}</div>
     </div>
   );
@@ -23,7 +26,7 @@ const Modal = (props) => {
         portalElement
       )}
       {ReactDOM.createPortal(
-        <ModalOverlay background={props.background}>
+        <ModalOverlay onClose={props.onClose} background={props.background}>
           {props.children}
         </ModalOverlay>,
         portalElement

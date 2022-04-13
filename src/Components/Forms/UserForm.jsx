@@ -46,6 +46,7 @@ export const UserForm = (props) => {
   const cityRef = useRef();
   const phoneRef = useRef();
   const descRef = useRef();
+  const formRef = useRef();
 
   const onImageChange = (e) => {
     setFiles(e.target.files);
@@ -166,7 +167,8 @@ export const UserForm = (props) => {
       // }
 
       if (Object.keys(formErrors).length > 0) {
-        return setErrors(formErrors);
+        setErrors(formErrors);
+        return formRef.current.scrollIntoView({ behavior: "smooth" });
       }
       setErrors({});
       let img;
@@ -340,7 +342,7 @@ export const UserForm = (props) => {
           ) : props.demo ? (
             ""
           ) : (
-            <Form className="login-form" onSubmit={submitHandler}>
+            <Form ref={formRef} className="login-form" onSubmit={submitHandler}>
               {props.signup && (
                 <>
                   {!user && type === "sub" && (
