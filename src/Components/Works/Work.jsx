@@ -79,7 +79,7 @@ export const Work = (props) => {
             !props.old && (
               <div className="extras">
                 <div className="extras-appliers">
-                  {props.applied ? (
+                  {props.applied && props.applied.length > 0 ? (
                     props.applied.map((apply, i) => (
                       <ApplyIcon
                         key={i}

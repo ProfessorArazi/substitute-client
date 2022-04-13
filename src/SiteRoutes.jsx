@@ -53,7 +53,7 @@ export const SiteRoutes = () => {
     if (user) {
       updateType(user.type);
     }
-  }, [updateType, updateNotifications]);
+  }, [updateType]);
 
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem("user"));
@@ -80,15 +80,13 @@ export const SiteRoutes = () => {
 
   return (
     <>
+      {type !== "guest" && !loading && <Notifications notifications={4} />}
       <Routes>
         <Route
           path="/"
           exact
           element={
             <>
-              {type !== "guest" && !loading && (
-                <Notifications notifications={4} />
-              )}
               {type !== "school" ? (
                 !loading ? (
                   <Home type={type} />
@@ -110,7 +108,6 @@ export const SiteRoutes = () => {
               exact
               element={
                 <>
-                  <Notifications notifications={4} />
                   <SubWorks />
                 </>
               }
