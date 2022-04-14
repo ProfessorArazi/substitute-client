@@ -144,23 +144,21 @@ export const Home = () => {
           </>
         ) : (
           <>
-            <h2 className="home-page__title">דף הבית</h2>
-            <p className="home-page__desc">
-              This is a site that connects schools with substitute teachers.{" "}
-              <br /> This site provides a solution in cases where teachers are
-              absent from school. <br /> You can signup as a school or as a
-              substitute teacher. <br />A school can offer jobs and select
-              teachers from the list of appliers. <br />A teacher can offer
-              himself to a school and after hiring him the school will rate him
-              at the end of the work.
+            <h2 className="home-page__title">Substitutes</h2>
+            <p dir="rtl" className="home-page__desc">
+              זהו אתר המחבר בין בתי ספר למורים מחליפים.
+              <br /> אתר זה נותן מענה במקרים בהם מורים נעדרים מבית הספר. <br />{" "}
+              אפשר להירשם כבית ספר או כמורה מחליף. <br />
+              בית ספר יכול להציע משרות ולבחור מורים מרשימת הנרשמים לכל עבודה.{" "}
               <br />
-              Other schools get to see the average rate of the teacher and
-              decide whether to hire him as well. <br /> Teachers can filter
-              works according to what they are looking for. <br />
-              Users will get notifications with every update, They will be able
-              to join a mailing list for receiving notifications via mail.{" "}
-              <br /> Teachers will receive daily updates about new jobs in their
-              city
+              מורה יכול להציע עצמו לבית ספר ולאחר ששכר אותו, בית הספר ידרג אותו
+              בסוף העבודה.
+              <br />
+              בתי ספר אחרים יראו את הדירוג הממוצע של המורה ויחליטו אם להעסיק
+              אותו גם. <br /> מורים יכולים לסנן עבודות לפי מה שהם מחפשים. <br />
+              המשתמשים מקבלים התראות עם כל עדכון, הם יכולים להצטרף לרשימת תפוצה
+              ולקבל התראות במייל. <br /> מורים אשר יצטרפו לרשימת התפוצה יקבלו
+              עדכונים יומיים לגבי משרות חדשות אצלם בעִיר
             </p>
           </>
         )}
