@@ -308,7 +308,8 @@ export const UserForm = (props) => {
       label: "סיסמה",
       ref: passwordRef,
       type: "password",
-      dir: "ltr",
+      placeholder: props.signup && "לפחות 8 תווים",
+      dir: "rtl",
     },
   ];
 
@@ -380,6 +381,7 @@ export const UserForm = (props) => {
                         ref={input.ref}
                         type={input.type}
                         dir={input.dir}
+                        placeholder={input.placeholder}
                       />
                     ))}
                     {!props.signup && errorMessage.length > 0 && (
@@ -439,7 +441,7 @@ export const UserForm = (props) => {
                   />
                 )}
 
-                <Button className="light-blue__btn" type="submit">
+                <Button className="light-blue__btn form-btn" type="submit">
                   {user ? "עדכן" : props.signup ? "הירשם" : "התחבר"}
                 </Button>
               </>

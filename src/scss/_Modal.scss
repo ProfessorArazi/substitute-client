@@ -22,6 +22,8 @@
   z-index: 30 !important;
   animation: slide-down 300ms ease-out forwards;
   background-color: #00749b;
+  padding: 1rem;
+  padding-bottom: 2rem;
 }
 
 .content {
@@ -33,13 +35,13 @@
   max-height: 21rem;
   overflow: auto;
   overflow-x: hidden;
-  padding-right: 1rem;
+  padding: 0 1rem;
 }
 
 .close-btn {
   display: inline;
   color: #fff;
-  font-size: 2.5rem;
+  font-size: 2.25rem;
   opacity: 0.4;
   cursor: pointer;
 }

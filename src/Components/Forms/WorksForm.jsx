@@ -156,7 +156,10 @@ export const WorksForm = (props) => {
             />
           </Form.Group>
 
-          <Button className="light-blue__btn work-form__btn" type="submit">
+          <Button
+            className="light-blue__btn work-form__btn form-btn"
+            type="submit"
+          >
             {work ? "עדכן" : "צור"}
           </Button>
         </Form>
