@@ -1,4 +1,4 @@
-# Substitutes-client
+# Substitutes-Client
 This is a site that connects schools with substitute teachers. <br />
           This site provides a solution in cases where teachers are absent from
           school. <br /> You can signup as a school or as a substitute teacher.
