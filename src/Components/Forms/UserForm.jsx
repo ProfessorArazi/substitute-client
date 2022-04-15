@@ -309,7 +309,8 @@ export const UserForm = (props) => {
       ref: passwordRef,
       type: "password",
       placeholder: props.signup && "לפחות 8 תווים",
-      dir: "rtl",
+      dir: "ltr",
+      className: "password-desc",
     },
   ];
 
@@ -382,6 +383,7 @@ export const UserForm = (props) => {
                         type={input.type}
                         dir={input.dir}
                         placeholder={input.placeholder}
+                        className={input.className}
                       />
                     ))}
                     {!props.signup && errorMessage.length > 0 && (

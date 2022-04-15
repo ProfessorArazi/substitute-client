@@ -22,3 +22,11 @@
 .check-email {
   padding: 5px 0;
 }
+
+.password-desc::-webkit-input-placeholder {
+  text-align: right;
+}
+
+.password-desc:-moz-placeholder {
+  text-align: right;
+}

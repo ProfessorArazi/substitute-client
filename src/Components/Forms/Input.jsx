@@ -9,7 +9,7 @@ export const Input = forwardRef((props, ref) => {
         {props.type === "textarea" ? (
           <Form.Control
             className={`form-input ${
-              props.errors && props.errors[props.name] && "is-invalid"
+              props.errors && props.errors[props.name] ? "is-invalid" : ""
             }`}
             value={props.value}
             onInput={props.onInput}
@@ -21,8 +21,8 @@ export const Input = forwardRef((props, ref) => {
         ) : (
           <Form.Control
             className={`form-input ${
-              props.errors && props.errors[props.name] && "is-invalid"
-            }`}
+              props.errors && props.errors[props.name] ? "is-invalid" : ""
+            } ${props.className ? props.className : ""}`}
             onInput={props.onInput && props.onInput}
             onChange={props.onChange && props.onChange}
             ref={ref}
