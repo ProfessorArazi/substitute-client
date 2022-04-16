@@ -115,7 +115,7 @@ export const SchoolWorks = () => {
             }
             className=" light-blue__btn"
           >
-            +
+            הוסף עבודה
           </Button>
         </div>
       )}
