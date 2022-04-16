@@ -16,8 +16,8 @@
   box-sizing: border-box;
 }
 body {
-  font-family: "Dosis", sans-serif !important;
-  background-image: url("../assets/substitutes-background.jpg") !important;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+  // background-image: url("../assets/substitutes-background.jpg") !important;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -70,8 +70,8 @@ input[type="number"] {
 }
 
 .light-blue__btn {
-  background-color: #5bd4ef !important;
-  border: #5bd4ef !important;
+  background-color: #00cae5 !important;
+  border: #00cae5 !important;
 }
 
 .light-blue__btn:hover {

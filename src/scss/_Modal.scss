@@ -17,11 +17,11 @@
 
   width: 300px;
   padding: 1rem;
-  border-radius: 7px;
+  border-radius: 14px;
   box-shadow: 0 2px 200px #000;
   z-index: 30 !important;
   animation: slide-down 300ms ease-out forwards;
-  background-color: #00749b;
+  background-color: #80a3aa;
   padding: 1rem;
   padding-bottom: 2rem;
 }
@@ -62,12 +62,12 @@
 }
 
 .content::-webkit-scrollbar-thumb {
-  background: #035069;
+  background: #4d7983;
   border-radius: 10px;
 }
 
 .content::-webkit-scrollbar-thumb:hover {
-  background: #08a9de;
+  background: #6f7f82;
 }
 @media (max-width: 992px) {
   .modal-overlay {
