@@ -4,7 +4,6 @@
   direction: rtl;
   display: block;
   justify-content: center;
-  gap: 3rem;
   min-width: 470px;
   border-radius: 14px;
   margin: 10px;
@@ -50,6 +49,10 @@
     font-size: 13px;
     font-weight: 500;
   }
+}
+
+.work-old {
+  background: rgb(110, 109, 109) !important;
 }
 
 @keyframes animatedOpacity {

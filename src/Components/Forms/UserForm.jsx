@@ -77,7 +77,7 @@ export const UserForm = (props) => {
       data.type === "school"
     ) {
       updateUserWorks({ works: { works: data.school.works, type: "school" } });
-      justLoggedIn = true;
+      if (!props.user) justLoggedIn = true;
     }
 
     sessionStorage.setItem(

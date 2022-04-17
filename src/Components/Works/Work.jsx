@@ -42,7 +42,7 @@ export const Work = (props) => {
 
   return (
     <>
-      <div className="work">
+      <div className={`work ${props.old ? "work-old" : ""}`}>
         <div className="work-inner__flex">
           {<p>בית הספר : {props.school}</p>}
           <p>שעות : {props.hours}</p>

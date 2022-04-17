@@ -68,14 +68,14 @@ export const SchoolWorks = () => {
 
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem("user"));
-
+    if (user.school.justLoggedIn) {
+      return sessionStorage.setItem(
+        "user",
+        JSON.stringify(storageObject("school", user))
+      );
+    }
     const updateStorage = async () => {
-      if (user.school.justLoggedIn) {
-        return sessionStorage.setItem(
-          "user",
-          JSON.stringify(storageObject("school", user))
-        );
-      }
+      console.log("hey");
       showLoading(true);
       const res = await httpRequest(
         "post",
