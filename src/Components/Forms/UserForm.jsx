@@ -33,7 +33,7 @@ export const UserForm = (props) => {
   const [ageGroupValue, setAgeGroupValue] = useState(
     user ? user[user.type].ageGroup : ""
   );
-  const [mailingList, setMailingList] = useState(
+  const [mailingListValue, setMailingListValue] = useState(
     user ? user[user.type].mailingList : false
   );
   const [descValue, setDescValue] = useState(user ? user[user.type].desc : "");
@@ -100,6 +100,22 @@ export const UserForm = (props) => {
       e.preventDefault();
     }
 
+    if (props.user) {
+      const { name, city, ageGroup, phone, mailingList, desc } =
+        props.user[props.user.type];
+
+      if (
+        name === nameValue &&
+        city === cityValue &&
+        ageGroup === ageGroupValue &&
+        phone === phoneValue &&
+        mailingList === mailingListValue &&
+        desc === descValue
+      ) {
+        return props.onClose();
+      }
+    }
+
     let email;
     let password;
 
@@ -124,9 +140,9 @@ export const UserForm = (props) => {
         city = "רמת גן";
         phone = "0544444444";
       } else {
-        name = nameRef.current.value;
-        city = cityRef.current.value;
-        phone = phoneRef.current.value;
+        name = nameValue;
+        city = cityValue;
+        phone = phoneValue;
       }
 
       if (
@@ -160,12 +176,6 @@ export const UserForm = (props) => {
         formErrors.phone = true;
       }
 
-      // if (type === "school" || (user && user.type === "school")) {
-      //   if (!["יסודי", "חטיבה", "תיכון"].includes(ageGroup)) {
-      //     validForm = false;
-      //   }
-      // }
-
       if (Object.keys(formErrors).length > 0) {
         setErrors(formErrors);
         return formRef.current.scrollIntoView({ behavior: "smooth" });
@@ -185,7 +195,7 @@ export const UserForm = (props) => {
           city,
           phone,
           ageGroup,
-          mailingList,
+          mailingList: mailingListValue,
           desc,
           demo: props.demo ? true : false,
         });
@@ -214,7 +224,7 @@ export const UserForm = (props) => {
             name,
             city,
             phone,
-            mailingList,
+            mailingList: mailingListValue,
           },
           type: user.type,
         };
@@ -436,8 +446,8 @@ export const UserForm = (props) => {
                 {props.signup && (
                   <Form.Check
                     className="check-email"
-                    defaultChecked={mailingList}
-                    onChange={(e) => setMailingList(e.target.checked)}
+                    defaultChecked={mailingListValue}
+                    onChange={(e) => setMailingListValue(e.target.checked)}
                     id="mailingList"
                     label="אני מעוניין לקבל עדכונים למייל "
                   />

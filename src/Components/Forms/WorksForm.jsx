@@ -34,6 +34,15 @@ export const WorksForm = (props) => {
     const dateValue = new Date(date);
     const hours = hoursRef.current.value;
 
+    if (
+      props.work &&
+      subject === props.work.subject &&
+      dateValue.getTime() === new Date(props.work.date).getTime() &&
+      hours === props.work.hours
+    ) {
+      return props.onClose();
+    }
+
     const formErrors = {};
 
     if (subject.length < 2) {

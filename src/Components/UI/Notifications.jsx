@@ -49,6 +49,7 @@ export const Notifications = () => {
         </Badge>
       </Button>
       <Menu
+        className="noti-menu"
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}

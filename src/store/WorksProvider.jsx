@@ -1,18 +1,18 @@
 import { useCallback, useReducer } from "react";
 import WorksContext from "./works-context";
-import PacmanLoader from "react-spinners/PacmanLoader";
+import "@lottiefiles/lottie-player";
 
 const loadingstyle = {
   position: "fixed",
-  top: "10%",
+  top: "20%",
   left: "43%",
   transform: "translate(-50%, -50%)",
 };
 
 const modalLoadingstyle = {
   position: "fixed",
-  top: "28%",
-  left: "43%",
+  top: "50%",
+  left: "50%",
   transform: "translate(-50%, -50%)",
 };
 
@@ -151,7 +151,14 @@ const worksReducer = (state, action) => {
       loading:
         action.loading === true ? (
           <div style={loadingstyle}>
-            <PacmanLoader color="goldenrod" loading={true} />
+            <lottie-player
+              id="firstLottie"
+              autoplay
+              loop
+              mode="normal"
+              src="https://assets5.lottiefiles.com/packages/lf20_rsdpkqqw.json"
+              style={{ width: "200px" }}
+            ></lottie-player>
           </div>
         ) : (
           false
@@ -174,7 +181,13 @@ const worksReducer = (state, action) => {
       modalLoading:
         action.loading === true ? (
           <div style={modalLoadingstyle}>
-            <PacmanLoader color="goldenrod" loading={true} />
+            <lottie-player
+              id="firstLottie"
+              autoplay
+              loop
+              mode="normal"
+              src="https://assets5.lottiefiles.com/packages/lf20_rsdpkqqw.json"
+            ></lottie-player>
           </div>
         ) : (
           false

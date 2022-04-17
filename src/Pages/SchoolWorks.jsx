@@ -75,7 +75,6 @@ export const SchoolWorks = () => {
       );
     }
     const updateStorage = async () => {
-      console.log("hey");
       showLoading(true);
       const res = await httpRequest(
         "post",
