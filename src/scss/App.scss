@@ -75,9 +75,10 @@ input[type="number"] {
   border: #00cae5 !important;
 }
 
-.light-blue__btn:hover {
+.light-blue__btn:hover,
+.light-blue__btn:focus {
   background-color: #a3e2f0 !important;
-  border: #a3e2f0 !important;
+  box-shadow: none !important ;
 }
 
 .form-btn {
