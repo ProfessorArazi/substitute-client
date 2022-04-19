@@ -2,20 +2,6 @@ import { useCallback, useReducer } from "react";
 import WorksContext from "./works-context";
 import "@lottiefiles/lottie-player";
 
-const loadingstyle = {
-  position: "fixed",
-  top: "20%",
-  left: "43%",
-  transform: "translate(-50%, -50%)",
-};
-
-const modalLoadingstyle = {
-  position: "fixed",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-};
-
 const defaultWorksState = {
   type: sessionStorage.getItem("user")
     ? JSON.parse(sessionStorage.getItem("user")).type
@@ -150,14 +136,13 @@ const worksReducer = (state, action) => {
     return {
       loading:
         action.loading === true ? (
-          <div style={loadingstyle}>
+          <div className="loading">
             <lottie-player
               id="firstLottie"
               autoplay
               loop
               mode="normal"
               src="https://assets5.lottiefiles.com/packages/lf20_rsdpkqqw.json"
-              style={{ width: "200px" }}
             ></lottie-player>
           </div>
         ) : (
@@ -180,7 +165,7 @@ const worksReducer = (state, action) => {
     return {
       modalLoading:
         action.loading === true ? (
-          <div style={modalLoadingstyle}>
+          <div className={"modal-loading"}>
             <lottie-player
               id="firstLottie"
               autoplay

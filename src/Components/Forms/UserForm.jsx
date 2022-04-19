@@ -245,8 +245,6 @@ export const UserForm = (props) => {
           }
 
           setUserInStorage(res.data);
-        } else {
-          console.log("פרטים לא נכונים");
         }
         showModalLoading(false);
       }

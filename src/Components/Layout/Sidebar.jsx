@@ -134,7 +134,7 @@ export const Sidebar = (props) => {
 
   return (
     <>
-      {window.innerWidth > 991 ? (
+      {window.innerWidth > 992 ? (
         <nav id="sidebar" className="sidebar">
           {menu}
         </nav>
