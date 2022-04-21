@@ -27,7 +27,7 @@ export const ImageForm = (props) => {
     e.preventDefault();
     const user = JSON.parse(sessionStorage.getItem("user"));
 
-    if (files.length === 0) {
+    if (files.length === 0 || files[0].type.split("/")[0] !== "image") {
       return toast.error("לא הכנסת תמונה", {
         autoClose: 1000,
         position: "top-left",
@@ -35,7 +35,6 @@ export const ImageForm = (props) => {
         hideProgressBar: true,
       });
     }
-
     const img = await resizeFile(files[0]);
 
     const data = {

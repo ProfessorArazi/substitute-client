@@ -183,6 +183,14 @@ export const UserForm = (props) => {
       setErrors({});
       let img;
       if (files.length > 0) {
+        if (files[0].type.split("/")[0] !== "image") {
+          return toast.error("לא הכנסת תמונה", {
+            autoClose: 1000,
+            position: "top-left",
+            theme: "colored",
+            hideProgressBar: true,
+          });
+        }
         img = await resizeFile(files[0]);
       }
       showModalLoading(true);
