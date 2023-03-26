@@ -23,6 +23,7 @@ export const SchoolWorks = () => {
     {
       title: "עבודות זמינות",
       works: closeWorks,
+      className: "old-section",
     },
 
     {
@@ -135,7 +136,9 @@ export const SchoolWorks = () => {
                 showModal(
                   <WorksForm onClose={() => showModal(false)} work={work} />
                 )
+              
               }
+              className={structure.className}
             />
           ))}
         </>

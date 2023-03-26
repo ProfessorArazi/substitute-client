@@ -62,6 +62,7 @@ export const SubWorks = () => {
       title: "עבודות בהמתנה",
       works: waitingWorks,
       cancelHandler: onCancelHandler,
+      className: "old-section"
     },
     {
       title: "עבודות שנדחו",
@@ -70,6 +71,7 @@ export const SubWorks = () => {
     {
       title: "עבודות שביצעתי",
       works: oldWorks,
+      className: "old-section"
     },
   ];
 
@@ -98,7 +100,11 @@ export const SubWorks = () => {
 
   return (
     <>
-      {!loading && <h1>העבודות שלי</h1>}
+      {!loading && (
+        <section className="main-title">
+          <h1>העבודות שלי</h1>
+        </section>
+      )}
       {!loading
         ? structures.map((structure, i) => (
             <WorksFormat
@@ -108,6 +114,7 @@ export const SubWorks = () => {
               works={structure.works}
               onCancel={structure.cancelHandler && structure.cancelHandler}
               close={structure.close}
+              className={structure.className}
             />
           ))
         : loading}

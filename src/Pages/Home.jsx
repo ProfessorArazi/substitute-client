@@ -144,7 +144,6 @@ export const Home = () => {
           </>
         ) : (
           <>
-            <h2 className="home-page__title">Substitutes</h2>
             <p dir="rtl" className="home-page__desc">
               זהו אתר המחבר בין בתי ספר למורים מחליפים.
               <br /> אתר זה נותן מענה במקרים בהם מורים נעדרים מבית הספר. <br />{" "}

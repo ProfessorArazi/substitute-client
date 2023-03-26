@@ -76,40 +76,47 @@ export const FilterForm = () => {
 
   return (
     <form className="filter-form">
-      <label className="city-input">
-        <span className="filter-form__span">עיר</span>
-        <input ref={cityRef} type="text" />
-      </label>
-      <label className="hours-input">
-        <span className="filter-form__span">מינימום שעות</span>
-        <input ref={minHoursRef} type="number" />
-      </label>
-      <label className="hours-input">
-        <span className="filter-form__span">מקסימום שעות</span>
-        <input dir="ltr" ref={maxHoursRef} type="number" />
-      </label>
-      <label className="date-input">
-        <span className="filter-form__span">תאריך</span>
-        {!showDate && <input onClick={() => setShowDate(true)} />}
-        {showDate && (
-          <DatePicker
-            withPortal
-            selectsRange={true}
-            startDate={startDate}
-            endDate={endDate}
-            minDate={new Date()}
-            locale="he"
-            dateFormat="dd/MM/yyyy"
-            onChange={(update) => {
-              setDateRange(update);
+      <div className="filter-form__inner">
+        <label className="city-input">
+          <span className="filter-form__span">עיר</span>
+          <input ref={cityRef} type="text" />
+        </label>
+        <label className="date-input">
+          <span className="filter-form__span">תאריך</span>
+          {!showDate && <input onClick={() => setShowDate(true)} />}
+          {showDate && (
+            <DatePicker
+              // withPortal
+              selectsRange={true}
+              startDate={startDate}
+              endDate={endDate}
+              minDate={new Date()}
+              locale="he"
+              dateFormat="dd/MM/yyyy"
+              onKeyDown={(e) => {
+                e.preventDefault();
             }}
-          />
-        )}
-      </label>
-      <div className="filter-btn">
-        <Button className="light-blue__btn" onClick={onFilterHandler}>
-          <BsCheckLg />
-        </Button>
+              onChange={(update) => {
+                setDateRange(update);
+              }}
+            />
+          )}
+        </label>
+      </div>
+      <div className="filter-form__inner">
+        <label className="hours-input">
+          <span className="filter-form__span">מקסימום שעות</span>
+          <input dir="ltr" ref={maxHoursRef} type="number" />
+        </label>
+        <label className="hours-input">
+          <span className="filter-form__span">מינימום שעות</span>
+          <input ref={minHoursRef} type="number" />
+        </label>
+        <div className="filter-btn">
+          <Button className="light-blue__btn" onClick={onFilterHandler}>
+            <BsCheckLg />
+          </Button>
+        </div>
       </div>
     </form>
   );

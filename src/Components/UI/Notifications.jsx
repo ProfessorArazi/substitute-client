@@ -5,8 +5,9 @@ import { Badge, Button, Menu, MenuItem } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
 import "../../scss/App.scss";
 import { httpRequest } from "../../httpRequest";
+import logo from "../../assets/substitutes-logo.png";
 
-export const Notifications = () => {
+export const Notifications = ({ guest }) => {
   const ctx = useContext(WorksContext);
 
   const {
@@ -43,6 +44,7 @@ export const Notifications = () => {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
+        className={`noti-button ${guest && "noti-button-disabled"}`}
       >
         <Badge badgeContent={notificationsNumber} color="primary">
           <MailIcon color="action" />
@@ -68,6 +70,7 @@ export const Notifications = () => {
           <MenuItem onClick={handleClose}>אין התראות חדשות</MenuItem>
         )}
       </Menu>
+      <img className="logo" src={logo} alt="logo" />
     </div>
   );
 };

@@ -80,7 +80,7 @@ export const SiteRoutes = () => {
 
   return (
     <>
-      {type !== "guest" && !loading && <Notifications notifications={4} />}
+      {!loading && <Notifications guest={type === "guest"} />}
       <Routes>
         <Route
           path="/"

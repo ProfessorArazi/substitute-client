@@ -2,10 +2,10 @@ import { Work } from "../../Components/Works/Work";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 export const WorksFormat = (props) => {
-  const { works, title } = props;
+  const { works, title, className } = props;
   const now = new Date().getTime();
   return (
-    <>
+    <section className={className}>
       <h2>{title}</h2>
       {!works.length && (
         <div className="works">
@@ -47,6 +47,6 @@ export const WorksFormat = (props) => {
             </CSSTransition>
           ))}
       </TransitionGroup>
-    </>
+    </section>
   );
 };

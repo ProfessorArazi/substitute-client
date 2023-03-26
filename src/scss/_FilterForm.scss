@@ -1,12 +1,16 @@
 .filter-form {
   display: flex;
   justify-content: center;
-
+  flex-direction: row;
   gap: 1rem;
   width: 85%;
   margin: 0 auto;
   background-color: #56b9b4;
-  padding-bottom: 4%;
+padding-top: 10px;
+  &__inner {
+    display: flex;
+    flex-direction: row;
+  }
 
   input {
     border-radius: 4px;
@@ -16,7 +20,7 @@
 
   &__span {
     display: inline-block;
-    height: 60%;
+    height: 35%;
     width: 100%;
   }
 
@@ -26,7 +30,8 @@
 
   label {
     color: #fff;
-    height: 100px;
+    height: 70px;
+    width: 250px;
   }
   .filter-btn {
     position: relative;
@@ -36,7 +41,8 @@
       width: 30px;
       border-radius: 25px;
       padding: 0 3px;
-      bottom: 13%;
+      top: 29%;
+      right: -15px;
       svg {
         font-size: 14px;
       }
@@ -52,16 +58,48 @@
   .filter-form {
     padding-left: 3%;
     gap: 0.5rem;
-    .city-input input {
-      width: 70px;
+    flex-direction: column;
+    
+    &__inner {
+      flex-direction:row;
+      justify-content: center;
     }
+    
+    label {
+      width: 50%;
+      margin-right: 12px;
+      margin-left: 12px;
+    }
+    
+    input { 
+      width:80%;
+    }
+    
+    .filter-btn {
+      position: relative;
+      button {
+        position: absolute;
+        height: 30px;
+        width: 30px;
+        border-radius: 25px;
+        padding: 0 3px;
+        right: 0;
+        svg {
+          font-size: 14px;
+        }
+      }
+    }
+    
+    // .city-input input {
+    //   width: 70px;
+    // }
 
-    .hours-input input {
-      width: 50px;
-    }
+    // .hours-input input {
+    //   width: 50px;
+    // }
 
-    .date-input input {
-      width: 60px;
-    }
+    // .date-input input {
+    //   width: 60px;
+    // }
   }
 }

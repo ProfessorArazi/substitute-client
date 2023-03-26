@@ -1,8 +1,19 @@
 .noti {
-  background-color: #56b9b4;
+  background-color: #0a8781;
   text-align: left;
   padding: 0.5% 1.5%;
-  height: 4rem;
+  height: 5.5rem;
+  display: flex;
+  justify-content: center;
+  width: 85%;
+  
+  &-button {
+    position: absolute;
+  }
+  
+  &-button-disabled {
+    visibility: hidden !important;
+  }
 
   svg {
     cursor: pointer;
@@ -18,12 +29,28 @@
   &-menu {
     max-height: 30%;
   }
+  .logo {
+    height: 65px;
+    width: 640px;
+    margin: 0 auto;
+  }
 }
 
 @media (max-width: 992px) {
   .noti {
     position: absolute;
     background: transparent;
-    top: 1%;
+    top: 0;
+    display: block;
+    &-button {
+      position: absolute;
+      top: 1%;
+    }
+
+    .logo {
+      margin: 0;
+      height: 26px;
+      width: 240px;
+    }
   }
 }
