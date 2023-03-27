@@ -2,7 +2,6 @@
   background-color: #0a8781;
   text-align: left;
   padding: 0.5% 1.5%;
-  height: 5.5rem;
   display: flex;
   justify-content: center;
   width: 85%;
@@ -30,8 +29,10 @@
     max-height: 30%;
   }
   .logo {
-    height: 65px;
-    width: 640px;
+    max-width:70%;
+    max-height:95px;
+    width: auto;
+    height: auto;
     margin: 0 auto;
   }
 }
@@ -49,8 +50,6 @@
 
     .logo {
       margin: 0;
-      height: 26px;
-      width: 240px;
     }
   }
 }
