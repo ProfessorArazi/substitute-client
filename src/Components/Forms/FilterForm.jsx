@@ -8,7 +8,7 @@ import { Button } from "react-bootstrap";
 import { storageObject } from "../Storage/storageObject";
 import { BsCheckLg } from "react-icons/bs";
 
-export const FilterForm = () => {
+export const FilterForm = (cities) => {
   registerLocale("he", he);
 
   const ctx = useContext(WorksContext);
@@ -74,50 +74,86 @@ export const FilterForm = () => {
     showLoading(false);
   };
 
+  const cityAndDate = (
+    <>
+      <label>
+        <span className="filter-form__span">עיר</span>
+        <input
+          ref={cityRef}
+          type="text"
+          id="city"
+          list="cityname"
+        />
+        <datalist id="cityname">
+          {cities &&
+            cities.cities.cities.map((city) => (
+              <option value={city["שם_ישוב"].trim()} />
+            ))}
+        </datalist>
+      </label>
+      <label>
+        <span className="filter-form__span">תאריך</span>
+        {!showDate && <input onClick={() => setShowDate(true)} />}
+        {showDate && (
+          <DatePicker
+            // withPortal
+            selectsRange={true}
+            startDate={startDate}
+            endDate={endDate}
+            minDate={new Date()}
+            locale="he"
+            dateFormat="dd/MM/yyyy"
+            onKeyDown={(e) => {
+              e.preventDefault();
+            }}
+            onChange={(update) => {
+              setDateRange(update);
+            }}
+          />
+        )}
+      </label>
+    </>
+  );
+
+  const hoursInputs = (
+    <>
+      <label>
+        <span className="filter-form__span">מקסימום שעות</span>
+        <input dir="ltr" ref={maxHoursRef} type="number" />
+      </label>
+      <label>
+        <span className="filter-form__span">מינימום שעות</span>
+        <input ref={minHoursRef} type="number" />
+      </label>
+    </>
+  );
+
   return (
     <form className="filter-form">
-      <div className="filter-form__inner">
-        <label className="city-input">
-          <span className="filter-form__span">עיר</span>
-          <input ref={cityRef} type="text" />
-        </label>
-        <label className="date-input">
-          <span className="filter-form__span">תאריך</span>
-          {!showDate && <input onClick={() => setShowDate(true)} />}
-          {showDate && (
-            <DatePicker
-              // withPortal
-              selectsRange={true}
-              startDate={startDate}
-              endDate={endDate}
-              minDate={new Date()}
-              locale="he"
-              dateFormat="dd/MM/yyyy"
-              onKeyDown={(e) => {
-                e.preventDefault();
-            }}
-              onChange={(update) => {
-                setDateRange(update);
-              }}
-            />
-          )}
-        </label>
-      </div>
-      <div className="filter-form__inner">
-        <label className="hours-input">
-          <span className="filter-form__span">מקסימום שעות</span>
-          <input dir="ltr" ref={maxHoursRef} type="number" />
-        </label>
-        <label className="hours-input">
-          <span className="filter-form__span">מינימום שעות</span>
-          <input ref={minHoursRef} type="number" />
-        </label>
-        <div className="filter-btn">
-          <Button className="light-blue__btn" onClick={onFilterHandler}>
-            <BsCheckLg />
-          </Button>
+      {window.innerWidth < 1120 ? (
+        <div className="filter-form__inner">{cityAndDate}</div>
+      ) : (
+        cityAndDate
+      )}
+      {window.innerWidth < 1120 ? (
+        <div className="filter-form__inner">
+          {hoursInputs}
+          <div className="filter-btn">
+            <Button className="light-blue__btn" onClick={onFilterHandler}>
+              <BsCheckLg />
+            </Button>
+          </div>
         </div>
-      </div>
+      ) : (
+        <>
+          {hoursInputs}
+          <div className="filter-btn">
+            <Button className="light-blue__btn" onClick={onFilterHandler}>
+              <BsCheckLg />
+            </Button>
+          </div>
+        </>
+      )}
     </form>
   );
 };

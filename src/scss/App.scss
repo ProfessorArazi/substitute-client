@@ -47,6 +47,11 @@ h2 {
   margin-top: 1rem !important;
 }
 
+h6 {
+  font-size: 0.9rem !important;
+  font-weight: 400 !important;
+}
+
 input {
   padding: 0 5px;
   max-width: 300px;
@@ -70,10 +75,21 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+input::-webkit-calendar-picker-indicator {
+  display: none !important;
+}
+
+
+
 .layout {
   display: flex;
   flex-direction: column;
   text-align: center;
+  min-height: 100vh;
+}
+
+.body {
+  padding-bottom: 2%;
 }
 
 .light-blue__btn {

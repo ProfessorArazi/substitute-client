@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./scss/App.scss";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "./Components/Layout/Footer";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <ToastContainer />
 
       <div className="layout">
+        <div className="body">
         {window.innerWidth > 768 ? (
           <>
             <Sidebar />
@@ -23,6 +25,8 @@ function App() {
             <SiteRoutes />
           </Sidebar>
         )}
+        </div>
+        <Footer />
       </div>
     </WorksProvider>
   );

@@ -8,6 +8,8 @@ import { Notifications } from "./Components/UI/Notifications";
 import { updateWorks } from "./Components/Works/updateWorks";
 import { storageObject } from "./Components/Storage/storageObject";
 import Modal from "./Components/UI/Modal";
+import axios from "axios";
+import { useState } from "react";
 
 export const SiteRoutes = () => {
   const { pathname } = useLocation();
@@ -23,6 +25,8 @@ export const SiteRoutes = () => {
     modal,
     showModal,
   } = ctx;
+
+  const [cities, setCities] = useState([]);
 
   const updateAllWorksHandler = useCallback(
     (data) => {
@@ -47,6 +51,26 @@ export const SiteRoutes = () => {
     },
     [updateUserWorks]
   );
+
+  useEffect(() => {
+    axios("https://data.gov.il/api/3/action/datastore_search", {
+      params: {
+        resource_id: "d4901968-dad3-4845-a9b0-a57d027f11ab",
+        limit: 10000,
+      },
+    })
+      .then((res) => {
+        setCities(
+          res.data.result.records.map((city) => {
+            return {
+              ...city,
+              שם_ישוב: city["שם_ישוב"].replace(/יישוב|[()]|שבט/g, ""),
+            };
+          })
+        );
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem("user"));
@@ -89,7 +113,7 @@ export const SiteRoutes = () => {
             <>
               {type !== "school" ? (
                 !loading ? (
-                  <Home type={type} />
+                  <Home cities={cities} />
                 ) : (
                   loading
                 )
