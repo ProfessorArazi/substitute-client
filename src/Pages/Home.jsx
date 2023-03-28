@@ -145,9 +145,9 @@ export const Home = (cities) => {
         ) : (
           <>
             <p dir="rtl" className="home-page__desc">
-              <h6 className="home-page__desc__title">
+              <p className="home-page__desc__title">
                 Substitues הוא אתר המחבר בין בתי ספר למורים מחליפים.
-              </h6>
+              </p>
               <br />
               האתר נותן מענה במקרים בהם מורים נעדרים מבית הספר ויש צורך במורה
               מחליף, אפשר להירשם בתור בית ספר או בתור מורה. <br /> <br /> בית

@@ -130,7 +130,7 @@ a {
 }
 
 .footer-logo {
-  max-width: 30%;
+  max-width: 20%;
   max-height: 95px;
   width: auto;
   height: auto;
@@ -143,6 +143,9 @@ a {
 
   .footer-logo {
     max-width: 37%;
-    max-height: 70px;
+  }
+  
+  .footer-basic .copyright {
+    font-size: 10px;
   }
 }
